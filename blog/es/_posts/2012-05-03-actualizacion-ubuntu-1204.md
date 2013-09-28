@@ -10,7 +10,7 @@ title: "actualización ubuntu 12.04"
 
 He actualizado mi laptop de Ubuntu 10.04 a la 12.04 LTS (n___n)/, así que pasaré a describir el proceso por si necesito volver a hacerlo.
 
-Mi computadora es una netbook, así que no tiene disquetera, mmm, sin embargo eso no importa porque desde que [descubrí](http://chilicuil.github.com/all/os/2010/05/19/ubuntu-desde-windows-nowubi-netinstaller.html) que Ubuntu se puede instalar sin USB ni CDROM, no descargo imágenes ISO a menos que quiera participar en el testing (<http://iso.qa.ubuntu.com>), así pues lo primero que hice, fue cambiar el gestor de grub2 a grub-legacy
+Mi computadora es una netbook, así que no tiene disquetera, mmm, sin embargo eso no importa porque desde que [descubrí](http://javier.io/blog/es/2010/05/19/ubuntu-desde-windows-nowubi-netinstaller.html) que Ubuntu se puede instalar sin USB ni CDROM, no descargo imágenes ISO a menos que quiera participar en el testing (<http://iso.qa.ubuntu.com>), así pues lo primero que hice, fue cambiar el gestor de grub2 a grub-legacy
 
 <pre class="sh_sh">
 $ sudo rm -rf /boot/grub
@@ -24,8 +24,8 @@ $ sudo grub-install /dev/sda
 Después descargue el instalador y el kernel (20Mb~) y los puse en la raíz **"/"**
 
 <pre class="sh_sh">
-$ sudo wget  http://preview.tinyurl.com/7uedctd -O /initrd.gz #instalador
-$ sudo wget http://preview.tinyurl.com/72wwv2c -O /linux #kernel
+$ sudo wget http://tinyurl.com/le9llg2 -O /initrd.gz #instalador
+$ sudo wget http://tinyurl.com/l2znz8e -O /linux #kernel
 </pre>
 
 Los agregué al grub, para que cuando reiniciara, viera una opción "Instalar Ubuntu":
@@ -37,7 +37,7 @@ kernel (hd0,0)/linux
 initrd (hd0,0)/initrd.gz
 </pre>
 
-Reinicie y seleccioné "Instalar Ubuntu", una cosa que note es que el instalador, aunque pesa muy poco, 16MB~, reconoció mi tarjeta inalámbrica =3 (RTL8111/8168B), así que me ahorre el [cable cruzado](http://chilicuil.github.com/all/random/2010/12/14/compartir-conexion-pc-a-pc.html) a otra máquina. El disco duro esta particionado en 3, /, /home y swap (5gb), a la hr de particionar, formatié la primera y la última y deje intacta home. También me aseguré de seleccionar [wicd-curses](http://chilicuil.github.com/all/random/2010/12/07/conexion-alambrica-inalambrica-al-mismo-tiempo.html) (para tener red, cuando reiniciara) y openssh-server. Probé [btrfs](http://en.wikipedia.org/wiki/Btrfs) pero después lo descarte porque me daba errores extraños cuando interactuaba con el grub, así que preferĺ quedarme con ext4 en **/**
+Reinicie y seleccioné "Instalar Ubuntu", una cosa que note es que el instalador, aunque pesa muy poco, 16MB~, reconoció mi tarjeta inalámbrica =3 (RTL8111/8168B), así que me ahorre el [cable cruzado](http://javier.io/blog/es/2010/12/14/compartir-conexion-pc-a-pc.html) a otra máquina. El disco duro esta particionado en 3, /, /home y swap (5gb), a la hr de particionar, formatié la primera y la última y deje intacta home. También me aseguré de seleccionar [wicd-curses](http://javier.io/blog/es/2010/12/07/conexion-alambrica-inalambrica-al-mismo-tiempo.html) (para tener red, cuando reiniciara) y openssh-server. Probé [btrfs](http://en.wikipedia.org/wiki/Btrfs) pero después lo descarte porque me daba errores extraños cuando interactuaba con el grub, así que preferĺ quedarme con ext4 en **/**
 
 Terminada la instalación, reinicie, eliminé el directorio home por defecto y monté y actualicé **/etc/fstab** con el mio, /dev/sda2
 
@@ -84,7 +84,7 @@ $ sudo ln -s $HOME/.bin/thunderbird64/thunderbird /usr/local/bin/
 $ sudo ln -s $HOME/.bin/firefox64/firefox /usr/local/bin/
 </pre>
 
-Instalé un [cache](http://chilicuil.github.com/all/os/2011/11/18/cache-de-paquetes-deb.html) de .debs antes de instalar más programas y un link para aprovechar los que ya tenía:
+Instalé un [cache](http://javier.io/blog/es/2011/11/18/cache-de-paquetes-deb.html) de .debs antes de instalar más programas y un link para aprovechar los que ya tenía:
 
 <pre class="sh_sh">
 $ sudo apt-get install apt-cacher-ng #/etc/apt-cacher-ng/acng.conf //9999
@@ -106,10 +106,11 @@ $ apt-get install alsa-utils mpd alsa-base pms mpc
 
 Descubrí que mpd ya no soporta la opción **--create-db**, así que terminé agregando mi biblioteca con **$ mpc update**, que utiliza [inotify](http://en.wikipedia.org/wiki/Inotify)
 
-Agregué mi usuario al grupo 'audio', para que pudiera empezar a escuchar música y cargué el módulo snd-mixer-oss para ver /dev/mixer (conky lo necesita para mostrar el volumen)
+Agregué mi usuario al grupo 'audio', para que pudiera empezar a escuchar música y cargué el módulo snd-mixer-oss para ver /dev/mixer (conky lo necesita para mostrar el volumen) y al grupo dialout para poder controlar los puertos serial (util para trabajar con arduino).
 
 <pre class="sh_sh">
-$ sudo usermode -a -G audio username (salí de la sesión tty y volví a entrar)
+$ sudo usermod -a -G audio username
+$ sudo usermod -a -G dialout username (salí de la sesión tty y volví a entrar)
 $ sudo su
 # echo snd-mixer-oss >> /etc/modules
 </pre>
@@ -122,7 +123,7 @@ $ sudo vim /etc/slim.conf
 $ sudo cp -r $HOME/misc/themes/slim/custom /usr/share/slim/themes
 </pre>
 
-Mi gestor de ventanas es i3 (una versión muy específica), utilicé [pbuilder](http://viajemotu.wordpress.com/2010/08/10/notas-sobre-pbuilder/) para crear otra instancia de precise, y ahí [compile](http://chilicuil.github.com/all/random/2010/06/16/i3-ebf3.html) i3-wm, luego copie el resultado (.deb) fuera del chroot y lo instalé
+Mi gestor de ventanas es i3 (una versión muy específica), utilicé [pbuilder](http://viajemotu.wordpress.com/2010/08/10/notas-sobre-pbuilder/) para crear otra instancia de precise, y ahí [compile](http://javier.io/blog/es/2010/06/16/i3-4.5.1.html) i3-wm, luego copie el resultado (.deb) fuera del chroot y lo instalé
 
 <pre class="sh_sh">
 $ sudo apt-get install pbuilder dpkg-dev ccache

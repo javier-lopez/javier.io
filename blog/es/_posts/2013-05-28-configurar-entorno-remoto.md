@@ -11,18 +11,19 @@ Tener una configuracion personalizada es una arma de doble filo, por una lado, p
 En mi caso, me pasan ambas, me he vuelto dependiente y torpe en otras configuraciones, asi que con frecuencia termino descargando y aplicando mis cambios en servidores remotos, esto toma tiempo, asi que he decidido automatizarlo y desarrollar una dependencia total:
 
 <pre class="sh_sh">
-$ bash $(wget -qO- javier.io/s)
+$ bash &lt;(wget -qO- javier.io/s)
 </pre>
 
 **[![](/assets/img/73.png)](/assets/img/73.png)**
 
 Algunos de los cambios, son:
 
-    [+] Instalacion de: byobu, vim-nox, curl, html2txt, sendemail, etc (no mas de 20 programas para terminal)
-    [+] $PS1 coloreada y con acortamiento de direcciones, historial eterno, +100 aliases (ver .alias* y .bashrc)
-    [+] Un vim amigable y con modos adicionales para redactar cartas (ingles|español), desarrollar y presentar (ver ~/.vimrc)
-    [+] Wcd como reemplazo a cd, desde ahora si tienen ~/dir1/dir2 pueden ir a dir2 asi: $ cd dir2
-    [+] +50 scripts en /usr/local/bin con cosas como:
+    [+] Instalacion de: byobu, vim-nox, curl, html2txt, etc (no mas de 20 aplicaciones)
+    [+] Eliminacion de programas no esenciales, sendemail, apache, etc
+    [+] $PS1 coloreada con acortamiento de direcciones, historial eterno, modo VI en bash, +100 aliases (ver .alias* y .bashrc)
+    [+] Vim amigable y con modos adicionales para redactar cartas (ingles|español), desarrollar y hacer presentaciones (ver ~/.vimrc)
+    [+] Wcd como reemplazo a cd
+    [+] +50 scripts en /usr/local/bin:
         [+] pastebin, $ cat archivo | pastebin
         [+] extract, $ extract archivo.comprimido
         [+] fu-search, $ fu-search comando #busca ejemplos
