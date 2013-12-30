@@ -1,0 +1,72 @@
+---
+layout: default
+title: javier.io
+---
+
+<h1 class="page" style="padding-left:0%;">Conexion remota</h1>
+<div class="page">
+  <h2>VNC</h2>
+
+  <label for="show-vnc-windows-instructions"><span><i class="icon-windows"></i></span></label>
+  <input type=radio id="show-vnc-windows-instructions" name="vnc">
+
+  <label for="show-vnc-linux-instructions"><span><i class="icon-linux"></i></span></label>
+  <input type=radio id="show-vnc-linux-instructions" name="vnc">
+
+  <div id="vnc-windows-instructions">
+    <ol>
+      <li><a style="text-decoration: none" href="http://f.javier.io/rep/bin/ssvnc.zip" target="_blank">Descargar</a> cliente <label for="hide-vnc-windows-instructions"><i class="icon-remove" style="font-size:10pt; padding-left:35%;"></i></label><input type=radio id="hide-vnc-windows-instructions" name="vnc"></li>
+      <p><strong><a href="/assets/img/80.png"><img src="/assets/img/80.png"></a></strong> <strong><a href="/assets/img/81.png"><img src="/assets/img/81.png"></a></strong></p>
+      <li>Descomprimir</li>
+      <p><strong><a href="/assets/img/82.png"><img src="/assets/img/82.png"></a></strong> <strong><a href="/assets/img/83.png"><img src="/assets/img/83.png"></a></strong></p>
+      <li>Ejecutar <strong>ssvnc</strong></li>
+      <p><strong><a href="/assets/img/84.png"><img src="/assets/img/84.png"></a></strong></p>
+      <li>Configurar</li>
+      <p><strong><a href="/assets/img/85.png"><img src="/assets/img/85.png"></a></strong></p>
+      <li>Conectar</li>
+    </ol>
+  </div>
+
+  <div id="vnc-linux-instructions">
+    <ol>
+      <li>linux <label for="hide-vnc-linux-instructions"><i class="icon-remove" style="font-size:10pt; padding-left:35%;"></i></label><input type=radio id="hide-vnc-linux-instructions" name="vnc"></li>
+      <li>linux</li>
+      <li>linux</li>
+    </ol>
+  </div>
+</div>
+
+<div class="page">
+  <h2>SSH</h2>
+
+  <label for="show-ssh-windows-instructions"><span><i class="icon-windows"></i></span></label>
+  <input type=radio id="show-ssh-windows-instructions" name="ssh">
+
+  <label for="show-ssh-linux-instructions"><span><i class="icon-linux"></i></span></label>
+  <input type=radio id="show-ssh-linux-instructions" name="ssh">
+
+  <div id="ssh-windows-instructions">
+    <ol>
+      <li>windows2 <label for="hide-ssh-windows-instructions"><i class="icon-remove" style="font-size:10pt; padding-left:35%;"></i></label><input type=radio id="hide-ssh-windows-instructions" name="ssh"></li>
+      <li>windows2</li>
+      <li>windows2</li>
+      <li>windows2</li>
+    </ol>
+  </div>
+
+  <div id="ssh-linux-instructions">
+    <ol>
+      <li>linux2 <label for="hide-ssh-linux-instructions"><i class="icon-remove" style="font-size:10pt; padding-left:35%;"></i></label><input type=radio id="hide-ssh-linux-instructions" name="ssh"></li>
+      <li>linux2</li>
+      <li>linux2</li>
+      <li>linux2</li>
+    </ol>
+  </div>
+</div>
+
+<script type="text/javascript">
+  TopUp.addPresets({
+      "#content strong a": {
+readAltText: 1, effect: "clip", overlayClose: 0, shaded: 1, group: "img" }
+});
+</script>
