@@ -7,7 +7,7 @@ title: "captcha para ssh"
 ###### {{ page.date | date_to_string }}
 
 <!--**[![](/assets/img/pam_captcha.png)](https://github.com/chilicuil/pam_captcha)**-->
-<iframe src="http://showterm.io/53a85bc1b41c096c83130" width="640" height="350" style="display:block; margin: 0 auto;">&nbsp;</iframe> 
+<iframe class="showterm" src="http://showterm.io/53a85bc1b41c096c83130" width="640" height="350">&nbsp;</iframe> 
 
 Hace unos dias mientras revisaba algunos parametros en un servidor personal note que se habia colado un spammer. Afortunadamente, el individuo habia dejado un rastro en syslog y bash_history, por lo que fue facil tracearlo, eliminar sus procesos y cuenta. Hecho esto, cambie la contraseña y reinicie todo. Lo mas doloroso del incidente es que me di cuenta que la contraseña *master* que he usado por años ya no es segura =(.
 
@@ -57,6 +57,5 @@ $ sudo service ssh restart
 
 Los ultimos 3 pasos se pueden automatizar facilmente, se puede utilizar grep para revisar en ambos archivos si las opciones se encuentran habilitadas, y habilitarlas (con sed) en el caso de que no lo estuvieran.
 
-<br>
 - [http://www.semicomplete.com/projects/pam_captcha/](https://github.com/psychomario/PyPXE)
 - [http://javier.io/blog/es/2010/12/14/compartir-conexion-pc-a-pc.html](http://javier.io/blog/es/2010/12/14/compartir-conexion-pc-a-pc.html)

@@ -2,7 +2,7 @@
 
 trap _cleanup INT QUIT #trap ctrl-c
 
-#TODO 24-12-2013 04:56 >> add ~/.adobe -> /dev/null to localsetup()
+#TODO 05-01-2014 03:56 >> test on x86, 12.10, 13.10..., debian
 
 dotfiles="https://github.com/chilicuil/dotfiles"
 utils="https://github.com/chilicuil/learn"
@@ -11,19 +11,17 @@ liner="$ sh <(wget -qO- javier.io/s)"
 
 #default apps
 apps_remote="git-core vim-nox byobu wcd htop rsync curl bzip2 gzip html2text
-ncurses-bin command-not-found libpam-captcha"
-apps_local="i3-wm alsa-utils alsa-base mpd ncmpcpp mpc slim
+ncurses-bin command-not-found exuberant-ctags libpam-captcha"
+apps_local="i3-wm alsa-utils alsa-base mpd ncmpcpp mpc slim libnotify-bin
 rxvt-unicode-256color xorg git-core autocutsel acpi suckless-tools feh sxiv
 notify-osd hibernate html2text htop irssi mplayer2 mutt-patched dzen2 pcmanfm
-pm-utils rlpr unetbootin wodim xclip zsync gnupg-agent lxappearance
+pm-utils rlpr unetbootin wodim xclip zsync gnupg-agent lxappearance bc
 exuberant-ctags i3lock conky-cli zathura gtk2-engines-pixbuf openssh-server
 wicd-curses geoclue-ubuntu-geoip redshift zram-config lame unzip udisks gvfs
 gvfs-common gvfs-daemons gvfs-fuse gvfs-libs policykit-1 google-talkplugin
-libmad0 libdvdcss2 libdvdread4 curl dkms xdotool dbus-x11 gxmessage wcd
-unclutter"
-apps_ubuntudev="apt-file cvs subversion bzr bzr-builddeb pbuilder tidy zsync"
+libmad0 libdvdcss2 libdvdread4 curl dkms xdotool dbus-x11 gxmessage wcd"
 apps_purge="xinetd sasl2-bin sendmail sendmail-base sendmail-bin sensible-mda
-rmail bsd-mailx apache2.2-common apache2 nano"
+rmail bsd-mailx apache2.2-common apache2 nano bind9"
 
 if [ -z "$1" ]; then
     mode="remote"; rx="\b>"
@@ -51,46 +49,33 @@ _arch()
     fi
 
     case "$_arch_var_arch" in
-        x86_64)
-            _arch_var_arch="64";
-            ;;
-        i686)
-            _arch_var_arch="32";
-            ;;
-        *)
-            return 1
-            ;;
+        x86_64) _arch_var_arch="64" ;;
+        i686)   _arch_var_arch="32" ;;
+        *)      return 1 ;;
     esac
 
     printf "%s" "$_arch_var_arch"
-}
-
-_addcron()
-{   #adds cron job, returns 1 on error
-    [ -z "$1" ] && return 1
-    ( crontab -l; printf "%s\\n" "$1" ) | crontab -
 }
 
 _animcui()
 {   #wait animation
     [ -z "$1" ] && { printf "%5s\n" ""; return 1; }
 
-    if ! printf "%s" "$1" | grep -v "[^0-9]" >/dev/null; then
+    if ! printf "%s" "$(pidof "$1")" | grep "[0-9].*" >/dev/null; then
         printf "%5s\n" ""
         return 1; 
     fi
 
-    _animcui_var_pid="$1"
     _animcui_var_animation_state="1"
 
-    if [ ! "$(ps -p "$_animcui_var_pid" -o comm=)" ]; then
+    if [ ! "$(ps -p "$(pidof "$1")" -o comm= 2>/dev/null)" ]; then
         printf "%5s\n" ""
         return 1
     fi
 
     printf "%5s" ""
 
-    while [ "$(ps -p "$_animcui_var_pid" -o comm=)" ]; do
+    while [ "$(ps -p "$(pidof "$1")" -o comm= 2>/dev/null)" ]; do
         printf "%b" "\b\b\b\b\b"
         case "$_animcui_var_animation_state" in
             1)
@@ -145,7 +130,7 @@ _getroot()
                     sudocmd="sudo -S"
                 fi 
                 printf "%s\\n" "    - all set ..."
-                return
+                return 0
             fi
 
             i=0 ; while [ "$i" -lt 3 ]; do
@@ -186,6 +171,14 @@ _getroot()
             exit
         fi
     fi
+}
+
+_ensurecron()
+{   #adds cron job, returns 1 on error
+    [ -z "$1" ] && return 1
+    _ensurecron_var_exist=$(crontab -l 2>/dev/null | awk -v p="$1" '{ if ($0 == p) {print p}}')
+    [ -n "$_ensurecron_var_exist" ] && return 0
+    ( crontab -l 2>/dev/null; printf "%s\\n" "$1" ) | crontab -
 }
 
 _printfl()
@@ -244,43 +237,13 @@ _distro()
 
     if [ -z "$DISTRIB_ID" ]; then
         _distro_var_DISTRIB_ID="Unknown";
-        if [ -f /etc/arch-release ]; then
-            _distro_var_DISTRIB_ID="Arch"
-        elif [ -r /etc/knoppix-version ]; then
-            _distro_var_DISTRIB_ID="Knoppix"
-        elif [ -r /etc/sidux-version ]; then
-            _distro_var_DISTRIB_ID="Sidux"
-        elif [ -r /etc/debian_version ]; then
+        if [ -r /etc/debian_version ]; then
             _distro_var_DISTRIB_ID="Debian"
         elif [ -r /etc/issue ]; then
-            _distro_var_DISTRIB_ID=$(cat /etc/issue.net | awk '{print $1}')
+            _distro_var_DISTRIB_ID=$(awk '{print $1}' /etc/issue.net)
             if [ X"$_distro_var_DISTRIB_ID" = X"Ubuntu" ]; then
                 _distro_var_DISTRIB_ID="Ubuntu"
             fi
-        elif [ -r /etc/gentoo-release ]; then
-            _distro_var_DISTRIB_ID="Gentoo"
-        elif [ -f /etc/lfs-version ]; then
-            _distro_var_DISTRIB_ID="LFS"
-        elif [ -r /etc/pclinuxos-release ]; then
-            _distro_var_DISTRIB_ID="PCLinuxOS"
-        elif [ -f /etc/mandriva-release ] || [ -f /etc/mandrake-release ]; then
-            _distro_var_DISTRIB_ID="Mandriva"
-        elif [ -f /etc/redhat-release ]; then
-            _distro_var_DISTRIB_ID="RedHat"
-        elif [ -f /etc/fedora-release ]; then
-            _distro_var_DISTRIB_ID="Fedora"
-        elif [ -r /etc/vector-version ]; then
-            _distro_var_DISTRIB_ID="VectorLinux"
-        elif [ -r /etc/slackware-version ]; then
-            _distro_var_DISTRIB_ID="$(cat /etc/slackware-version)"
-        elif [ -f /etc/release ]; then
-            _distro_var_DISTRIB_ID="Solaris"
-        elif [ -r /etc/SuSE-release ]; then
-            _distro_var_DISTRIB_ID="$(grep -i suse /etc/SuSE-release)"
-        elif [ -f /etc/yellowdog-release ]; then
-            _distro_var_DISTRIB_ID="YellowDog Linux"
-        elif [ -f /etc/zenwalk-version  ]; then
-            _distro_var_DISTRIB_ID="Zenwalk"
         fi
         printf "%s\\n" "$_distro_var_DISTRIB_ID" | \
             tr 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' 'abcdefghijklmnopqrstuvwxyz'
@@ -318,8 +281,7 @@ _smv()
     if [ X"$_smv_var_owner" != X"$LOGNAME" ]; then
         #if target has a file with the same name as origin
         if [ -e "$2"/"$_smv_var_origin_basename" ]; then
-            printf "%s\\n" "$sudopwd" | \
-                $sudocmd mv "$2"/"$_smv_var_origin_basename" \
+            printf "%s\\n" "$sudopwd" | \ $sudocmd mv "$2"/"$_smv_var_origin_basename" \
                 "$2"/"$_smv_var_origin_basename".old."$_smv_var_version" \
                 >/dev/null 2>&1
             printf "%s\\n" "$sudopwd" | \
@@ -372,13 +334,13 @@ _getvars()
 _getuuid()
 {   #get partition uuid, eg, _getuuid /dev/sda1
     [ -z "$1" ] && return 1
-    udevadm info -q all -n "$1" | grep -i uuid | egrep "^S:" | cut -f3 -d'/'
+    udevadm info -q all -n "$1" | awk -F"/" '/^S.*uuid.*/ {print $3}'
 }
 
 _getfs()
 {   #get partition fs, eg, _getfs /dev/sda1
     [ -z "$1" ] && return 1
-    udevadm info -q all -n "$1" | grep -i ID_FS_TYPE | cut -f2 -d'='
+    udevadm info -q all -n "$1" | awk -F"=" '/ID_FS_TYPE/ {print $2}'
 }
 
 _getlastversion()
@@ -415,8 +377,7 @@ _getrelease()
         _getrelease_var_release=$(lsb_release -s -c)
     else
         if [ -f /etc/apt/sources.list ]; then
-            _getrelease_var_release=$(cat /etc/apt/sources.list | grep '^deb .*' \
-                                  | head -1 | cut -d' ' -f 3)
+            _getrelease_var_release=$(awk -F" " '/^deb .*/ {print $3; exit}' /etc/apt/sources.list)
         fi
     fi
 
@@ -426,7 +387,7 @@ _getrelease()
 _fetchfile()
 {
     [ -z "$1" ] && return 1 || _fetchfile_var_url="$1"
-    [ -z "$2" ] || _fetchfile_var_output="$2"
+    [ -z "$2" ] && _fetchfile_var_output="" || _fetchfile_var_output="$2"
     _fetchfile_var_max_retries="10"
 
     _fetchfile_var_i=0
@@ -520,6 +481,7 @@ _cmd()
 
     if [ X"$_cmd_var_status" != X"0" ]; then
         printf "> %s:%s" "$*" "$_cmd_var_output"
+        printf "\\n"
         exit "$_cmd_var_status"
     else
         return "$_cmd_var_status"
@@ -530,12 +492,13 @@ _cmdsudo()
 {   #print && execute a command, exit on fail
     [ -z "$1" ] && return 1
 
-    printf "%s \\n" "    $ $*"
+    printf "%s \\n" "    $ sudo $*"
     _cmdsudo_var_output=$(printf "%s\\n" "$sudopwd" | $sudocmd sh -c "eval $*" 2>&1)
     _cmdsudo_var_status="$?"
 
     if [ X"$_cmdsudo_var_status" != X"0" ]; then
         printf "> %s:%s\\n" "$*" "$_cmdsudo_var_output"
+        printf "\\n"
         exit "$_cmdsudo_var_status"
     else
         return "$_cmdsudo_var_status";
@@ -550,7 +513,7 @@ _waitfor()
     eval "$@" >/dev/null 2>&1 &
     sleep 1s
 
-    _animcui $(pidof "$1")
+    _animcui $1
 }
 
 _waitforsudo()
@@ -562,14 +525,14 @@ _waitforsudo()
     sleep 1s
 
     if [ X"$1" = X"DEBIAN_FRONTEND=noninteractive" ]; then
-        _animcui $(pidof "$2")
+        _animcui $2
     else
-        _animcui $(pidof "$1")
+        _animcui $1
     fi
 }
 
 _homedetected()
-{   #doesn't a partition has /home files?, 1 no, 0 yes
+{   #does a partition has /home files?, 0 yes, 1 no
     [ -z "$1" ] && return 1
     _homedetected_test=$(find "$1" -maxdepth 2 -type d -iname ".local" 2>/dev/null | grep local)
     [ -z "$_homedetected_test" ] && return 1 || return 0
@@ -580,9 +543,9 @@ _sethome()
     #TODO 17-09-2013 02:54 >> only mount partitions with id=83 (linux)
     if mountpoint -q /home; then
         if [ -f /etc/mtab ]; then
-            _sethome_var_hd=$(cat /etc/mtab | grep '^/' | grep '/home' | sed 's/[ ].*//')
+            _sethome_var_hd=$(awk '$2 == "/home" {print $1; exit}' /etc/mtab)
         else
-            _sethome_var_hd=$(mount | grep '^/' | grep '/home' | sed 's/[ ].*//')
+            _sethome_var_hd=$(mount | awk '$3 == "/home" {print $1; exit}')
         fi
         _sethome_var_uuid=$(_getuuid "$_sethome_var_hd")
         _sethome_var_fs=$(_getfs "$_sethome_var_hd")
@@ -593,65 +556,56 @@ _sethome()
         fi
 
         if ! grep "^UUID=$_sethome_var_uuid" /etc/fstab >/dev/null; then
-            _printfs "/home is mounted but not listed in /etc/fstab, adding up ..."
+            _printfs "/home is mounted but not listed in /etc/fstab, adding it ..."
             _sethome_var_fstab="UUID=$_sethome_var_uuid /home"
             _sethome_var_fstab="$_sethome_var_fstab $_sethome_var_fs"
             _sethome_var_fstab="$_sethome_var_fstab errors=remount-ro 0 1"
             _cmdsudo sed -i -e \"\\$a${_sethome_var_fstab}\" /etc/fstab
         fi
     else
-        _sethome_var_total=$(awk '{print $4}' /proc/partitions |             \
-                            sed -e '/name/d' -e '/^$/d' -e '/[1-9]/!d' |     \
-                            tr '\n' ' ')
-
+        _sethome_var_total=$(awk '$4 ~ ".*[0-9]+" {if (part == "") {part=$4} else {part=part " " $4}} END {print part}' /proc/partitions)
         if [ -n "$_sethome_var_total" ]; then
-            _sethome_var_swap=$(cat /proc/swaps | grep partition |           \
-                              cut -f1 -d' ' | cut -f3 -d'/' | tr '\n' ' ')
+            _sethome_var_swap=$(awk '/partition/ {gsub(/\/dev\//,""); if (part == "") {part=$1} else {part=part " " $1}} END {print part}' /proc/swaps)
             if [ -f /etc/mtab ]; then
-                _sethome_var_mounted=$(cat /etc/mtab | grep '^/' |           \
-                                     sed 's/[ ].*//' | cut -f3 -d'/' |       \
-                                     tr '\n' ' ')
+                _sethome_var_mounted=$(awk '/^\// {gsub(/\/dev\//,""); if (part == "") {part=$1} else {part=part " " $1}} END {print part}' /etc/mtab)
             else
-                _sethome_var_mounted=$(mount | grep '^/' | sed 's/[ ].*//' | \
-                                     cut -f3 -d'/' | tr '\n' ' ')
+                _sethome_var_mounted=$(mount | awk '/^\// {gsub(/\/dev\//,""); if (part == "") {part=$1} else {part=part " " $1}} END {print part}')
             fi
 
             if [ -n "$_sethome_var_swap" ]; then
                 for _sethome_var_swapp in $_sethome_var_swap; do
-                    _sethome_var_total=$(printf "%s" "$_sethome_var_total" | \
-                                       sed "s/${_sethome_var_swapp}//g")
+                    _sethome_var_total=$(printf "%s" "$_sethome_var_total" | sed "s/${_sethome_var_swapp}//g")
                 done
             fi
 
             if [ -n "$_sethome_var_mounted" ]; then
                 for _sethome_var_mountedp in $_sethome_var_mounted; do
-                    _sethome_var_total=$(printf "%s" "$_sethome_var_total" | \
-                                      sed "s/${_sethome_var_mountedp}//g")
+                    _sethome_var_total=$(printf "%s" "$_sethome_var_total" | sed "s/${_sethome_var_mountedp}//g")
                 done
             fi
 
             if [ -n "$_sethome_var_total" ]; then
                 for _sethome_var_partition in $_sethome_var_total; do
                     mkdir /tmp/"$_sethome_var_partition"
-                    _cmdsudo mount /dev/"$_sethome_var_partition" \
-                             /tmp/"$_sethome_var_partition"
+                    _cmdsudo mount /dev/"$_sethome_var_partition" /tmp/"$_sethome_var_partition"
 
                     if _homedetected /tmp/"$_sethome_var_partition"; then
                         _printfs "/home partition found in: $_sethome_var_partition"
                         _printfs "replacing /home with partition ..."
 
-                        _cmdsudo umount /tmp/"$_sethome_var_partition" &&    \
-                                 rm -rf /tmp/"$_sethome_var_partition"
-                        _cmdsudo mv /home /home.old && _cmdsudo mkdir /home
+                        _cmdsudo umount /tmp/"$_sethome_var_partition"
+                        _cmdsudo rm -rf /tmp/"$_sethome_var_partition"
+                        _cmdsudo mv /home /home.old
+                        _cmdsudo mkdir /home
                         _cmdsudo mount /dev/"$_sethome_var_partition" /home
                         _cmdsudo chown -R $(whoami):$(whoami) /home/$(whoami)
 
                         _sethome
                     fi
 
-                    if [ -d /tmp/$_sethome_var_partition ]; then
-                        _cmdsudo umount /tmp/$_sethome_var_partition
-                        rm -rf /tmp/$_sethome_var_partition
+                    if [ -d /tmp/"$_sethome_var_partition" ]; then
+                        _cmdsudo umount /tmp/"$_sethome_var_partition"
+                        _cmdsudo rm -rf /tmp/"$_sethome_var_partition"
                     fi
                 done
             fi
@@ -670,6 +624,30 @@ _supported()
     return 1
 }
 
+_installaptproxy()
+{
+    _waitforsudo apt-get update
+    _waitforsudo apt-get install --no-install-recommends -y avahi-utils
+
+    if _existaptproxy; then
+        _remotesetup_var_apt_proxy_server=$(avahi-browse -a -t -r -p | awk -F";" '/^=.*apt-cacher-ng/ {print $8}')
+        _printfs "exists an apt-get proxy in the network at $_remotesetup_var_apt_proxy_server, setting up the client ..."
+        _waitforsudo apt-get install --no-install-recommends -y squid-deb-proxy-client
+    else
+        _printfs "no apt-get proxy found, installing one locally ..."
+        _waitforsudo apt-get install --no-install-recommends -y squid-deb-proxy-client apt-cacher-ng
+        if [ ! -f /etc/avahi/services/apt-cacher-ng.service ]; then
+            _fetchfile http://javier.io/mirror/apt-cacher-ng.service
+            _cmdsudo mv apt-cacher-ng.service /etc/avahi/services/apt-cacher-ng.service
+        fi
+        if [ -d "$HOME"/misc/ubuntu/proxy/apt-cacher-ng/ ]; then
+            _printfs "exporting files ..."
+            _cmdsudo rm -rf /var/cache/apt-cacher-ng
+            _cmdsudo ln -s "$HOME"/misc/ubuntu/proxy/apt-cacher-ng/ /var/cache/apt-cacher-ng
+        fi
+    fi
+}
+
 _installfirefoxnightly()
 {   #custom ff version
     _installfirefoxnightly_var_arch=$(_arch)
@@ -679,7 +657,7 @@ _installfirefoxnightly()
     #_installfirefoxnightly_var_url="$_installfirefoxnightly_url"/firefox"
     #_installfirefoxnightly_var_url="$_installfirefoxnightly_url"/nightly"
     #_installfirefoxnightly_var_url="$_installfirefoxnightly_url"/latest-trunk"
-    _installfirefoxnightly_var_url="http://f.javier.io/rep/bin"
+    _installfirefoxnightly_var_url="http://files.javier.io/rep/bin"
     if [ X"$_installfirefoxnightly_var_arch" = X"32" ]; then
         #_installfirefox_var_version=$(curl "$_installfirefoxnightly_var_url" 2>&1 \
                                  #| egrep -o 'href="([^"#]+)"' | cut -d'"' -f2\
@@ -698,6 +676,11 @@ _installfirefoxnightly()
     _waitfor tar jxf firefox"$_installfirefoxnightly_var_arch".tar.bz2
     _cmd rm -rf firefox"$_installfirefoxnightly_var_arch".tar.bz2 index.html
     _cmd mv firefox"$_installfirefoxnightly_var_arch" "$HOME"/.bin/
+
+    if [ ! -f /usr/local/bin/firefox ] && \
+       [ -f "$HOME"/.bin/firefox${_installfirefoxnightly_var_arch}/firefox ]; then
+        _cmdsudo ln -s $HOME/.bin/firefox${_installfirefoxnightly_var_arch}/firefox /usr/local/bin/
+    fi
 }
 
 _siteup()
@@ -741,7 +724,7 @@ _header()
 
 _diesendmail()
 {   #stupid apt-get purge doesn't kill sendmail instances
-    _diesendmail_var_pid=$(ps aux | grep [s]endmail | awk '{print $2}')
+    _diesendmail_var_pid=$(ps -aef | awk '$0 ~ "sendmail" {if ($0 !~ "awk") print $2}')
     if [ -n "$_diesendmail_var_pid" ]; then
         _printfs 'die sendmail, die!!'
         _cmdsudo kill "$_diesendmail_var_pid"
@@ -758,24 +741,6 @@ _cleanup()
 
     printf "\\n"
     _printfl "Cleanup"
-
-    _printfs "recovering old conf ..."
-    for _cleanup_var_file in $HOME/*.old; do
-        [ ! -e "$_cleanup_var_file" ] && continue
-        mv "$_cleanup_var_file" ${_cleanup_var_file%.old}
-    done
-
-    _printfs "recovering scripts ..."
-    for _cleanup_var_file in /etc/bash_completion.d/*.old; do
-        [ ! -e "$_cleanup_var_file" ] && continue
-        mv "$_cleanup_var_file" ${_cleanup_var_file%.old}
-    done
-
-    for _cleanup_var_file in /usr/local/bin/*.old; do
-        [ ! -e "$_cleanup_var_file" ] && continue
-        mv "$_cleanup_var_file" ${_cleanup_var_file%.old}
-    done
-
     _cmd rm -rf dotfiles learn
     _recoverreps
 
@@ -788,9 +753,7 @@ _backupreps()
         break
     done
 
-    if [ -f "$_backupreps_var_file" ]; then
-        _printfs "disabling temporaly non standard repos ..."
-    fi
+    [ -f "$_backupreps_var_file" ] && _printfs "disabling temporaly non standard repos ..."
 
     for _backupreps_var_file in /etc/apt/sources.list.d/*.list; do
         if [ -f "$_backupreps_var_file" ]; then
@@ -805,9 +768,7 @@ _recoverreps()
         break
     done
 
-    if [ -f "$_recoverreps_var_file" ]; then
-        _printfs "recovering non standard repos ..."
-    fi
+    [ -f "$_recoverreps_var_file" ] && _printfs "recovering non standard repos ..."
 
     for _recoverreps_var_file in /etc/apt/sources.list.d/*.list.backup_rep; do
         if [ -f "$_recoverreps_var_file" ]; then
@@ -816,15 +777,23 @@ _recoverreps()
     done
 }
 
+_ensureonline()
+{   #ensure site is online
+    [ -z "$1" ] && return 1
+    _printfs "testing $1 ... "
+    if ! _siteup "$1"; then
+        _die "$1 seems down, retry when up"
+    fi
+    return 0
+}
+
 _ensurerepo()
 {   #ensure rep is enabled
     [ -z "$1" ] && return 1
     [ -z "$2" ] && _ensurerepo_var_key="" || _ensurerepo_var_key="$2"
 
-    #TODO 27-12-2013 06:21 >> use domain in repo name
     _ensurerepo_var_baseurl=$(printf "%s" "$1" | cut -d' ' -f2 | grep "//")
-    if [ -z "$(printf "%s" "$1" | cut -d' ' -f3)" ] || \
-       [ -z "$_ensurerepo_var_baseurl" ]; then
+    if [ -z "$(printf "%s" "$1" | cut -d' ' -f3)" ] || [ -z "$_ensurerepo_var_baseurl" ]; then
         _die "Bad formated repository: $1"
     fi
 
@@ -838,8 +807,7 @@ _ensurerepo()
 
         if [ -e "$_ensurerepo_var_extra" ]; then
             _ensurerepo_var_list=$(grep -h ^deb \
-                /etc/apt/sources.list \
-                /etc/apt/sources.list.d/*.list)
+                /etc/apt/sources.list /etc/apt/sources.list.d/*.list)
         else
             _ensurerepo_var_list=$(grep -h ^deb /etc/apt/sources.list)
         fi
@@ -872,7 +840,7 @@ _ensurerepo()
         if [ -n "$_ensurerepo_var_key" ]; then
             if printf "%s" "$_ensurerepo_var_key" | grep "http" >/dev/null; then
                 _fetchfile $_ensurerepo_var_key keyfile.asc
-                _cmdsudo apt-key add keyfile.asc
+                _waitforsudo apt-key add keyfile.asc
                 _cmd rm -rf keyfile.asc
             else
                 _waitforsudo apt-key adv --keyserver keyserver.ubuntu.com \
@@ -886,8 +854,9 @@ _ensuresetting()
 {   #ensure setting($1) is set in a configuration file($2)
     [ -z "$1" ] && return 1 || _ensuresetting_var_line="$1"
     [ -z "$2" ] && return 1 || _ensuresetting_var_file="$2"
-    
+
     [ ! -f "$_ensuresetting_var_file" ] && return 1
+
     _ensuresetting_var_regex=$(printf "%s" "$_ensuresetting_var_line" |   \
                              sed 's: :[ \\t]\\+:g')
     _ensuresetting_var_setting=$(printf "%s" "$_ensuresetting_var_line" | \
@@ -907,15 +876,68 @@ _ensuresetting()
             \\\"/^#$_ensuresetting_var_setting/ s:#.*:$_ensuresetting_var_line:\\\" \
             "$_ensuresetting_var_file"
         else
-            _cmdsudo sed -i -e \\\"\$a$_ensuresetting_var_line\\\"        \
+            _cmdsudo sed -i -e \\\"\$ a$_ensuresetting_var_line\\\"        \
             "$_ensuresetting_var_file" #'
         fi
     fi
 }
 
+_whatvirt()
+{   #check for virtualization systems, returns technology used
+    if [ -d /proc/vz ] && [ ! -d /proc/bc ]; then
+        printf "openvz"
+    elif grep 'UML' /proc/cpuinfo >/dev/null; then
+        printf "uml"
+    elif [ -f /proc/xen/capabilities ]; then
+        printf "xen"
+    elif grep 'QEMU' /proc/cpuinfo >/dev/null; then
+        printf "qemu"
+    fi
+    return 1
+}
+
 _enableremotevnc()
 {
-    return
+    _printfs "enabling xvnc"
+    _waitforsudo apt-get install --no-install-recommends -y x11vnc xserver-xorg-video-dummy
+    _printfs "forcing xorg to use dummy driver ..."
+
+    printf "%s\\n" 'Section "Monitor"' > xorg.conf
+    printf "%s\\n" '    Identifier "Monitor0"' >> xorg.conf
+    printf "%s\\n" '    HorizSync 28.0-80.0' >> xorg.conf
+    printf "%s\\n" '    VertRefresh 48.0-75.0' >> xorg.conf
+    printf "%s\\n" '    #Modeline "1280x800"  83.46  1280 1344 1480 1680  800 801 804 828 -HSync +Vsync' >> xorg.conf
+    printf "%s\\n" '    # 1224x685 @ 60.00 Hz (GTF) hsync: 42.54 kHz; pclk: 67.72 MHz' >> xorg.conf
+    printf "%s\\n" '    Modeline "1224x685" 67.72 1224 1280 1408 1592 685 686 689 709 -HSync +Vsync' >> xorg.conf
+    printf "%s\\n" 'EndSection' >> xorg.conf
+
+    printf "%s\\n" 'Section "Device"' >> xorg.conf
+    printf "%s\\n" '    Identifier "Card0"' >> xorg.conf
+    printf "%s\\n" '    Option "NoDDC" "true"' >> xorg.conf
+    printf "%s\\n" '    Option "IgnoreEDID" "true"' >> xorg.conf
+    printf "%s\\n" '    Option "ShadowFB" "true"' >> xorg.conf
+    printf "%s\\n" '    Driver "dummy"' >> xorg.conf
+    printf "%s\\n" 'EndSection' >> xorg.conf
+
+    printf "%s\\n" 'Section "Screen"' >> xorg.conf
+    printf "%s\\n" '    #DefaultDepth 24' >> xorg.conf
+    printf "%s\\n" '    DefaultDepth 16' >> xorg.conf
+    printf "%s\\n" '    Identifier "Screen0"' >> xorg.conf
+    printf "%s\\n" '    Device "Card0"' >> xorg.conf
+    printf "%s\\n" '    Monitor "Monitor0"' >> xorg.conf
+    printf "%s\\n" '    SubSection "Display"' >> xorg.conf
+    printf "%s\\n" '        #Depth 24' >> xorg.conf
+    printf "%s\\n" '        Depth 16' >> xorg.conf
+    printf "%s\\n" '        #    Virtual 1280 800' >> xorg.conf
+    printf "%s\\n" '        Modes "1224x685"' >> xorg.conf
+    printf "%s\\n" '    EndSubSection' >> xorg.conf
+    printf "%s\\n" 'EndSection' >> xorg.conf
+
+    _smv xorg.conf /etc/X11/
+    _cmd rm -rf xorg.conf
+
+    #TODO 05-01-2014 03:48 >> create a service instead
+    _printfs "$ sudo x11vnc -display :0 -auth /var/run/slim.auth -forever -safer -shared"
 }
 
 ################################################################################
@@ -928,7 +950,7 @@ _remotesetup()
     _remotesetup_var_release=$(_getrelease)
     if [ -n "$_remotesetup_var_release" ]; then
         _backupreps
-        _printfs "adding repos ..."
+        _printfs    "adding repos ..."
         _ensurerepo "deb http://ppa.launchpad.net/chilicuil/sucklesstools/ubuntu $_remotesetup_var_release main" "8AC54C683AC7B5E8"
         _ensurerepo "deb http://archive.ubuntu.com/ubuntu/ $_remotesetup_var_release multiverse"
         _ensurerepo "deb http://archive.ubuntu.com/ubuntu/ $_remotesetup_var_release-updates multiverse"
@@ -936,27 +958,36 @@ _remotesetup()
         _die "Impossible to find release"
     fi
 
-    _printfs "fixing locales ..."
+    _printfs     "fixing locales ..."
     _waitforsudo locale-gen en_US en_US.UTF-8
     _waitforsudo dpkg-reconfigure -f noninteractive locales
+    #https://bugs.launchpad.net/ubuntu/+source/pam/+bug/155794
+    if [ ! -f /etc/default/locale ]; then
+        printf "%s\\n%s\\n" 'LANG="en_US.UTF-8"' 'LANGUAGE="en_US:en"' > locale
+        _smv locale /etc/default/
+        #_cmdsudo update-locale LANG=en_US.UTF-8 LC_MESSAGES=POSIX
+    fi
 
-    _printfs "installing deps ..."
+    _printfs     "installing deps ..."
     _waitforsudo apt-get update
     _waitforsudo apt-get install --no-install-recommends -y $apps_remote
 
-    _printfs "purging non essential apps ..."
+    _printfs     "purging non essential apps ..."
     _waitforsudo DEBIAN_FRONTEND=noninteractive apt-get purge -y $apps_purge
     _diesendmail
 
-    [ ! -f /usr/bin/git ] && _die "Dependency step failed"
+    if ! command -v "git" >/dev/null 2>&1; then
+        _die "Dependency step failed"
+    fi
 
     ############################################################################
 
-    _printfl "Downloading files"
-    _printfs "getting reps ..."
-
-    _fetchrepo "$dotfiles.git"
-    _fetchrepo "$utils.git"
+    _printfl   "Downloading files"
+    _printfs   "getting reps ..."
+    [ ! -f "$HOME"/.not_override ]       && _fetchrepo "$dotfiles.git" \
+        || _printfs "$HOME/.not_override is present, skipping ..."
+    [ ! -f /usr/local/bin/not_override ] && _fetchrepo "$utils.git"    \
+        || _printfs "/usr/local/bin/not_override is present, skipping ..."
 
     ############################################################################
 
@@ -968,7 +999,7 @@ _remotesetup()
         _remotesetup_var_completions="/etc/bash_completion.d/"
     fi
 
-    if [ ! -f $HOME/.not_override ]; then
+    if [ ! -f "$HOME"/.not_override ]; then
         _printfs "installing dotfiles (old files will get an .old suffix) ..."
         for _remotesetup_var_file in dotfiles/.*; do
             [ ! -e "$_remotesetup_var_file" ] && continue
@@ -981,6 +1012,8 @@ _remotesetup()
         [ ! X"$_remotesetup_var_ssh_old" = X"$HOME"/.ssh ]; then
             cp "$_remotesetup_var_ssh_old"/* "$HOME"/.ssh/
         fi
+    else
+        _printfs "$HOME/.not_override is present, skipping ..."
     fi
 
     if [ ! -f /usr/local/bin/not_override ]; then
@@ -995,34 +1028,37 @@ _remotesetup()
         _printfs "installing utils ..."
         for _remotesetup_var_file in learn/python/*; do
             [ ! -e "$_remotesetup_var_file" ] && continue
-            [ -f "$_remotesetup_var_file" ] && chmod +x "$_remotesetup_var_file"
+            [ -f "$_remotesetup_var_file" ]   && chmod +x "$_remotesetup_var_file"
             _smv "$_remotesetup_var_file" "$_remotesetup_var_target"
         done
 
         for _remotesetup_var_file in learn/sh/is/*; do
             [ ! -e "$_remotesetup_var_file" ] && continue
-            [ -f "$_remotesetup_var_file" ] && chmod +x "$_remotesetup_var_file"
+            [ -f "$_remotesetup_var_file" ]   && chmod +x "$_remotesetup_var_file"
             _smv "$_remotesetup_var_file" "$_remotesetup_var_target"
         done
 
         for _remotesetup_var_file in learn/sh/tools/*; do
             [ ! -e "$_remotesetup_var_file" ] && continue
-            [ -f "$_remotesetup_var_file" ] && chmod +x "$_remotesetup_var_file"
+            [ -f "$_remotesetup_var_file" ]   && chmod +x "$_remotesetup_var_file"
             _smv "$_remotesetup_var_file" "$_remotesetup_var_target"
         done
+    else
+        _printfs "/usr/local/bin/not_override is present, skipping ..."
     fi
 
-    rm -rf dotfiles learn
+    _cmd rm -rf dotfiles learn
 
     ############################################################################
 
     _printfl "Configuring main apps"
 
     _printfs "configuring ssh ..."
-
     #http://javier.io/blog/es/2013/12/17/captcha-para-ssh.html
     if [ -f /etc/pam.d/sshd ]; then
         if ! grep "pam_captcha.so" /etc/pam.d/sshd >/dev/null; then
+            #needs to be before anything else, that's why _ensuresetting cannot
+            #be used here (which adds settings at the end of a file)
             _cmdsudo sed -i                                           \
             1i\\\"auth requisite pam_captcha.so math randomstring\\\" \
             /etc/pam.d/sshd
@@ -1035,19 +1071,15 @@ _remotesetup()
         printf "%s\\n" "    /etc/pam.d/sshd not found, continuing without libpam-captcha ..."
     fi
 
-    _printfs "configuring vim (3 min aprox) ..."
-    if [ ! -d "$HOME"/.vim/bundle/vundle/.git/ ]; then
-        #while shallow clone doesn't get accepted
-        #_fetchrepo https://github.com/gmarik/vundle ~/.vim/bundle/vundle
+    _printfs "configuring vim (2 min aprox) ..."
+    [ ! -d "$HOME"/.vim/bundle/vundle/.git/ ] && \
         _fetchrepo "https://github.com/chilicuil/vundle.git" "$HOME/.vim/bundle/vundle"
-    fi
     _waitfor vim -es -u ~/.vimrc -c "BundleInstall" -c qa
 
     _printfs "configuring shell (1 min aprox) ..."
-    if [ ! -d "$HOME"/.shundle/bundle/shundle/.git/ ]; then
+    [ ! -d "$HOME"/.shundle/bundle/shundle/.git/ ] && \
         _fetchrepo "https://github.com/chilicuil/shundle.git" "$HOME/.shundle/bundle/shundle"
-    fi
-    _cmd SHUNDLE_RC=~/.bashrc ~/.shundle/bundle/shundle/bin/shundle install
+    _cmd SHUNDLE_HOME=~/.shundle SHUNDLE_RC=~/.bashrc ~/.shundle/bundle/shundle/bin/shundle install
 
     _printfs "configuring cd ..."
     [ ! -d "$HOME"/.wcd ] && _cmd mkdir "$HOME"/.wcd
@@ -1067,23 +1099,21 @@ _remotesetup()
 
 _localsetup()
 {
-    _printfl "Verifying mirrors"
-    _printfs "testing http://files.javier.io ..."
-    if ! _siteup "http://files.javier.io"; then
-        _die "http://files.javier.io seems down, retry when up"
-    fi
+    _printfl      "Verifying mirrors"
+    _ensureonline "http://files.javier.io"
+    _ensureonline "http://javier.io"
+    _ensureonline "http://launchpad.net"
+    _ensureonline "http://dl.google.com"
+    _ensureonline "http://download.videolan.org"
+    _printfs      "everything seems ok, continuing..."
 
-    _printfs "testing http://javier.io ..."
-    if ! _siteup "http://.javier.io"; then
-        _die "http://javier.io seems down, retry when up"
-    fi
-    _printfs "everything seems ok, continuing..."
-
-    _printfl "Fixing dependencies"
     _remotesetup_var_release=$(_getrelease)
+    _remotesetup_var_arch=$(_arch)
+
+    _printfl      "Fixing dependencies"
     if [ -n "$_remotesetup_var_release" ]; then
         _backupreps
-        _printfs "adding repos ..."
+        _printfs    "adding repos ..."
         _ensurerepo "deb http://ppa.launchpad.net/chilicuil/sucklesstools/ubuntu $_remotesetup_var_release main" "8AC54C683AC7B5E8"
         _ensurerepo "deb http://archive.ubuntu.com/ubuntu/ $_remotesetup_var_release multiverse"
         _ensurerepo "deb http://archive.ubuntu.com/ubuntu/ $_remotesetup_var_release-updates multiverse"
@@ -1093,108 +1123,107 @@ _localsetup()
         _die "Impossible to find release"
     fi
 
+    #mount/use home if available
     _sethome
 
-    _printfs "fixing locales ..."
+    _printfs     "fixing locales ..."
     _waitforsudo locale-gen en_US en_US.UTF-8
     _waitforsudo dpkg-reconfigure -f noninteractive locales
-
-    _printfs "setting up an apt-get proxy ..."
-    _waitforsudo apt-get update
-    _waitforsudo apt-get install --no-install-recommends -y avahi-utils
-
-    if _existaptproxy; then
-        _remotesetup_var_apt_proxy_server=$(avahi-browse -a -t -r -p | grep apt-cacher-ng | grep = | cut -d";" -f8)
-        _printfs "exists an apt-get proxy in the network at $_remotesetup_var_apt_proxy_server, setting up the client ..."
-        _waitforsudo apt-get install --no-install-recommends -y squid-deb-proxy-client
-    else
-        _printfs "no apt-get proxy found, installing one locally ..."
-        _waitforsudo apt-get install --no-install-recommends -y squid-deb-proxy-client apt-cacher-ng
-        [ ! -f /etc/avahi/services/apt-cacher-ng.service ] && \
-            _fetchfile http://javier.io/mirror/apt-cacher-ng.service
-            _cmdsudo mv apt-cacher-ng.service /etc/avahi/services/apt-cacher-ng.service
-        if [ -d "$HOME"/misc/ubuntu/proxy/apt-cacher-ng/ ]; then
-            _printfs "exporting files ..."
-            _cmdsudo rm -rf /var/cache/apt-cacher-ng
-            _cmdsudo ln -s "$HOME"/misc/ubuntu/proxy/apt-cacher-ng/ /var/cache/apt-cacher-ng
-        fi
+    #https://bugs.launchpad.net/ubuntu/+source/pam/+bug/155794
+    if [ ! -f /etc/default/locale ]; then
+        printf "%s\\n%s\\n" 'LANG="en_US.UTF-8"' 'LANGUAGE="en_US:en"' > locale
+        _smv locale /etc/default/
+        #_cmdsudo update-locale LANG=en_US.UTF-8 LC_MESSAGES=POSIX
     fi
 
-    _printfs "installing apps ..."
+    _printfs "setting up an apt-get proxy ..."
+    _installaptproxy
+
+    _printfs     "installing apps ..."
     _waitforsudo DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y $apps_local
 
-    _printfs "installing /usr/local/bin utilities and dotfiles ..."
-    _fetchfile http://javier.io/s
-    _cmd mkdir "$HOME"/.s
-    _cmd touch "$HOME"/.s/config
-    printf "%s" "sudopwd=$sudopwd" > "$HOME"/.s/config
-    _waitfor sh ./s
-    _cmd touch "$HOME"/.not_override
-    _cmd rm -rf s .s/
+    if ! command -v "i3" >/dev/null 2>&1; then
+        _die "Dependency step failed"
+    fi
 
-    [ ! -f /usr/bin/i3 ] && _die "Dependency step failed"
+    ############################################################################
 
-    if [ ! -d "$HOME"/.bin/firefox$(_arch) ]; then
-        _cmd mkdir -p "$HOME"/.bin
+    _printfs     "installing /usr/local/bin utilities and dotfiles ..."
+    #call itself in remote (default) mode (see _remotesetup)
+    _fetchfile   http://javier.io/s
+    _cmd         mkdir "$HOME"/.s
+    _cmd         touch "$HOME"/.s/config
+    printf       "%s" "sudopwd=$sudopwd" > "$HOME"/.s/config
+    _cmd         sh ./s #_waitfor could be fancier, but there is no easy way to track sh processes
+    _cmd         rm -rf s .s/
+
+    if [ ! -d "$HOME"/.bin/firefox${_remotesetup_var_arch} ]; then
+        [ ! -d "$HOME"/.bin ] && _cmd mkdir "$HOME"/.bin
         _installfirefoxnightly
     fi
 
-    [ ! -f /usr/local/bin/firefox ] && _cmdsudo ln -s $HOME/.bin/firefox$(_arch)/firefox /usr/local/bin/
-
-    if [ ! -f /usr/local/bin/magnifier ]; then
-        _fetchfile http://files.javier.io/rep/s/magnifier$(_arch).bin magnifier
-        _cmd chmod +x magnifier
-        _cmdsudo magnifier /usr/local/bin/
+    if ! command -v "magnifier" >/dev/null 2>&1; then
+        _fetchfile http://files.javier.io/rep/bin/magnifier${_remotesetup_var_arch}.bin magnifier
+        _cmd       chmod +x magnifier
+        _cmdsudo   mv magnifier /usr/local/bin/
     fi
 
-    _printfs "purging non essential apps ..."
-    _waitforsudo DEBIAN_FRONTEND=noninteractive apt-get purge -y $apps_purge
+    ############################################################################
+
+    _printfl     "Downloading files"
+    _printfs     "downloading confs, themes and so on ..."
+    if [ ! -f "$HOME"/.not_override ]; then
+        _fetchfile   http://files.javier.io/rep/s/iconf.tar.bz2
+        _fetchfile   http://files.javier.io/rep/s/mconf.tar.bz2
+        _waitfor     tar jxf iconf.tar.bz2
+        _waitfor     tar jxf mconf.tar.bz2
+        _waitfor     rm iconf.tar.bz2 mconf.tar.bz2
+
+        if [ ! -d "./iconf" ] && [ ! -d "./mconf" ]; then
+            _die "Download step failed"
+        fi
+    else
+        _printfs "$HOME/.not_override is present, skipping ..."
+    fi
 
     ############################################################################
 
-    _printfl   "Downloading theme files"
-    _printfs   "downloading confs, themes and so on ..."
-    _fetchfile http://files.javier.io/rep/s/iconf.tar.bz2
-    _waitfor   tar jxf iconf.tar.bz2
-    _cmd       rm iconf.tar.bz2
+    _printfl       "Configuring system"
 
-    [ ! -d "./iconf" ] && _die "Download step failed"
-
-    ############################################################################
-
-    _printfl "Configuring system"
-    _printfs "configuring swappiness ..."
+    _printfs       "configuring swappiness ..."
     _ensuresetting "vm.swappiness=10" /etc/sysctl.conf
+    _printfs       "configuring kernel messages ..."
+    _ensuresetting "kernel.printk = 4 4 1 7" /etc/sysctl.conf
 
-    _printfs "configuring network ..."
-    printf "%s\\n" "auto lo" > interfaces
-    printf "%s\\n" "iface lo inet loopback" >> interfaces
-    _cmdsudo interfaces /etc/network/
-    _cmdsudo usermod -a -G netdev $(whoami)
+    _printfs       "configuring network ..."
+    printf         "%s\\n" "auto lo"                > interfaces
+    printf         "%s\\n" "iface lo inet loopback" >> interfaces
+    _cmdsudo       mv interfaces /etc/network/
+    _cmdsudo       usermod -a -G netdev $(whoami)
 
-    _printfs "configuring audio ..."
-    _ensuresetting "snd-mixer-oss" /etc/modules
-    _cmdsudo mv iconf/mpd/mpd.conf /etc
-    _cmdsudo sed -i -e \\\"/music_directory/ s:chilicuil:$(whoami):\\\" /etc/mpd.conf
+    _printfs       "configuring audio ..."
+    [ -f iconf/mpd/mpd.conf ] && _cmdsudo mv iconf/mpd/mpd.conf /etc
+    _cmdsudo       sed -i -e \\\"/music_directory/ s:chilicuil:$(whoami):\\\" /etc/mpd.conf
 
-    _printfs "configuring groups ..."
-    _cmdsudo usermod -a -G dialout $(whoami)
-    _cmdsudo usermod -a -G sudo $(whoami)
+    _printfs       "configuring groups ..."
+    _cmdsudo       usermod -a -G dialout $(whoami)
+    _cmdsudo       usermod -a -G sudo    $(whoami)
+    _cmdsudo       usermod -a -G plugdev $(whoami)
 
     _printfs "configuring cron ..."
     if [ -f /usr/local/bin/watch-battery ]; then
         printf "%s\\n" "    $ echo \"*/1 * * * * /usr/local/bin/watch-battery\" | crontab -"
-        _addcron "*/1 * * * * /usr/local/bin/watch-battery";
+        _ensurecron "*/1 * * * * /usr/local/bin/watch-battery";
     fi
 
     if [ -f /usr/local/bin/wcd ] && [ -f /usr/bin/wcd.exec ] && [ -f /usr/local/bin/update-cd ]; then
         printf "%s\\n" "    $ echo \"* 23 * * *  /usr/local/bin/update-cd\" | crontab -"
-        _addcron "* 23 * * *  /usr/local/bin/update-cd";
+        _ensurecron "* 23 * * *  /usr/local/bin/update-cd";
     fi
 
     if [ -f /usr/local/bin/backup-mozilla ]; then
         printf "%s\\n" "    $ echo \"15 */4 * * * /usr/local/bin/backup-mozilla\" | crontab -"
-        _addcron "15 */4 * * * /usr/local/bin/backup-mozilla";
+        _ensurecron "15 */4 * * * /usr/local/bin/backup-mozilla";
     fi
 
     if [ -f "$HOME"/misc/conf/ubuntu/etc/lenovo-edge-netbook/crontabs.tar.gz ]; then
@@ -1202,90 +1231,114 @@ _localsetup()
     fi
 
     _printfs "configuring login manager ..."
-    _smv iconf/slim/slim.conf /etc/
-    _smv iconf/slim/custom /usr/share/slim/themes/
+    [ -f iconf/slim/slim.conf ] && _smv iconf/slim/slim.conf /etc/
+    [ -d iconf/slim/custom ]    && _smv iconf/slim/custom /usr/share/slim/themes/
     _cmdsudo sed -i -e \\\"/default_user/ s:chilicuil:$(whoami):\\\" /etc/slim.conf
-    #[ -f /usr/share/xsessions/i3.desktop ] && \
-        #_cmdsudo sed -i -e \\\"/Exec/ s:=.*:=/etc/X11/Xsession:\\\" /usr/share/xsessions/i3.desktop
 
     _printfs "configuring gpg/ssh agents ..."
-    [ -f /etc/X11/Xsession.d/90gpg-agent ] && \
-        _cmdsudo sed -i -e \
-        \\\"/STARTUP/ s:=.*:=\\"\\$GPGAGENT --enable-ssh-support --daemon --sh --write-env-file=\\$PID_FILE \\$STARTUP\\":\\\" \
-        /etc/X11/Xsession.d/90gpg-agent
-    [ -f /etc/X11/Xsession.options ] && \
-        _cmdsudo sed -i -e \\\"s:use-ssh-agent:#use-ssh-agent:g\\\" /etc/X11/Xsession.options
-    _cmd mkdir "$HOME"/.gnupg
-    [ ! -f "$HOME"/.gnupg/gpg.conf ] && printf "%s\\n" "use-agent" > "$HOME"/.gnupg/gpg.conf
+    if [ -f /etc/X11/Xsession.d/90gpg-agent ]; then
+        if ! grep -- "--enable-ssh-support" /etc/X11/Xsession.d/90gpg-agent >/dev/null; then
+            _cmdsudo sed -i -e \
+                \\\"/STARTUP/ s:--daemon:--enable-ssh-support --daemon:\\\" \
+                /etc/X11/Xsession.d/90gpg-agent
+        fi
+    fi
 
+    if [ -f /etc/X11/Xsession.options ]; then
+        _cmdsudo sed -i -e \\\"s:^use-ssh-agent:#use-ssh-agent:g\\\" \
+            /etc/X11/Xsession.options
+    fi
+
+    [ ! -d "$HOME"/.gnupg ]          && _cmd mkdir "$HOME"/.gnupg
+    [ -f "$HOME"/.gnupg/gpg.conf ]   && _ensuresetting "use-agent" "$HOME"/.gnupg/gpg.conf
+
+    _printfs "configuring dbus ..."
     #allow use of shutdown/reboot through dbus-send
     if [ ! -f /etc/polkit-1/localauthority/50-local.d/org.freedesktop.consolekit.pkla ]; then
         _fetchfile http://javier.io/mirror/org.freedesktop.consolekit.pkla
-        _cmdsudo mv org.freedesktop.consolekit.pkla /etc/polkit-1/localauthority/50-local.d/org.freedesktop.consolekit.pkla
+        _cmdsudo   mv org.freedesktop.consolekit.pkla \
+                   /etc/polkit-1/localauthority/50-local.d/org.freedesktop.consolekit.pkla
     fi
 
     _printfs "configuring file manager ..."
     #https://bugs.launchpad.net/ubuntu/+source/policykit-1/+bug/600575
     if [ ! -f /etc/polkit-1/localauthority/50-local.d/55-storage.pkla ]; then
         _fetchfile http://javier.io/mirror/55-storage.pkla
-        _cmdsudo mv 55-storage.pkla /etc/polkit-1/localauthority/50-local.d/55-storage.pkla
+        _cmdsudo   mv 55-storage.pkla /etc/polkit-1/localauthority/50-local.d/55-storage.pkla
     fi
 
-    _cmdsudo usermod -a -G plugdev $(whoami)
-
     _printfs "configuring browser ..."
-    _smv iconf/firefox/libflashplayer$(_arch).so /usr/lib/mozilla/plugins/libflashplayer.so
-    if [ ! -f $HOME/.not_override ]; then
-        _waitfor tar jxf iconf/firefox/mozilla.tar.bz2 -C iconf/firefox
-        mozilla_profile=$(strings /dev/urandom | grep -o '[[:alnum:]]' | head -n 8 | tr -d '\n'; printf "\\n")
-        _cmd mv iconf/firefox/.mozilla/firefox/*.default iconf/firefox/.mozilla/firefox/$mozilla_profile.default
-        mozilla_files=$(grep -rl h5xyzl6e iconf/firefox/.mozilla) && { printf "%s\\n" "$mozilla_files" | xargs sed -i -e "s/h5xyzl6e/$mozilla_profile/g"; printf "%s\\n" "$mozilla_files" | xargs sed -i -e "s/admin/$(whoami)/g"; }
-        _smv iconf/firefox/.mozilla "$HOME"
+    if [ ! -f "$HOME"/.not_override ]; then
+        _waitfor tar jxf mconf/firefox/mozilla.tar.bz2 -C mconf/firefox
+        for mozilla_old_profile in mconf/firefox/.mozilla/firefox/*.default; do break; done
+        mozilla_old_profile=$(basename "$mozilla_old_profile" .default)
+        mozilla_new_profile=$(strings /dev/urandom | grep -o '[[:alnum:]]' | \
+                              head -n 8 | tr -d '\n'; printf "\\n")
+
+        _smv mconf/firefox/libflashplayer${_remotesetup_var_arch}.so /usr/lib/mozilla/plugins/
+        _cmd mv mconf/firefox/.mozilla/firefox/$mozilla_old_profile.default \
+                mconf/firefox/.mozilla/firefox/$mozilla_new_profile.default
+        find mconf/firefox/.mozilla -type f | xargs sed -i -e "s/$mozilla_old_profile/$mozilla_new_profile/g"
+        find mconf/firefox/.mozilla -type f | xargs sed -i -e "s/admin/$(whoami)/g"
+        find mconf/firefox/.mozilla -type f | xargs sed -i -e "s/chilicuil/$(whoami)/g"
+        _smv mconf/firefox/.mozilla "$HOME"
+
+        _cmd rm -rf ~/.macromedia ~/.adobe
+        _cmd ln -s      /dev/null ~/.adobe
+        _cmd ln -s      /dev/null ~/.macromedia
     fi
 
     _printfs "configuring gtk, icon, cursor themes ..."
-    mv iconf/icons iconf/.icons; mv iconf/gtk/themes iconf/gtk/.themes
-    mv iconf/fonts iconf/.fonts; mv iconf/data iconf/.data
-    _smv iconf/.icons      "$HOME"
-    _smv iconf/gtk/.themes "$HOME"
-    _smv iconf/.fonts      "$HOME"
-    _smv iconf/.data       "$HOME"
+    if [ ! -f "$HOME"/.not_override ]; then
+        mv   iconf/icons iconf/.icons
+        mv   iconf/gtk/themes iconf/gtk/.themes
+        mv   iconf/fonts iconf/.fonts
+        mv   iconf/data iconf/.data
+        _smv iconf/.icons      "$HOME"
+        _smv iconf/gtk/.themes "$HOME"
+        _smv iconf/.fonts      "$HOME"
+        _smv iconf/.data       "$HOME"
+    fi
 
-    _waitforsudo fc-cache -f -v
+    _waitforsudo fc-cache -f -v  #update font information
     _cmdsudo update-alternatives --set x-terminal-emulator /usr/bin/urxvt
 
     [ -d "$HOME"/.gvfs ] && fusermount -u "$HOME"/.gvfs
 
-    _cmdsudo chown -R $(whoami):$(whoami) "$HOME"
-
     #stackoverflow.com/q/8887972
-    find "$HOME" -maxdepth 3 \( -type f -iname "*gtkrc*" \
-         -o -type f -iname "*Trolltech.conf*"      \
-         -o -type f -iname "*Xdefaults*"        \
-         -o -type f -iname "*bazaar.conf*"      \
+    find "$HOME" -maxdepth 3                  \
+        \(  -type f -iname "*gtkrc*"          \
+         -o -type f -iname "*Trolltech.conf*" \
+         -o -type f -iname "*Xdefaults*"      \
+         -o -type f -iname "*bazaar.conf*"    \
          -o -type f -iname "*conkyrc*" \) -exec sed -i "s/chilicuil/$(whoami)/g" '{}' \;
 
-    if [ -d /proc/acpi/battery/BAT0 ]; then
-        _cmd sed -i \\\"s:BAT1:BAT0:g\\\" "$HOME"/.conkyrc
+    if [ -f "$HOME"/.conkyrc ]; then
+        if [ -d /proc/acpi/battery/BAT0 ] || [ -d /sys/class/power_supply/BAT0 ]; then
+            _cmd sed -i "s:BAT1:BAT0:g" "$HOME"/.conkyrc
+        fi
     fi
 
-    _printfs "cleaning up ..."
-    _cmd rm -rf iconf*
+    #virtualization technologies used in vps's don't have displays
+    localsetup_var_virt=$(_whatvirt)
+    case $localsetup_var_virt in
+        openvz|uml|xen) 
+            _printfl     "Virtualization addons"
+            _waitforsudo DEBIAN_FRONTEND=noninteractive apt-get purge -y zram-config
+            _enableremotevnc
+            ;;
+    esac
 
-    _enableremotevnc
+    _printfs "cleaning up ..."
+    _cmd     touch "$HOME"/.not_override
+    _cmdsudo touch /usr/local/bin/not_override
+    _cmd     rm -rf iconf* mconf*
 
     ############################################################################
 
     _printfl "DONE"
-    printf "\\n"
-    printf "%s\\n" "Restart your computer to start having fun, n@n/"
-}
-
-_ubuntudev()
-{
-    _printfl "Preparing the system for Ubuntu dev"
-    _waitforsudo apt-get update
-    _waitforsudo apt-get install --no-install-recommends -y $apps_ubuntudev
+    printf   "\\n"
+    printf   "%s\\n" "Restart your computer to start having fun, n@n/"
 }
 
 ################################################################################
@@ -1303,10 +1356,12 @@ if _supported; then
              #e.g, _cmdsudo mkdir /root/forbidden_directory
     case "$mode" in
         remote) _remotesetup;;
-        local)  _localsetup;;
+        local)  _localsetup ;;
     esac
     _hooks C; : #finish script with 0, independly of latest hooks result
 else
     printf "%s %s\\n" "FAILED: Non supported distribution system detected," \
             "run this script on $supported systems only"
 fi
+
+# vim: set ts=8 sw=4 tw=0 ft=sh : 

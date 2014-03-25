@@ -7,7 +7,7 @@ title: "vim + vundle"
 ###### {{ page.date | date_to_string }}
 
 <!--**[![](/assets/img/58.png)](/assets/img/58.png)**-->
-<iframe src="http://showterm.io/089d8dde66aeec9b1ac7e" width="640" height="350" style="display:block; margin: 0 auto;">&nbsp;</iframe> 
+<iframe class="showterm" src="http://showterm.io/089d8dde66aeec9b1ac7e" width="640" height="350">&nbsp;</iframe> 
 
 Aunque no escribo mucho sobre vim, la verdad es que me la paso modificando su [configuración](https://github.com/chilicuil/dotfiles/blob/master/.vimrc) a tal grado que dudo que justifique el tiempo que le he invertido, de no ser porque me causa alguna clase de enfermiza diversión.
 
@@ -15,7 +15,7 @@ Siendo así, uso/pruebo algunos plugins, por lo que mi **$HOME/.vim/** luce un p
 
 En cualquiera de los casos, la instalación/actualización/eliminación requiere modificar los archivos adecuados en **$HOME/.vim/{doc,plugin,autoload,etc}**, esto esta bien para tipos como yo, a los que no les importa volver a descargar un plugin para ver su estructura y así poder eliminar los archivos correctos. Pero esta lejos de ser una opción cómoda.
 
-Ya habia escuchado hablar con anterioridad de 'manejadores de scripts' para vim como [pathogen](https://github.com/tpope/vim-pathogen)/[vundle](https://github.com/gmarik/vundle), pero no los habia probado porque dada mi configuración, tenia pereza por hacerlo. Sin embargo hace 2 semanas me he convertido a vundle (me ha tomado un par de hrs) y la diferencia es tan buena que me he dado por escribir.
+Ya habia escuchado hablar con anterioridad de 'manejadores de scripts' para vim como [pathogen](https://github.com/tpope/vim-pathogen)/[vundle](https://github.com/gmarik/vundle), pero no los habia probado porque dada mi configuración, tenia pereza por hacerlo. Sin embargo hace 2 semanas me he convertido a vundle (me ha tomado un par de hrs) y la diferencia es tan buena que me ha dado por escribir.
 
 **USEN VUNDLE**
 
