@@ -4,9 +4,9 @@ title: "madre terra"
 ---
 
 ## {{ page.title }}
+
 ###### {{ page.date | date_to_string }}
 
-<br />
 <pre class="lyric">
 Aqui está meu incenso perfumado 
 meu cacau cobiçado 
@@ -36,4 +36,5 @@ isto te dará vida
 
 Juan Gregorio Regino / Madre terra (Nijma en nima, IX)
 </pre>
-<br />
+
+<p></p>

@@ -4,6 +4,7 @@ title: "um lugar pertinho do céu"
 ---
 
 ## {{ page.title }}
+
 ###### {{ page.date | date_to_string }}
 
 A época de ouro do cinema mexicano consagrou uma das figuras mais importantes do México, o imortal Pedro Infante. 
@@ -14,8 +15,6 @@ Em um lugar pertinho do céu, Pedro Infante atua no papel de Pedro Gonzáles, um
 
 Um excelente filme, em caso você não seja sensível demais
 
-<center>
+<div id="youtube">
 <object width="560" height="315"><param name="movie" value="http://www.youtube.com/v/LtpCUf_Spu0?version=3&amp;hl=en_US"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/LtpCUf_Spu0?version=3&amp;hl=en_US" type="application/x-shockwave-flash" width="560" height="315" allowscriptaccess="always" allowfullscreen="true"></embed></object>
-</center>
-
-<br />
+</div>
