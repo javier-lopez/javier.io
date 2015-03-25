@@ -24,10 +24,10 @@ $ echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward
 - **eth1:** wireless interface as access point in ad-hoc mode
 
 <pre class="sh_sh">
-$ iwconfig wlan0 mode ad-hoc
-$ iwconfig wlan0 essid proxywlan
-$ ifconfig wlan0 10.0.0.1 up #o la ip que gustes
-$ iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+$ sudo iwconfig wlan0 mode ad-hoc
+$ sudo iwconfig wlan0 essid proxywlan
+$ sudo ifconfig wlan0 10.0.0.1 up #o la ip que gustes
+$ sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 $ echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward
 </pre>
 
@@ -35,4 +35,4 @@ After completing any of the previous steps (and if no dhcp daemon has been set u
 
 - **ip:** 10.0.0.2
 - **gatewat:** 10.0.0.1
-- **dns:** 10.0.0.1
+- **dns:** 8.8.8.8
