@@ -303,6 +303,16 @@ iframe.showterm {
   margin:  0 auto;
 }
 
+table {
+    color:#bbb;
+    font: 100%/2em 'PT Sans',sans-serif;
+    text-align: center;
+    border: 1px solid;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 3%;
+}
+
 /* first letter effect */
 h2 + h6 + p:first-letter,
 h2 + h6 + h3 + p:first-letter,
@@ -354,7 +364,7 @@ h2 + img + p:first-letter {
 #related h5 {
   font-size: .9em;
   font: 100% 'PT Sans',sans-serif;
-  color: #999;
+  color: #bbb;
   margin-bottom: -0.1%;
 }
 
