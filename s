@@ -6,8 +6,8 @@
 #deploys f.javier.io in the local computer
 
 trap _cleanup INT QUIT #trap ctrl-c
-base_url="https://raw.githubusercontent.com/chilicuil/learn/master/sh/deploy/"
-#base_url="http://gitcdn.link/repo/chilicuil/learn/master/sh/deploy/"
+base_url="https://raw.githubusercontent.com/javier-lopez/learn/master/sh/deploy/"
+#base_url="http://gitcdn.link/repo/javier-lopez/learn/master/sh/deploy/"
 
 _usage() {
     printf "%s\\n" "Usage: sh <(wget -O- javier.io/deploy) TARGET [PARAM]..."
@@ -19,7 +19,6 @@ _usage() {
     printf "%s\\n" "Examples:"
     printf "\\n"
     printf "%s\\n" "  $ sh <(wget -qO- javier.io/deploy) f.javier.io"
-    printf "%s\\n" "  $ sh <(wget -qO- javier.io/deploy) minos [core|desktop]"
 }
 
 _die() {
