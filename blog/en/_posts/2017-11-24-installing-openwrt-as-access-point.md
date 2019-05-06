@@ -7,9 +7,9 @@ title: "installing openwrt as an access point"
 
 ###### {{ page.date | date_to_string }}
 
-In previous post I wrote about how to use [openwrt as a wireless repeater](http://javier.io/blog/en/2014/06/10/installing-openwrt-as-wireless-repeater.html), this time I'll use it as an access point, how practical!
+In previous post I wrote about how to use [openwrt as a wireless repeater](http://javier.io/blog/en/2014/06/10/installing-openwrt-as-wireless-repeater.html), this time I'll use it as an independent access point with its own subnet, how practical!
 
-The target device is a [TP-Link N750](http://www.amazon.com/TP-LINK-TL-WDR4300-Wireless-Gigabit-300Mbps/dp/B0088CJT4U), and I'm using the latest [trunk build](http://downloads.openwrt.org/snapshots/trunk/ar71xx/).
+The target device is a [TP-Link N750](http://www.amazon.com/TP-LINK-TL-WDR4300-Wireless-Gigabit-300Mbps/dp/B0088CJT4U), and I'm using the latest [trunk build](http://downloads.openwrt.org/snapshots/trunk/ar71xx/), the installation process is pretty straigh forward.
 
 **[![](/assets/img/98.jpg)](/assets/img/98.jpg)**
 
@@ -17,17 +17,17 @@ The target device is a [TP-Link N750](http://www.amazon.com/TP-LINK-TL-WDR4300-W
 $ wget downloads.openwrt.org/snapshots/trunk/ar71xx/generic/openwrt-ar71xx-generic-tl-wdr4300-v1-squashfs-factory.bin
 </pre>
 
-Or, when there is a previous openwrt version already installed:
+Or, when there is a previous openwrt version installed:
 
 <pre class="sh_sh">
 $ wget downloads.openwrt.org/snapshots/trunk/ar71xx/generic/openwrt-ar71xx-generic-tl-wdr4300-v1-squashfs-sysupgrade.bin
 </pre>
 
-After completing the download, it can be installed by going to the "Firmware Upgrade" menu of the Link web interface and selecting the openwrt firmware.
+After completing the download, install it by going to the **Firmware Upgrade** menu and selecting the openwrt firmware.
 
 **[![](/assets/img/99.png)](/assets/img/99.png)**
 
-Be aware that the trunk build is minimal, it doesn't include the [luci web interface](luci.subsignal.org), so it's up to every person to decide if they want it or not.
+Be aware that the trunk build is minimal, it doesn't include the [luci web interface](https://github.com/openwrt/luci), so it's up to every person to decide if they want it or not.
 
 To install additional software connect to the device and share temporary your laptop/desktop internet
 
@@ -65,7 +65,7 @@ openwrt # /etc/init.d/uhttpd enable
 openwrt # /etc/init.d/uhttpd start
 </pre>
 
-Upon completing the installation, go to the web interface, [http://10.9.8.7](http://10.9.8.7), and reconfigure the LAN interface to make permanent the IP address:
+Upon completing the installation, go to [http://10.9.8.7](http://10.9.8.7) and reconfigure the LAN interface to make permanent the IP address:
 
 - Network &#x25B7; Interfaces &#x25B7; LAN
 
@@ -77,6 +77,6 @@ Create the Access Point (linked to the **lan** interface)
 
 **[![](/assets/img/openwrt-ap.png)](/assets/img/openwrt-ap.png)**
 
-Connect a ethernel cable to the WAN interface (on this device it's a blue port behind), that's it, profit!, happy browsing &#9996;
+Connect an ethernet cable to the WAN interface (on this device it's a blue port behind) and enjoy!, happy browsing &#9996;
 
 - [http://wiki.openwrt.org/toh/tp-link/tl-wdr4300](http://wiki.openwrt.org/toh/tp-link/tl-wdr4300)

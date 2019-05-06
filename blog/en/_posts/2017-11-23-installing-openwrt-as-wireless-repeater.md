@@ -25,7 +25,7 @@ Or to upgrade it from a previous release:
 $ wget downloads.openwrt.org/snapshots/trunk/ar71xx/generic/openwrt-ar71xx-generic-tl-wdr4300-v1-squashfs-sysupgrade.bin
 </pre>
 
-To flash the image go to the "System Tools" &#x25B7; "Firmware Upgrade" menu
+To flash the image go to the **System Tools &#x25B7; Firmware Upgrade** menu
 
 **[![](/assets/img/99.png)](/assets/img/99.png)**
 
