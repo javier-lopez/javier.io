@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {% include meta.html %}
+    <title>{{ page.title }}</title>
+  </head>
+
+  <body onload="sh_highlightDocument('/assets/js/lang/', '.js');">
+    {% include header.html case="index.html" %}
+
+    <div id="container">
+      <!--https://stackoverflow.com/q/396145-->
+      <div id="middle">
+        <div id="inner">
+          {{ content }}
+        </div>
+      </div>
+    </div>
+
+    {% include footer.html case="index.html" %}
+    {% include js.html     case="index.html" %}
+  </body>
+</html>
