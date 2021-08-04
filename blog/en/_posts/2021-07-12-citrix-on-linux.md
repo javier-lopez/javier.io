@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "use citrix on linux"
+title: "citrix on linux"
 ---
 
 ## {{ page.title }}
