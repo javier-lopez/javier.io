@@ -17,7 +17,7 @@ friends have a better time getting started.
 performant and productive Linux system for power user/dev roles.
 
     ▸ Based on Ubuntu LTS releases with BedRock Linux support on its way
-        ▸ 14.04 / 16.04 / 18.04 / 20.04
+        ▸ 16.04 / 18.04 / 20.04
     ▸ Tiling window manager, i3wm + patches
     ▸ Full battery cli workflow, urxvt, tmux, vim, wicd, shundle, ...
     ▸ Non-intrusive and fast dmenu based launchers for sessions, process
@@ -81,14 +81,14 @@ Where:
     passwd   → admin minos user password
 
     /dev/sdY → /home mount point   (optional)
-    --release  [14.04|16.04|18.04] (optional)
+    --release  [16.04|18.04|20.04] (optional)
 
 #### Vagrant
 
 Minos is also available as portable VirtualBox images:
 
-    $ vagrant init minos/core-18.04    && vagrant up
-    $ vagrant init minos/desktop-18.04 && vagrant up
+    $ vagrant init minos/core-20.04    && vagrant up
+    $ vagrant init minos/desktop-20.04 && vagrant up
 
 Additional boxes are located at
 [https://app.vagrantup.com/minos](https://app.vagrantup.com/minos)
