@@ -29,7 +29,13 @@ And Git:
 Copy tmux and dependencies to Git for Windows path:
 
     $ cp C:\msys64\usr\bin\tmux C:\msys64\usr\bin\msys-event* C:\Program Files\Git\usr\bin
-
+    
 Restart Git for Windows
+
+## Extra
+
+If you want to keep msys2 you may want to change the $HOME directory so it points to the same place as Git for Windows, modify **/etc/nsswitch.conf**
+
+    db_home: windows
 
 Happy hacking!
