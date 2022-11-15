@@ -7,12 +7,12 @@ title: "install tmux on windows 10"
 
 ###### {{ page.date | date_to_string }}
 
-Download and install https://www.msys2.org/#installation
+Download and install [https://www.msys2.org/#installation](https://www.msys2.org/#installation)
 
 If behind a firewall, compress as gz or bz2, upload a custom server and download from it, eg:
 
-  - http://f.javier.io/public/bin/msys2-x86_64-20221028.exe.gz
-  - http://f.javier.io/public/bin/msys2-x86_64-20221028.exe.bz2
+  - [http://f.javier.io/public/bin/msys2-x86_64-20221028.exe.gz](http://f.javier.io/public/bin/msys2-x86_64-20221028.exe.gz)
+  - [http://f.javier.io/public/bin/msys2-x86_64-20221028.exe.bz2](http://f.javier.io/public/bin/msys2-x86_64-20221028.exe.bz2)
 
 ## Install tmux
 
@@ -34,7 +34,7 @@ Restart Git for Windows
 
 ## Extra
 
-If you want to keep msys2 you may want to change the $HOME directory so it points to the same place as Git for Windows, modify **/etc/nsswitch.conf**
+If you want to keep msys2 you may want to change the **$HOME** directory so it points to the same place as Git for Windows, modify **/etc/nsswitch.conf**
 
     db_home: windows
 
