@@ -29,7 +29,7 @@ And Git:
 Copy tmux and dependencies to Git for Windows path:
 
     $ cp C:\msys64\usr\bin\tmux C:\msys64\usr\bin\msys-event* C:\Program Files\Git\usr\bin
-    
+
 Restart Git for Windows
 
 ## Extra
