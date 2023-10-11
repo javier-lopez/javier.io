@@ -10,7 +10,7 @@ title: "install 7zip with choco without admin permissions"
 Install choco, from a powershell:
 
     $ notepad choco-non-admin.ps1
-    
+
 Then paste the following instructions:
 
     # Set directory for installation - Chocolatey does not lock
@@ -26,7 +26,7 @@ Then paste the following instructions:
     # All install options - offline, proxy, etc at
     # https://chocolatey.org/install
     iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-    
+
 Execute the resulting script and install the portable 7zip version:
 
     $ ./choco-non-admin.ps1

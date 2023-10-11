@@ -81,7 +81,7 @@ That's it!, now it can be launched and accessed through
 
     $ docker-compose up
     app_1  | You can now view my-new-react-project in the browser.
-    app_1  | 
+    app_1  |
     app_1  |   Local:            http://localhost:3000/
     app_1  |   On Your Network:  http://172.18.0.2:3000/
 
