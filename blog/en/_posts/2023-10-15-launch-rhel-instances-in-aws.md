@@ -50,7 +50,7 @@ Profit!
 - [Create a RHEL account](https://www.redhat.com/wapps/ugc/register.html?_flowId=register-flow&_flowExecutionKey=e1s1)
 - [Request a RHEL trial](https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux/try-it?intcmp=701f20000012m1qAAA), this step could be removed in the future, however for new accounts as Oct 12th 2023, it’s a requirement for registering RHEL aws instances.
 - Go to Red Hat and Enable the Simple Content Access Enablement (should be on by default for new accounts)
-[Screenshot]
+![rhel-simple-content-access](https://github.com/javier-lopez/javier.io/assets/75626/abc8f9bc-9fce-496e-9cec-ca5d865cf943)
 
 ### AWS
 
