@@ -7,11 +7,22 @@ title: "windows installers non interactive"
 
 ###### {{ page.date | date_to_string }}
 
-## IIS
+## IIS 8.5 / Windows Server 2012
 
     pshell> import-module servermanager
     pshell> add-windowsfeature Web-Server, Web-WebServer, Web-Security, Web-Filtering, Web-Cert-Auth, Web-IP-Security, Web-Url-Auth, Web-Windows-Auth, Web-Basic-Auth, Web-Client-Auth, Web-Digest-Auth, Web-CertProvider, Web-Common-Http, Web-Http-Errors, Web-Dir-Browsing, Web-Static-Content, Web-Default-Doc, Web-Http-Redirect, Web-DAV-Publishing, Web-Performance, Web-Stat-Compression, Web-Dyn-Compression, Web-Health, Web-Http-Logging, Web-ODBC-Logging, Web-Log-Libraries, Web-Custom-Logging, Web-Request-Monitor, Web-Http-Tracing, Web-App-Dev, Web-Net-Ext45, Web-ASP, Web-Asp-Net45, Web-CGI, Web-ISAPI-Ext, Web-ISAPI-Filter, Web-WebSockets, Web-AppInit, Web-Includes, Web-Ftp-Server, Web-Ftp-Service, Web-Ftp-Ext, Web-Mgmt-Tools, Web-Mgmt-Console, Web-Mgmt-Compat, Web-Metabase, Web-WMI, Web-Lgcy-Mgmt-Console, Web-Lgcy-Scripting, Web-Scripting-Tools, Web-Mgmt-Service –IncludeManagementTools
-    pshell> get-itemproperty HKLM:\SOFTWARE\Microsoft\InetStp\  | select setupstring,versionstring #show iis version
+
+## IIS 10.0 / Windows Server 2016
+
+    pshell> Install-WindowsFeature -name Web-Server -IncludeManagementTools
+
+Confirm version installed:
+
+    pshell> get-itemproperty HKLM:\SOFTWARE\Microsoft\InetStp\ | select setupstring,versionstring #show iis version
+
+## ISS urlrewrite module
+
+    pshell> choco install -y urlrewrite
 
 ## Chocolatey
 
