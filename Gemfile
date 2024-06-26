@@ -9,3 +9,4 @@ gem "jekyll", "~> 4.1.1"
 gem "classifier-reborn", "~> 2.2.0"
 gem 'gsl', '~> 2.1', '>= 2.1.0.3' #allows faster lsi indexing
 gem "jekyll-seo-tag", "~> 2.0"
+gem "ffi", "< 1.17.0" #https://github.com/ffi/ffi/issues/1103#issuecomment-2186974923
