@@ -9,10 +9,15 @@ title: "router with integrated vpn support"
 
 I needed a way to provide VPN coverage transparently to a local network...
 
-- [Wireguard](https://www.wireguard.com/) (because of its performance and low resource usage)
+- ISP router (TpLink WR820N on this case)
 - TpLink ER605 Switch (only available vpn switch/router around) - no wifi
 - TpLink WR820N (low cost wifi router)
+- [Wireguard](https://www.wireguard.com/) (because of its performance and low resource usage)
 - VPN provider https://surfshark.com (provide required technical details)
+
+## ISP router (TpLink WR820N on this case)
+
+Reconfigure LAN to use 10.9.8.1 so it doesn't conflict with default networking settings in the following section.
 
 ## TpLink ER605 firmware upgrade to ER605(UN)_V2_2.2.2 Build 20231017
 
