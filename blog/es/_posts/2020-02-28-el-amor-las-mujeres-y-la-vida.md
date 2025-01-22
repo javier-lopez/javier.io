@@ -7,8 +7,7 @@ title: "el amor, las mujeres y la vida"
 
 ###### {{ page.date | date_to_string }}
 
-A través de la poesía nos reconocemos humanos y que mejor que el desamor para
-saborear estos versos.
+A través de la poesía nos reconocemos humanos y que mejor que el desamor para saborear estos versos.
 
 ### Es tan poco
 <pre class="lyric">
@@ -167,6 +166,66 @@ que se destruyen sin saberlo.
 
 Vos lo dijiste, nuestro amor
 fue desde siempre un niño, un niño muerto.
+</pre>
+
+### No te salves
+<pre class="lyric">
+No te quedes inmóvil al borde del camino
+no congeles el júbilo, no quieras con desgana
+no te salves ahora, ni nunca, no te salves.
+
+No te llenes de calma, no reserves del mundo sólo un rincón tranquilo
+no dejes caer los párpados pesados como juicios
+no te quedes sin labios, no te duermas sin sueño
+no te pienses sin sangre, no te juzgues sin tiempo
+
+Pero si pese a todo no puedes evitarlo
+y congelas el júbilo y quieres con desgana
+y te salvas ahora y te llenas de calma
+y reservas del mundo sólo un rincón tranquilo
+y dejas caer los párpados pesados como juicios
+y te secas sin labios y te duermes sin sueño
+y te piensas sin sangre y te juzgas sin tiempo
+y te quedas inmóvil al borde del camino
+y te salvas.
+
+Entonces no te quedes conmigo.
+</pre>
+
+### La culpa es de uno
+
+<pre class="lyric">
+Quizá fue una hecatombe de esperanzas,
+un derrumbe de algún modo previsto
+pero mi tristeza sólo tuvo un sentido.
+
+Todas mis intuiciones se asomaron para verme sufrir
+y por cierto me vieron.
+
+Hasta aquí había hecho y rehecho mis trayectos contigo
+hasta aquí había apostado a inventar la verdad
+pero tu encontraste la manera, una manera tierna
+y a la vez implacable de desahuciar mi amor.
+
+Con un solo pronóstico lo quitaste de los suburbios de tu vida posible
+lo envolviste en nostalgias, lo cargaste por cuadras y cuadras
+y despacito, sin que el aire nocturno lo advirtiera, ahí nomás lo dejaste,
+a solas,
+con su suerte, que no es mucha.
+
+Creo que tienes razón
+la culpa es de uno cuando no enamora
+y no de los pretextos ni del tiempo.
+
+Hace mucho, muchísimo que no me enfrentaba como anoche al espejo
+y fue implacable como tu, mas no fue tierno.
+Ahora estoy solo, francamente solo.
+
+Siempre cuesta un poquito empezar a sentirse desgraciado
+
+Antes de regresar a mis lóbregos cuarteles de invierno
+con los ojos bien secos por si acaso
+miro como te vas adentrando en la niebla y empiezo a recordarte.
 </pre>
 
 ### Soledades
