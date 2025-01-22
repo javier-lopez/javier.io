@@ -16,10 +16,10 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile') }}
           #https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/caching-dependencies-to-speed-up-workflows#example-using-multiple-restore-keys
           restore-keys: |
-            ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+            ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile') }}
             ${{ runner.os }}-gems-
 
       - uses: nebulosa/jekyll-action@2.0.4
