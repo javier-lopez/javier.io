@@ -179,7 +179,7 @@ Within the `hrsh7th/nvim-cmp` depency section add `zbirenbaum/copilot-cmp` and `
   * [hrsh7th/vim-vsnip](https://github.com/hrsh7th/vim-vsnip) #autocompletes snippets
  * [zbirenbaum/copilot.lua](https://github.com/zbirenbaum/copilot.lua) is a pure Lua implementation of the official [github/copilot.vim](https://github.com/github/copilot.vim)
 
-Once installed run: `:Copilot auth`:
+Once installed run `:Copilot auth`:
 
     { "hrsh7th/nvim-cmp", -- Autocompletion plugin
         event = "InsertEnter", -- Lazy load until user enters Insert mode
