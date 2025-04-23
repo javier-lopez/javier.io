@@ -25,21 +25,21 @@ title: "using colima to run docker on a mac"
     $ cat $HOME/.colima/_lima/_config/override.yaml
     mountType: 9p
     mounts:
-  - location: "/Users/<USERNAME>"
-    writable: true
-    9p:
-      securityModel: mapped-xattr
-      cache: mmap
-  - location: "~"
-    writable: true
-    9p:
-      securityModel: mapped-xattr
-      cache: mmap
-  - location: /tmp/colima
-    writable: true
-    9p:
-      securityModel: mapped-xattr
-      cache: mmap
+      - location: "/Users/jlopez"
+        writable: true
+        9p:
+          securityModel: mapped-xattr
+          cache: mmap
+      - location: "~"
+        writable: true
+        9p:
+          securityModel: mapped-xattr
+          cache: mmap
+      - location: /tmp/colima
+        writable: true
+        9p:
+          securityModel: mapped-xattr
+          cache: mmap
 
 ## Use colima
 
