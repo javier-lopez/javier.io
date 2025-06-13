@@ -43,7 +43,7 @@ title: "using colima to run docker on a mac"
 
 ## Use colima
 
-    $ colima start --mount-type 9p #or colima start --cpu 4 --memory 8 --mount-type 9p --vm-type qemu
+    $ colima start --mount-type 9p --vm-type qemu #or colima start --cpu 4 --memory 8 --mount-type 9p --vm-type qemu
     $ docker run hello-world
     Unable to find image 'hello-world:latest' locally
     latest: Pulling from library/hello-world
