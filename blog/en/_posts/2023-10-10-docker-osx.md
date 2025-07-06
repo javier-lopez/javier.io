@@ -17,7 +17,33 @@ title: "using colima to run docker on a mac"
 ## Install colima
 
     $ brew install colima
-    $ colima start
+
+## Configure colima
+
+[Cannot chown or chmod bind mounted files/dirs](https://github.com/abiosoft/colima/issues/83#issuecomment-1339269542)
+
+    $ cat $HOME/.colima/_lima/_config/override.yaml
+    mountType: 9p
+    mounts:
+      - location: "/Users/jlopez"
+        writable: true
+        9p:
+          securityModel: mapped-xattr
+          cache: mmap
+      - location: "~"
+        writable: true
+        9p:
+          securityModel: mapped-xattr
+          cache: mmap
+      - location: /tmp/colima
+        writable: true
+        9p:
+          securityModel: mapped-xattr
+          cache: mmap
+
+## Use colima
+
+    $ colima start --mount-type 9p --vm-type qemu #or colima start --cpu 4 --memory 8 --mount-type 9p --vm-type qemu
     $ docker run hello-world
     Unable to find image 'hello-world:latest' locally
     latest: Pulling from library/hello-world
