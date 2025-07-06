@@ -15,8 +15,8 @@ Escape `more` pager:
 
  * resize terminal window until `more` pauses due to non sufficient space to show text #tested in git4win/powershell
  * press 'v' to launch a vim readonly instance
- * escape `vim`:
 
+Escape `vim`:
 
     :set shell=/bin/bash
     :shell
