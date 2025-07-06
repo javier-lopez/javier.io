@@ -17,6 +17,7 @@ Escape `more` pager:
  * press 'v' to launch a vim readonly instance
  * escape `vim`:
 
+
     :set shell=/bin/bash
     :shell
 
