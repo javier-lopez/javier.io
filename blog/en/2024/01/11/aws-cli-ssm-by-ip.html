@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+  <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="keywords" content="Javier López personal blog">
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>aws-cli ssm by ip | javier.io</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="aws-cli ssm by ip" />
+<meta name="author" content="Javier López" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="aws-cli ssm by ip" />
+<meta property="og:description" content="aws-cli ssm by ip" />
+<link rel="canonical" href="javier.io/blog/en/2024/01/11/aws-cli-ssm-by-ip.html" />
+<meta property="og:url" content="javier.io/blog/en/2024/01/11/aws-cli-ssm-by-ip.html" />
+<meta property="og:site_name" content="javier.io" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-01-11T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="aws-cli ssm by ip" />
+<meta name="twitter:site" content="@javier_flpz" />
+<meta name="twitter:creator" content="@Javier López" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Javier López"},"dateModified":"2024-01-11T00:00:00+00:00","datePublished":"2024-01-11T00:00:00+00:00","description":"aws-cli ssm by ip","headline":"aws-cli ssm by ip","mainEntityOfPage":{"@type":"WebPage","@id":"javier.io/blog/en/2024/01/11/aws-cli-ssm-by-ip.html"},"url":"javier.io/blog/en/2024/01/11/aws-cli-ssm-by-ip.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+    <link rel="shortcut icon" href="//javier.io/favicon.ico">
+    <link href='//fonts.googleapis.com/css?family=Exo+2:200|PT+Sans|Strait|Vollkorn|' rel='stylesheet' type='text/css'>
+    <!--<link href='//fonts.googleapis.com/css?family=Megrim|Ruluko|Exo+2:200|PT+Sans|Strait|Vollkorn|' rel='stylesheet' type='text/css'>-->
+    <link rel="alternate" type="application/atom+xml" href="/atom.xml">
+    <link rel="stylesheet" type="text/css" href="/assets/css/default_black.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/responsive.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/fontawesome.min.css">
+
+    <!-- syntax http://shjs.sourceforge.net/-->
+    <link type="text/css" rel="stylesheet" href="/assets/css/shjs/sh_darkness.css">
+
+    <title>aws-cli ssm by ip</title>
+  </head>
+
+  <body onload="sh_highlightDocument('/assets/js/lang/', '.js');">
+    <div id="header">
+  <h1><a href="/blog/">Javier L&oacute;pez</a>
+    <form>
+      <input type="text" id="st-search-input" class="st-search-input"/>
+    </form>
+  </h1>
+
+  <a href="/blog/en.html" class="red">[EN]</a> |
+  <a href="/blog/pt.html" class="green">[PT]</a> |
+  <a href="/blog/es.html" class="yellow">[ES]</a> |
+  <a href="/atom.xml" class="rss">RSS</a> |
+
+  
+
+  <!-- Begin Swifttype -->
+  <script type="text/javascript">
+    var Swiftype = window.Swiftype || {};
+    (function() {
+      Swiftype.key = 'k64dV6Rm9QK4z8WnkrcN';
+      Swiftype.inputElement = '#st-search-input';
+      Swiftype.resultContainingElement = '#st-results-container';
+      Swiftype.attachElement = '#st-search-input';
+      Swiftype.renderStyle = "new_page";
+      Swiftype.resultPageURL = "/blog/results/";
+
+      var script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.async = true;
+      script.src = "//swiftype.com/embed.js";
+      var entry = document.getElementsByTagName('script')[0];
+      entry.parentNode.insertBefore(script, entry);
+    }());
+  </script>
+  <!-- End Swifttype -->
+
+
+</div>
+
+
+    <div id="content">
+      <div id="post">
+  <h2 id="aws-cli-ssm-by-ip">aws-cli ssm by ip</h2>
+
+<h6 id="11-jan-2024">11 Jan 2024</h6>
+
+<h2 id="configure-ssm-in-aws">Configure SSM in AWS</h2>
+
+<p>Before you start, make sure that your Amazon EC2 instances are configured correctly. This involves setting up an IAM role <code class="language-plaintext highlighter-rouge">AmazonSSMManagedInstanceCore</code> for Systems Manager and attaching it to your instances. You also need to ensure that the Systems Manager Agent (SSM Agent) is installed on your nodes.</p>
+
+<p>The SSM Agent is preinstalled by default on Amazon Linux base AMIs dated 2017.09 and later and on Amazon Linux 2, Windows Server 2008-2012 R2 AMIs, and others. If your distribution is not included use <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html">userdata</a> to install it on first boot:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/bin/bash
+curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb" -o "session-manager-plugin.deb"
+curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_32bit/session-manager-plugin.deb" -o "session-manager-plugin.deb"
+curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_arm64/session-manager-plugin.deb" -o "session-manager-plugin.deb"
+dpkg -i session-manager-plugin.deb
+</code></pre></div></div>
+
+<h2 id="private-vpc">Private VPC</h2>
+
+<p>If your EC2 instance is in a private network (without an Internet Gateway) you will need to set up 3 VPC Endpoints for AWS Systems Manager.</p>
+
+<p>Go to <strong>VPC</strong> &gt; <strong>Endpoints</strong> &gt; <strong>Create Endpoint</strong> &gt; <strong>Service category</strong> &gt; <strong>AWS services</strong> &gt; <strong>Service Name</strong></p>
+
+<ul>
+  <li>com.amazonaws.us-west-2.ssm (or the region where your vpc is hosted)</li>
+  <li>com.amazonaws.us-west-2.ec2messages</li>
+  <li>com.amazonaws.us-west-2.ssmmessages</li>
+</ul>
+
+<p>In the <strong>VPC</strong> section, select the VPC of your EC2 instances. In the <strong>Security Group</strong> section, select a security group that allows HTTPS traffic (port 443) from and to your EC2 instances. In <strong>Policy</strong>, select <strong>Full Access</strong> if you want all instances in your VPC to be able to use SSM.</p>
+
+<h2 id="configure-aws-cli-using-sso">Configure aws-cli using sso</h2>
+
+<p>Install <a href="https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html">aws-cli</a> and the <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/install-plugin-windows.html">windows plugin</a> if required.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ aws configure sso
+SSO session name (Recommended): org-name
+SSO start URL [None]: https://org-name.awsapps.com/start#/SSO
+region [None]: us-west-2
+SSO registration scopes [sso:account:access]:
+There are 10 AWS accounts available to you. #select one option
+Using the account ID 523868776147
+There are 4 roles available to you.
+Using the role name "PowerUserAccess"
+CLI default client Region [None]: us-west-2
+CLI profile name [PowerUserAccess-523868776147]: DevOps-PowerUser
+
+To use this profile, specify the profile name using --profile, as shown:
+
+aws s3 ls --profile DevOps-PowerUser
+</code></pre></div></div>
+
+<h2 id="connect-by-instance-id">Connect by instance-id</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ aws sso login --sso-session org-name; aws ssm start-session --target &lt;instance-id&gt; --profile DevOps-PowerUser
+</code></pre></div></div>
+
+<h2 id="connect-by-ip">Connect by ip</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ aws sso login --sso-session org-name; aws ssm start-session --target "$(aws ec2 describe-instances --filter Name=private-ip-address,Values=&lt;private-ip&gt; --query 'Reservations[].Instances[].InstanceId' --output text --region us-west-2 --profile DevOps-PowerUser)" --profile DevOps-PowerUser --region us-west-2
+</code></pre></div></div>
+
+<p>Profit!</p>
+
+</div>
+
+<div id="related">
+  <h5>Related Entries:</h5>
+  <ul class="related-posts">
+    
+    <li><span>22 Aug 2018</span> &raquo; <a href="/blog/en/2018/08/22/minos-a-tiling-wm-linux-distro.html">minos, a tiling wm linux distribution</a></li>
+    
+    <li><span>30 Jan 2025</span> &raquo; <a href="/blog/en/2025/01/30/nvim-migration.html">nvim migration</a></li>
+    
+    <li><span>26 Jan 2014</span> &raquo; <a href="/blog/en/2014/01/26/introduction-to-drupal-7-installation-profiles.html">introduction to drupal 7 installation profiles</a></li>
+    
+  </ul>
+</div>
+
+    <div id="disqus">
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+      var disqus_shortname = 'javierlopez'; // required: replace example with your forum shortname
+
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function() {
+       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+       dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+       })();
+     </script>
+     <noscript>Enable JavaScript to see/create comments</noscript>
+    </div>
+
+
+    </div>
+
+    
+<div id="footer">
+
+  <div class="link" align="right">
+    <a href="//javier.io/blog"><i class="icon-pencil"></i></a>
+    <a href="//javier.io/pgp"><i class="icon-key"></i></a>
+    <a href="//javier.io/twitter"><i class="icon-twitter"></i></a>
+    <a href="//javier.io/github"><i class="icon-github-alt"></i></a>
+  </div>
+</div>
+
+    
+
+    <!-- syntax http://shjs.sourceforge.net/-->
+    <script type="text/javascript" src="/assets/js/shjs/shjs_main.js"></script>
+
+    <!-- lightbox http://gettopup.com, the other part of the lib is called in the post.html file-->
+    <script type="text/javascript" src="/assets/js/top-up/top_up-min.js"></script>
+    <script type="text/javascript">TopUp.host = "//javier.io/";</script>
+    <script type="text/javascript">TopUp.images_path = "assets/js/top-up/images/";</script>
+    <script type="text/javascript">
+      TopUp.addPresets({
+          "#content strong a": {
+            readAltText: 1,
+            effect: "clip",
+            overlayClose: 0,
+            shaded: 1,
+            group: "img"
+          }
+    });
+    </script>
+
+    <!-- google analytics -->
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-47664650-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+       })();
+    </script>
+
+  </body>
+</html>
