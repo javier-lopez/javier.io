@@ -49,11 +49,11 @@ PowerShell prompt:
 
 Latest version of Powershell to have a better experience within the CLI in general:
 
-    choco install powershell-core
+    choco install -y powershell-core
 
 A better Terminal emulator:
 
-    choco install microsoft-windows-terminal
+    choco install -y microsoft-windows-terminal
 
 Fonts, go to [Nerd Fonts](https://www.nerdfonts.com/font-downloads) and
      download your favorite, Caskaydia Cove  is a good one, this would allow to
@@ -64,9 +64,9 @@ Fonts, go to [Nerd Fonts](https://www.nerdfonts.com/font-downloads) and
 
 Install `gcc` , `git` and `make` to compile plugins and supercharge Nvim (optional):
 
-    choco install make
-    choco install mingw
-    choco install git
+    choco install -y make
+    choco install -y mingw
+    choco install -y git
 
 Install `nvm` and `nodejs` to setup Github Copilot integration (optional):
 

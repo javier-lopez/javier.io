@@ -7,23 +7,23 @@ title: "lvm cheatsheet"
 
 ###### {{ page.date | date_to_string }}
 
-There are certain technical things I keep forgetting no matter how many times
-I try them, `ln` usage, `git` parameters and the reason for this post, `LVM`.
+There are certain commands I keep forgetting no matter how many times
+I try them, `ln`, `git` and the reason for this post, `LVM`.
 So, here goes a quick how-to for my future me.
 
 ### Basics
 
-In order to understand **LVM** it's required to grasp its components.
+In order to understand **LVM** it's required to have a clear picture of its components.
 
 ## Physical Volume (PV)
 
-A PV is **any block device** that can be used as storage
+A PV is **any block device** that can be used as storage, eg: **/dev/sda**
 
 **[![](/assets/img/lvm_pv.png)](/assets/img/lvm_pv.png)**
 
 ## Volume Group (VG)
 
-A VG is a group of at least one PV, commonly contains many thought.
+A VG is a group of at least one PV, it usually contains several, thought.
 
 **[![](/assets/img/lvm_vg.png)](/assets/img/lvm_vg.png)**
 
@@ -65,7 +65,16 @@ Done!, now it can be formated and mounted as a normal HD, eg:
     $ echo '/dev/vg_name/lv_name /mount_point ext4 defaults 0 0' | sudo tee -a /etc/fstab
     $ sudo mount -a
 
-That's it!, I'll keep adding **LVM** recipes as I find fit, happy storing,
+### How to extend a full LVM volume
+
+First, you need to extend the volume or block in the underlaying VM/Hardware, once done:
+
+    $ sudo pvresize /dev/sda #or any other modified device
+    $ sudo lvextend -l +100%FREE /dev/vg_name/lv_name 
+    $ sudo resize2fs /dev/vg_name/lv_name  #for ext3/4
+    $ sudo xfs_growfs -d /dev/vg_name/lv_name #for xfs
+
+That's it!, I'll keep adding **LVM** recipes as I find them, happy storing,
 &#128522;
 
 - [https://askubuntu.com/questions/7002/how-to-set-up-multiple-hard-drives-as-one-volume](https://askubuntu.com/questions/7002/how-to-set-up-multiple-hard-drives-as-one-volume)
