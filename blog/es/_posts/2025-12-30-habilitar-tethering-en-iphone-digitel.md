@@ -9,7 +9,7 @@ title: "habilitar tethering en iphone 17 con digitel"
 
 Si digitel no te habilito la comparticion de datos en modo tethering, sigue los siguientes pasos:
 
-##### Verifica que la opcion para compartir datos este deshabilitada
+### Verifica que la opcion para compartir datos este deshabilitada
 
 **[![](/assets/img/iphone-digitel-tethering-1.png)](/assets/img/iphone-digitel-tethering-1.png)**
 
@@ -17,7 +17,7 @@ Tambien se puede revisar desde **Configuracion**:
 
 **[![](/assets/img/iphone-digitel-tethering-2.png)](/assets/img/iphone-digitel-tethering-2.png)**
 
-##### Configura el punto de acceso a nivel proveedor (digitel)
+### Configura el punto de acceso a nivel proveedor (digitel)
 
 Desde **Configuracion** ve a **Red celular**
 
