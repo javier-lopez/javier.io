@@ -14,6 +14,8 @@ viene de personas, no funciona si es por audio o video, necesitan la interaccion
 filtros abiertos / vivos es necesario **exponer a un bebe a interacciones sociales con personas del idioma
 objetivo a partir de los 6 meses.**
 
-[![The linguistic genius of babies | Patricia Kuhl](https://img.youtube.com/vi/G2XBIkHW954/default.jpg)](https://youtu.be/G2XBIkHW954)
+<div id="youtube">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/G2XBIkHW954" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</center>
 
 Listo, feliz multipass &#128523;
