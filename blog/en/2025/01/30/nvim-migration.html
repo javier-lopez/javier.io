@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+  <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="keywords" content="Javier López personal blog">
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>nvim migration | javier.io</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="nvim migration" />
+<meta name="author" content="Javier López" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="nvim migration" />
+<meta property="og:description" content="nvim migration" />
+<link rel="canonical" href="javier.io/blog/en/2025/01/30/nvim-migration.html" />
+<meta property="og:url" content="javier.io/blog/en/2025/01/30/nvim-migration.html" />
+<meta property="og:site_name" content="javier.io" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-01-30T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="nvim migration" />
+<meta name="twitter:site" content="@javier_flpz" />
+<meta name="twitter:creator" content="@Javier López" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Javier López"},"dateModified":"2025-01-30T00:00:00+00:00","datePublished":"2025-01-30T00:00:00+00:00","description":"nvim migration","headline":"nvim migration","mainEntityOfPage":{"@type":"WebPage","@id":"javier.io/blog/en/2025/01/30/nvim-migration.html"},"url":"javier.io/blog/en/2025/01/30/nvim-migration.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+    <link rel="shortcut icon" href="//javier.io/favicon.ico">
+    <link href='//fonts.googleapis.com/css?family=Exo+2:200|PT+Sans|Strait|Vollkorn|' rel='stylesheet' type='text/css'>
+    <!--<link href='//fonts.googleapis.com/css?family=Megrim|Ruluko|Exo+2:200|PT+Sans|Strait|Vollkorn|' rel='stylesheet' type='text/css'>-->
+    <link rel="alternate" type="application/atom+xml" href="/atom.xml">
+    <link rel="stylesheet" type="text/css" href="/assets/css/default_black.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/responsive.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/fontawesome.min.css">
+
+    <!-- syntax http://shjs.sourceforge.net/-->
+    <link type="text/css" rel="stylesheet" href="/assets/css/shjs/sh_darkness.css">
+
+    <title>nvim migration</title>
+  </head>
+
+  <body onload="sh_highlightDocument('/assets/js/lang/', '.js');">
+    <div id="header">
+  <h1><a href="/blog/">Javier L&oacute;pez</a>
+    <form>
+      <input type="text" id="st-search-input" class="st-search-input"/>
+    </form>
+  </h1>
+
+  <a href="/blog/en.html" class="red">[EN]</a> |
+  <a href="/blog/pt.html" class="green">[PT]</a> |
+  <a href="/blog/es.html" class="yellow">[ES]</a> |
+  <a href="/atom.xml" class="rss">RSS</a> |
+
+  
+
+  <!-- Begin Swifttype -->
+  <script type="text/javascript">
+    var Swiftype = window.Swiftype || {};
+    (function() {
+      Swiftype.key = 'k64dV6Rm9QK4z8WnkrcN';
+      Swiftype.inputElement = '#st-search-input';
+      Swiftype.resultContainingElement = '#st-results-container';
+      Swiftype.attachElement = '#st-search-input';
+      Swiftype.renderStyle = "new_page";
+      Swiftype.resultPageURL = "/blog/results/";
+
+      var script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.async = true;
+      script.src = "//swiftype.com/embed.js";
+      var entry = document.getElementsByTagName('script')[0];
+      entry.parentNode.insertBefore(script, entry);
+    }());
+  </script>
+  <!-- End Swifttype -->
+
+
+</div>
+
+
+    <div id="content">
+      <div id="post">
+  <h2 id="nvim-migration">nvim migration</h2>
+
+<h6 id="30-jan-2025">30 Jan 2025</h6>
+
+<p>I avoided <a href="https://neovim.io/">Neovim</a> for a long time because of backwards
+compatibility fear, even from Vim 7x to 8x compatibility is an issue, however
+this was unfunded, NeoVim could be more compatible with Vim than Vim itself, no
+need to learn Lua  (at the beginning), took a day (a long one) to convert my 10
+years old vim configuration to an almost identical setup in NeoVim with
+increased performance and better functionality.</p>
+
+<p><strong>Pros</strong></p>
+
+<ul>
+  <li>Fully compatible with Vimscripting, 90% vim plugins just works</li>
+  <li>Faster than Vim and much faster than Studio Code, or any other graphical editor</li>
+  <li>Integrated with latest plugin developments, eg: Github Copilot / Github
+ Copilot Chat, matched only by Visual Studio Code and Jetbrains IDEs</li>
+  <li>Thriving community, advanced users / developers, chance to choose from
+ several implementations, all equality good and feature complete: eg, as for
+ plugin manager: lazy.nvim, vim-plug, rocks.vim, etc.</li>
+  <li>Multi OS support, a single configuration file can be used in Windows / OSX / Linux</li>
+</ul>
+
+<p><strong>Cons</strong></p>
+
+<ul>
+  <li>Medium / Hard to setup in comparition with vim which is available in most
+ Unix systems by default</li>
+  <li>Medium / Hard to master if you’re not used to vim</li>
+  <li>Step curve if you’re only used to vimscripting and want to extend
+ functionality</li>
+</ul>
+
+<h2 id="windows-1011">Windows 10/11</h2>
+
+<p>Neovim on Windows doesn’t require WSL, it works great if the proper environment
+is set, a good terminal emulator, fonts, and a gcc compiler to run the heavier
+plugins at the speed of though.</p>
+
+<p><strong>Dependencies</strong></p>
+
+<p><a href="https://chocolatey.org/install">Chocolatey</a>, a package manager that allows to
+install the other dependencies in a single command line, from an Admistrator
+PowerShell prompt:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+</code></pre></div></div>
+
+<p>Latest version of Powershell to have a better experience within the CLI in general:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>choco install -y powershell-core
+</code></pre></div></div>
+
+<p>A better Terminal emulator:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>choco install -y microsoft-windows-terminal
+</code></pre></div></div>
+
+<p>Fonts, go to <a href="https://www.nerdfonts.com/font-downloads">Nerd Fonts</a> and
+     download your favorite, Caskaydia Cove  is a good one, this would allow to
+     have emojics in the terminal, once downloaded the archive unzip it and
+     install the OTF files to <strong>“all users”</strong></p>
+
+<p><strong><a href="/assets/img/nerd-fonts-caskaydia.png"><img src="/assets/img/nerd-fonts-caskaydia.png" alt="" /></a></strong></p>
+
+<p>Install <code class="language-plaintext highlighter-rouge">gcc</code> , <code class="language-plaintext highlighter-rouge">git</code> and <code class="language-plaintext highlighter-rouge">make</code> to compile plugins and supercharge Nvim (optional):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>choco install -y make
+choco install -y mingw
+choco install -y git
+</code></pre></div></div>
+
+<p>Install <code class="language-plaintext highlighter-rouge">nvm</code> and <code class="language-plaintext highlighter-rouge">nodejs</code> to setup Github Copilot integration (optional):</p>
+
+<ul>
+  <li>Download and run <a href="https://github.com/coreybutler/nvm-windows/releases/download/1.2.2/nvm-setup.exe">https://github.com/coreybutler/nvm-windows/releases/download/1.2.2/nvm-setup.exe</a></li>
+  <li>Install latest <code class="language-plaintext highlighter-rouge">nodejs</code> from an Administration powershell prompt: <code class="language-plaintext highlighter-rouge">nvm install latest</code></li>
+  <li>Configure latest version to provide nodejs: <code class="language-plaintext highlighter-rouge">nvm use 23.6.1</code></li>
+</ul>
+
+<p><strong>Dependencies configuration</strong></p>
+
+<p>Configure the new <code class="language-plaintext highlighter-rouge">Terminal</code> to use the latest <code class="language-plaintext highlighter-rouge">Powershell</code> and the downloaded fonts:</p>
+
+<p><strong><a href="/assets/img/terminal-powershell-nerd-fonts-startup.png"><img src="/assets/img/terminal-powershell-nerd-fonts-startup.png" alt="" /></a></strong>
+<strong><a href="/assets/img/terminal-powershell-nerd-fonts-powershell.png"><img src="/assets/img/terminal-powershell-nerd-fonts-powershell.png" alt="" /></a></strong>
+<strong><a href="/assets/img/terminal-powershell-nerd-fonts-text.png"><img src="/assets/img/terminal-powershell-nerd-fonts-text.png" alt="" /></a></strong>
+<strong><a href="/assets/img/terminal-powershell-nerd-fonts-caskaydia.png"><img src="/assets/img/terminal-powershell-nerd-fonts-caskaydia.png" alt="" /></a></strong></p>
+
+<p><strong>Installation</strong></p>
+
+<p>Go to <a href="https://github.com/neovim/neovim/releases">neovim/neovim</a> and install the latest version for windows: <code class="language-plaintext highlighter-rouge">nvim-win64.msi</code></p>
+
+<h2 id="neovim-configuration">NeoVim configuration</h2>
+
+<p>Due to Lua support Neovim <em>init.lua</em> configuration is cross platform
+compatible, you can set / unset preference based on the environment, it can
+also read vanilla vimscript therefore you could use your same vimrc settings,
+however unless you’re in a hurry, it’s recommended to migrate to lua at the
+earneast opportunity.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ nvim .\AppData\Local\nvim\init.lua
+</code></pre></div></div>
+
+<p>Nvim and Vim support distributions, bundles that provide an advanced and
+uniformed experience, in terms of programming languages it would be comparable
+to Ruby on Rails, Django, CakePhp, etc, these distributions are ok if you’re
+looking for a battery included experience or if you’ve previous experience with
+Nvim, however as a learning exercise it’s a better to use a minimalist approach
+and enable only the interested features, this also allows you to customize your
+usage cases. Some good distribution examples are:
+<a href="https://www.lazyvim.org/">lazyvim</a>, <a href="https://nvchad.com/">nvchad</a>,
+<a href="https://github.com/AstroNvim/AstroNvim">astronvim</a>.</p>
+
+<p>On this article, the focus would be in starting from a minimalist, single page,
+documentated approach. Good configurations are personal, built over time with a
+lot of polish. Get the content of <a href="https://github.com/nvim-lua/kickstart.nvim/blob/master/init.lua">kickstart.nvim/init.lua</a> to <code class="language-plaintext highlighter-rouge">.\AppData\Local\nvim\init.lua</code></p>
+
+<p><strong>Boostrapping</strong></p>
+
+<p>The 1st step is to create a mechanism to download a Nvim plugin manager in case
+none is locally installed and retrieve the configured plugins with their
+dependencies, NOTE: This code is already included in the <em>kickstart.nvim</em> file
+referenced above, it’s shown here only for analysis / understanding. There are
+several plugins manager but on this article we would refer to <a href="https://github.com/folke/lazy.nvim">lazy.nvim</a></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+    local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
+    local out = vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
+    if vim.v.shell_error ~= 0 then
+        error('Error cloning lazy.nvim:\n' .. out)
+    end
+end
+</code></pre></div></div>
+
+<p><strong>Vim traditional configuration</strong></p>
+
+<p>Vim settings are available via lua:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim.g.mapleader = ","
+vim.g.maplocalleader = ","
+</code></pre></div></div>
+
+<p>Or they can be read as vimscripting files:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim.cmd('source my_vim_script.vim')
+</code></pre></div></div>
+
+<p><strong>Plugin installation</strong></p>
+
+<p><a href="https://github.com/folke/lazy.nvim">Lazy.nvim</a> support from simple to quite complex escenarios, eg:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>require("lazy").setup({
+    "javier-lopez/my-autoloads.vim", -- the most simple case, plugins hosted in https://github.com/javier-lopez/my-autoloads.vim
+    "javier-lopez/my-mappings.vim",
+    { "javier-lopez/my-sensible.vim", -- plugins with dependencies
+        dependencies = {
+            "javier-lopez/cutils.vim",
+        },
+    },
+    { "javier-lopez/colors.vim", -- plugins with priorization + initial customization
+        priority = 1000, -- Make sure to load this before all the other start plugins.
+        init = function()
+            vim.cmd.colorscheme("hemisu")
+        end,
+    },
+    -- Highlight todo, notes, etc in comments
+    { "folke/todo-comments.nvim", -- plugins with lazy loading, plugin would wait until UI is drawn to load
+        event = "VimEnter",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        opts = { signs = false },
+    },
+)}
+</code></pre></div></div>
+
+<p><strong>Github Copilot integration</strong></p>
+
+<p>Within the <code class="language-plaintext highlighter-rouge">hrsh7th/nvim-cmp</code> depency section add <code class="language-plaintext highlighter-rouge">zbirenbaum/copilot-cmp</code> and <code class="language-plaintext highlighter-rouge">zbirenbaum/copilot.lua</code>:</p>
+
+<ul>
+  <li><a href="https://github.com/hrsh7th/nvim-cmp">nvim-cmp</a> is an auto completion
+ framework for nvim, sources are programmable, on this case we’re adding
+ <a href="https://github.com/zbirenbaum/copilot-cmp">copilot-cmp</a> to have Copilot
+ suggestions as part of our editing experience, other cmp plugins are:</li>
+  <li><a href="https://github.com/hrsh7th/cmp-path">hrsh7th/cmp-path</a> #autocompletes file / directory paths</li>
+  <li><a href="https://github.com/hrsh7th/cmp-buffer">hrsh7th/cmp-buffer</a> #autocompletes buffer words</li>
+  <li><a href="https://github.com/hrsh7th/cmp-calc">hrsh7th/cmp-calc</a> #complete math operations</li>
+  <li><a href="https://github.com/hrsh7th/vim-vsnip">hrsh7th/vim-vsnip</a> #autocompletes snippets</li>
+  <li><a href="https://github.com/zbirenbaum/copilot.lua">zbirenbaum/copilot.lua</a> is a pure Lua implementation of the official <a href="https://github.com/github/copilot.vim">github/copilot.vim</a></li>
+</ul>
+
+<p>Once installed run <code class="language-plaintext highlighter-rouge">:Copilot auth</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{ "hrsh7th/nvim-cmp", -- Autocompletion plugin
+    event = "InsertEnter", -- Lazy load until user enters Insert mode
+    dependencies = {
+        { "zbirenbaum/copilot-cmp",
+            event = "InsertEnter",
+            config = function () require("copilot_cmp").setup() end,
+            dependencies = { "zbirenbaum/copilot.lua", -- core package that interacts with gh copilot api
+                cmd = "Copilot",
+                config = function()
+                require("copilot").setup({
+                    -- It is recommended to disable copilot.lua's suggestion and panel modules, as they can interfere with completions properly appearing in copilot-cmp.
+                    suggestion = { enabled = false },
+                    panel = { enabled = false },
+                    copilot_node_command = vim.fn.expand("$HOME") .. "/AppData/Local/nvm/v23.6.1/node.exe",
+                })
+                end,
+            },
+        },
+    },
+},
+</code></pre></div></div>
+
+<p>Within the <code class="language-plaintext highlighter-rouge">nvim-cmp</code> configuration set the <code class="language-plaintext highlighter-rouge">&lt;Enter&gt;</code> and <code class="language-plaintext highlighter-rouge">&lt;Tabs&gt;</code> keys as suggestion selectors and include the copilot source:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmp.setup({
+    mapping = cmp.mapping.preset.insert({
+    --["&lt;C-y&gt;"] = cmp.mapping.confirm({ select = true }),
+    ['&lt;CR&gt;'] = cmp.mapping.confirm { select = true }, -- &lt;Enter&gt; accepts the suggestion
+    ['&lt;Tab&gt;'] = cmp.mapping.select_next_item(), -- Iterate over suggestions
+    ['&lt;S-Tab&gt;'] = cmp.mapping.select_prev_item(), -- &lt;Shift&gt;&lt;Tab&gt; Iterate backwards
+    ...
+    }),
+    sources = {
+        { name = "path" },
+        { name = "calc" },
+        { name = "copilot" },
+    }
+})
+</code></pre></div></div>
+
+<p><a href="https://github.com/CopilotC-Nvim/CopilotChat.nvim">CopilotC-Nvim/CopilotChat.nvim</a> integrates Copilot Chat:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{ "CopilotC-Nvim/CopilotChat.nvim",
+    -- press &lt;Ctrl-s&gt; to apply instructions
+    dependencies = {
+        { "zbirenbaum/copilot.lua" },
+        { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
+    },
+    -- build = "make tiktoken", -- Only on MacOS or Linux
+    keys = {
+        {
+            "&lt;leader&gt;h",
+            function()
+                return require("CopilotChat").toggle()
+            end,
+            desc = "CopilotChat - Toggle Main Window",
+            mode = { "n", "v" },
+        },
+        {
+            "&lt;leader&gt;oo",
+            function()
+                return require("CopilotChat").toggle()
+            end,
+            desc = "CopilotChat - Toggle Main Window",
+            mode = { "n", "v" },
+        },
+        {
+            "&lt;leader&gt;ol",
+            function()
+                return require("CopilotChat").reset()
+            end,
+            desc = "CopilotChat - Clear Main Window",
+            mode = { "n", "v" },
+        },
+        {
+            "&lt;leader&gt;oa",
+            function()
+                local input = vim.fn.input("Action Over File: ")
+                if input ~= "" then
+                    require("CopilotChat").ask(input, { selection = require("CopilotChat.select").buffer })
+                end
+            end,
+            desc = "CopilotChat - Action Over File",
+        },
+    },
+},
+</code></pre></div></div>
+
+<p>Happy hacking!</p>
+
+<ul>
+  <li><a href="https://github.com/javier-lopez/dotfiles/blob/master/init.lua">javier-lopez/dotfiles/nvim/init.lua</a></li>
+  <li><a href="https://nithinbekal.com/posts/copilot-neovim/">Copilot and Neovim</a></li>
+  <li><a href="https://blog.nikfp.com/how-to-install-and-set-up-neovim-on-windows">How to install and set up Neovim on Windows</a></li>
+</ul>
+
+</div>
+
+<div id="related">
+  <h5>Related Entries:</h5>
+  <ul class="related-posts">
+    
+    <li><span>22 Aug 2018</span> &raquo; <a href="/blog/en/2018/08/22/minos-a-tiling-wm-linux-distro.html">minos, a tiling wm linux distribution</a></li>
+    
+    <li><span>26 Jan 2014</span> &raquo; <a href="/blog/en/2014/01/26/introduction-to-drupal-7-installation-profiles.html">introduction to drupal 7 installation profiles</a></li>
+    
+    <li><span>01 Jan 2012</span> &raquo; <a href="/blog/en/2012/01/01/bash-autocompletion.html">bash autocompletion</a></li>
+    
+  </ul>
+</div>
+
+    <div id="disqus">
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+      var disqus_shortname = 'javierlopez'; // required: replace example with your forum shortname
+
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function() {
+       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+       dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+       })();
+     </script>
+     <noscript>Enable JavaScript to see/create comments</noscript>
+    </div>
+
+
+    </div>
+
+    
+<div id="footer">
+
+  <div class="link" align="right">
+    <a href="//javier.io/blog"><i class="icon-pencil"></i></a>
+    <a href="//javier.io/pgp"><i class="icon-key"></i></a>
+    <a href="//javier.io/twitter"><i class="icon-twitter"></i></a>
+    <a href="//javier.io/github"><i class="icon-github-alt"></i></a>
+  </div>
+</div>
+
+    
+
+    <!-- syntax http://shjs.sourceforge.net/-->
+    <script type="text/javascript" src="/assets/js/shjs/shjs_main.js"></script>
+
+    <!-- lightbox http://gettopup.com, the other part of the lib is called in the post.html file-->
+    <script type="text/javascript" src="/assets/js/top-up/top_up-min.js"></script>
+    <script type="text/javascript">TopUp.host = "//javier.io/";</script>
+    <script type="text/javascript">TopUp.images_path = "assets/js/top-up/images/";</script>
+    <script type="text/javascript">
+      TopUp.addPresets({
+          "#content strong a": {
+            readAltText: 1,
+            effect: "clip",
+            overlayClose: 0,
+            shaded: 1,
+            group: "img"
+          }
+    });
+    </script>
+
+    <!-- google analytics -->
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-47664650-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+       })();
+    </script>
+
+  </body>
+</html>
