@@ -1,4 +1,4 @@
-name: jekyll build
+name: Jekyll build and deploy
 
 on:
   push:
@@ -8,22 +8,27 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      # Use GitHub Actions' cache to shorten build times and decrease load on servers
-      - uses: actions/cache@v4
+      - uses: ruby/setup-ruby@v1
         with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile') }}
-          #https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/caching-dependencies-to-speed-up-workflows#example-using-multiple-restore-keys
-          restore-keys: |
-            ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile') }}
-            ${{ runner.os }}-gems-
+          ruby-version: '3.2'
+          bundler-cache: true
 
-      - uses: nebulosa/jekyll-action@2.0.4
-        env:
-          JEKYLL_PAT: ${{ secrets.JEKYLL_PAT }}
-          JEKYLL_DEBUG: true
-          GEM_SRC: "."
+      - name: Build Jekyll site
+        run: bundle exec jekyll build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: github_pages
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - uses: actions/deploy-pages@v4
