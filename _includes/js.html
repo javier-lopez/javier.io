@@ -1,9 +1,135 @@
 {% if include.case == "index.html" %}
     <canvas id="canvas" style="position:fixed; z-index:0; top:0; left:0; width:100%; height:100%;"></canvas>
 
+    <style>
+        #warp-menu { position: fixed; bottom: 0; left: 0; right: 0; z-index: 10; max-width: 100%; padding: 14px 16px; border-top: 1px solid rgba(100,120,140,0.4); background: rgba(15,18,22,0.95); color: #ddd; font-family: monospace, sans-serif; font-size: 13px; box-shadow: 0 -4px 20px rgba(0,0,0,0.5); transition: transform 0.25s ease-out; }
+        #warp-menu.warp-menu-hidden { transform: translateY(100%); }
+        #warp-menu .warp-menu-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        #warp-menu h3 { margin: 0; font-size: 14px; color: #fff; font-weight: 600; }
+        #warp-menu .warp-menu-close { background: transparent; border: 1px solid #555; color: #ccc; width: 28px; height: 28px; border-radius: 4px; font-size: 16px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        #warp-menu .warp-menu-close:hover { color: #fff; border-color: #777; background: rgba(255,255,255,0.08); }
+        #warp-menu .warp-menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px 20px; max-width: 600px; }
+        #warp-menu label { display: block; margin-bottom: 2px; font-size: 12px; color: #aaa; }
+        #warp-menu select, #warp-menu input[type="number"], #warp-menu input[type="range"] { width: 100%; padding: 4px 6px; margin-bottom: 4px; background: #1a1d22; color: #eee; border: 1px solid #333; border-radius: 4px; font-size: 12px; box-sizing: border-box; }
+        #warp-menu input[type="range"] { padding: 0; height: 20px; }
+        #warp-menu .warp-menu-hint { font-size: 11px; color: #666; margin-top: 10px; }
+    </style>
+    <div id="warp-menu" class="warp-menu-hidden">
+        <div class="warp-menu-header">
+            <h3>Control Plane</h3>
+            <button type="button" class="warp-menu-close" id="warp-menu-close" title="Close" aria-label="Close">×</button>
+        </div>
+        <div class="warp-menu-grid">
+            <div>
+                <label for="warp-sunGlowStyle">Sun halo style</label>
+                <select id="warp-sunGlowStyle">
+                    <option value="minimal">minimal</option>
+                    <option value="sharp">sharp</option>
+                    <option value="classic">classic</option>
+                    <option value="soft" selected>soft</option>
+                    <option value="corona">corona</option>
+                </select>
+            </div>
+            <div>
+                <label for="warp-speed">Speed</label>
+                <input type="range" id="warp-speed" min="0.1" max="2" step="0.1" value="0.5">
+                <span id="warp-speed-value">0.5</span>
+            </div>
+            <div>
+                <label for="warp-density">Stars</label>
+                <input type="number" id="warp-density" min="1" max="20" value="5" style="width: 4em;">
+            </div>
+            <div>
+                <label for="warp-nebulaCount">Nebulae</label>
+                <input type="number" id="warp-nebulaCount" min="0" max="20" value="4" style="width: 4em;">
+            </div>
+            <div>
+                <label for="warp-galaxyCount">Galaxies</label>
+                <input type="number" id="warp-galaxyCount" min="0" max="20" value="4" style="width: 4em;">
+            </div>
+        </div>
+        <div class="warp-menu-hint">H = open/close<br>Space or left-click on background = accelerate (hold)</div>
+    </div>
+
     <script type="text/javascript" src="/assets/js/warp-speed/warpspeed.js"></script>
     <script>
-        var x=new WarpSpeed("canvas", '{"speed":0.5,"speedAdjFactor":0.03,"density":5,"shape":"square","warpEffect":false,"depthFade":false,"starSize":5,"backgroundColor":"black","starColor":"#FFFFFF"}');
+        var warpConfig = { speed: 0.5, speedAdjFactor: 0.03, density: 5, shape: "square", warpEffect: false, depthFade: false, starSize: 5, backgroundColor: "black", starColor: "#FFFFFF", sun: true, sunRadius: 90, sunGlow: 3.5, sunGlowStyle: "soft", galaxies: true, galaxyCount: 4, nebulae: true, nebulaCount: 4, zodiacalLight: true };
+        var warpSpeedInstance = new WarpSpeed("canvas", warpConfig);
+
+        var warpMenu = document.getElementById("warp-menu");
+        var warpSelect = document.getElementById("warp-sunGlowStyle");
+        var warpSpeedInput = document.getElementById("warp-speed");
+        var warpSpeedValue = document.getElementById("warp-speed-value");
+        var warpDensity = document.getElementById("warp-density");
+        var warpNebulaCount = document.getElementById("warp-nebulaCount");
+        var warpGalaxyCount = document.getElementById("warp-galaxyCount");
+        var warpCloseBtn = document.getElementById("warp-menu-close");
+
+        function applyWarpConfig() {
+            warpSpeedInstance.destroy();
+            warpSpeedInstance = new WarpSpeed("canvas", warpConfig);
+        }
+
+        var innerEl = document.getElementById("inner");
+
+        document.addEventListener("keydown", function(e) {
+            if (e.key === " ") {
+                if (e.repeat) { e.preventDefault(); return; }
+                var tag = e.target && (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA");
+                if (!tag) { e.preventDefault(); warpSpeedInstance.setBoost(true); }
+                return;
+            }
+            if (e.key === "h" || e.key === "H") {
+                var tag = e.target && (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA");
+                if (tag) return;
+                warpMenu.classList.toggle("warp-menu-hidden");
+            }
+        });
+
+        document.addEventListener("keyup", function(e) {
+            if (e.key === " ") { warpSpeedInstance.setBoost(false); }
+        });
+
+        document.addEventListener("mousedown", function(e) {
+            if (e.button === 0 && innerEl && !innerEl.contains(e.target) && !warpMenu.contains(e.target)) {
+                warpSpeedInstance.setBoost(true);
+            }
+        });
+
+        document.addEventListener("mouseup", function(e) {
+            if (e.button === 0) { warpSpeedInstance.setBoost(false); }
+        });
+
+        warpCloseBtn.addEventListener("click", function() { warpMenu.classList.add("warp-menu-hidden"); });
+
+        warpSelect.addEventListener("change", function() {
+            warpConfig.sunGlowStyle = warpSelect.value;
+            applyWarpConfig();
+        });
+
+        warpSpeedInput.addEventListener("input", function() {
+            var v = parseFloat(warpSpeedInput.value);
+            warpConfig.speed = v;
+            warpConfig.targetSpeed = v;
+            warpSpeedValue.textContent = v;
+            applyWarpConfig();
+        });
+        warpSpeedValue.textContent = warpSpeedInput.value;
+
+        warpDensity.addEventListener("change", function() {
+            var v = parseInt(warpDensity.value, 10);
+            if (!isNaN(v) && v >= 1 && v <= 20) { warpConfig.density = v; applyWarpConfig(); }
+        });
+
+        warpNebulaCount.addEventListener("change", function() {
+            var v = parseInt(warpNebulaCount.value, 10);
+            if (!isNaN(v) && v >= 0 && v <= 20) { warpConfig.nebulaCount = v; applyWarpConfig(); }
+        });
+
+        warpGalaxyCount.addEventListener("change", function() {
+            var v = parseInt(warpGalaxyCount.value, 10);
+            if (!isNaN(v) && v >= 0 && v <= 20) { warpConfig.galaxyCount = v; applyWarpConfig(); }
+        });
     </script>
 {% endif %}
 

@@ -19,12 +19,16 @@
   margin: 15px !important;
 }
 
-.indexFooter {
+.indexFooter,
+#footer.indexFooter {
   margin-bottom: 20px;
   position: fixed;
   bottom: 0;
   right: 10px;
   z-index:1;
+}
+#footer.indexFooter {
+  background: transparent;
 }
 
 @media only screen and (max-width:991px) {
@@ -40,7 +44,12 @@
     font-size: 5vmax !important;
   }
   .helloText {
+    margin-left: 1rem !important;
+    margin-right: 1rem !important;
+  }
+  .helloText > p:first-child {
     font-size: 2vmax !important;
+    line-height: 1.6 !important;
   }
   #content * {
     overflow: auto;

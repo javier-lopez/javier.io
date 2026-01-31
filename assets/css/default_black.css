@@ -37,8 +37,27 @@ body {
   /*color: #777;*/
   color: #aaa;
   padding-top: 5%;
+  margin-bottom: 0.5em;
   font-family: 'Vollkorn','serif';
   font-size: 220%;
+}
+
+.helloText {
+  text-align: center;
+  max-width: 38em;
+  margin: 0.75em auto 1.5em;
+}
+
+.helloText p {
+  margin: 0.85em 0;
+}
+
+.helloText p:first-child {
+  margin-top: 0;
+  font-family: 'Vollkorn', serif;
+  font-size: 1.28rem;
+  line-height: 1.65;
+  letter-spacing: 0.02em;
 }
 
 /************************ page, /remote **************************/
