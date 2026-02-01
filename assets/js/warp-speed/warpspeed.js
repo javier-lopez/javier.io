@@ -403,7 +403,9 @@ WarpSpeed.prototype={
 		this.LAST_RENDER_T=timeStamp()-TIME;
 	},
 	move:function(){
-		var t=timeStamp(), speedMulF=(t-this.lastMoveTS)/(1000/60);
+		var t=timeStamp(), delta=t-this.lastMoveTS, speedMulF=delta/(1000/60);
+		// Cap catch-up when returning from background so stars don't bunch in one frame
+		if(speedMulF>3)speedMulF=3;
 		this.lastMoveTS=t;
 		if(this.PAUSED)return;
 		var adjF=this.SPEED_ADJ_FACTOR<0?0:this.SPEED_ADJ_FACTOR>1?1:this.SPEED_ADJ_FACTOR;
