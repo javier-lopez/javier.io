@@ -125,11 +125,78 @@ function WarpSpeed(targetId,config){
 	this.lastMoveTS=timeStamp();
 	this.drawRequest=null;
 	this.LAST_RENDER_T=0;
+	this.perspectiveTiltX=0;
+	this.perspectiveTiltY=0;
+	this._perspectiveMaxTilt=1;
+	this._perspectiveSensitivity=0.0008;
+	this._perspectiveMinDragPx=15;
+	this._leftMaybeBoost=false;
+	this._leftPerspectiveDrag=false;
+	this._leftStartX=0;
+	this._leftStartY=0;
+	this._leftLastX=0;
+	this._leftLastY=0;
 	WarpSpeed.RUNNING_INSTANCES[targetId]=this;
+	this._bindPerspectiveDrag();
 	this.draw();
 }
 WarpSpeed.prototype={
 	constructor:WarpSpeed,
+	_bindPerspectiveDrag:function(){
+		var self=this;
+		this._onPerspectiveMouseDown=function(e){
+			if(e.button!==0)return;
+			var canvas=document.getElementById(self.targetId);
+			if(!canvas)return;
+			var warpMenu=document.getElementById("warp-menu");
+			var inMenu=warpMenu&&warpMenu.contains(e.target);
+			var interactive=e.target&&["A","BUTTON","INPUT","SELECT","TEXTAREA"].indexOf(e.target.tagName)!==-1;
+			var onBackground=e.target===canvas||(!inMenu&&!interactive);
+			if(!onBackground)return;
+			self._leftMaybeBoost=true;
+			self._leftStartX=self._leftLastX=e.clientX;
+			self._leftStartY=self._leftLastY=e.clientY;
+			self.setBoost(true);
+		};
+		this._onPerspectiveMouseMove=function(e){
+			if(self._leftMaybeBoost&&(e.buttons&1)){
+				var dx=e.clientX-self._leftStartX, dy=e.clientY-self._leftStartY;
+				var dist=Math.sqrt(dx*dx+dy*dy);
+				if(dist>=self._perspectiveMinDragPx){
+					self.setBoost(false);
+					self._leftMaybeBoost=false;
+					self._leftPerspectiveDrag=true;
+					var ddx=e.clientX-self._leftLastX, ddy=e.clientY-self._leftLastY;
+					self.perspectiveTiltX+=ddx*self._perspectiveSensitivity;
+					self.perspectiveTiltY+=ddy*self._perspectiveSensitivity;
+					var m=self._perspectiveMaxTilt;
+					self.perspectiveTiltX=Math.max(-m,Math.min(m,self.perspectiveTiltX));
+					self.perspectiveTiltY=Math.max(-m,Math.min(m,self.perspectiveTiltY));
+					self._leftLastX=e.clientX;
+					self._leftLastY=e.clientY;
+				}
+			}else if(self._leftPerspectiveDrag&&(e.buttons&1)){
+				var ddx=e.clientX-self._leftLastX, ddy=e.clientY-self._leftLastY;
+				self.perspectiveTiltX+=ddx*self._perspectiveSensitivity;
+				self.perspectiveTiltY+=ddy*self._perspectiveSensitivity;
+				var m=self._perspectiveMaxTilt;
+				self.perspectiveTiltX=Math.max(-m,Math.min(m,self.perspectiveTiltX));
+				self.perspectiveTiltY=Math.max(-m,Math.min(m,self.perspectiveTiltY));
+				self._leftLastX=e.clientX;
+				self._leftLastY=e.clientY;
+			}
+		};
+		this._onPerspectiveMouseUp=function(e){
+			if(e.button===0){
+				self.setBoost(false);
+				self._leftMaybeBoost=false;
+				self._leftPerspectiveDrag=false;
+			}
+		};
+		document.addEventListener("mousedown",this._onPerspectiveMouseDown);
+		document.addEventListener("mousemove",this._onPerspectiveMouseMove);
+		document.addEventListener("mouseup",this._onPerspectiveMouseUp);
+	},
 	_spawnSun:function(initialZ){
 		var hue=Math.random()<0.8?Math.random()*55:200+Math.random()*22;
 		return{x:(Math.random()-0.5)*400,y:(Math.random()-0.5)*400,z:initialZ||600+Math.random()*500,radius:45+Math.random()*95,glow:2.4+Math.random()*2.2,hue:hue};
@@ -162,7 +229,7 @@ WarpSpeed.prototype={
 					if(this._cruiseExitFactor<=0){this._cruiseLines=false;this._cruiseExitStartTime=0;this._cruiseExitFactor=0;}
 				}
 			}
-			if(this.WARP_EFFECT||this._cruiseLines) this.maxLineWidth=this.size/30;
+			if(this.WARP_EFFECT||this._cruiseLines) this.maxLineWidth=this.size/55;
 			var ctx=canvas.getContext("2d");
 			ctx.fillStyle=this.BACKGROUND_COLOR;
 			ctx.fillRect(0,0,canvas.width,canvas.height);
@@ -182,10 +249,11 @@ WarpSpeed.prototype={
 				for(var n=0;n<this.nebulae.length;n++){
 					var neb=this.nebulae[n];
 					var nx=neb.x/neb.z, ny=neb.y/neb.z;
-					if(nx<-0.5||nx>1.5||ny<-0.5||ny>1.5)continue;
+					var tx=this.perspectiveTiltX, ty=this.perspectiveTiltY;
+					if(nx<-1-tx||nx>1-tx||ny<-1-ty||ny>1-ty)continue;
 					var screenR=Math.max(12,neb.scale*this.size*180/neb.z);
 					if(screenR<4)continue;
-					var ncx=canvas.width*(nx+0.5), ncy=canvas.height*(ny+0.5);
+					var ncx=canvas.width*(nx+0.5+this.perspectiveTiltX), ncy=canvas.height*(ny+0.5+this.perspectiveTiltY);
 					if(innerR){
 						var vx=canvasR.left+(ncx/canvas.width)*canvasR.width, vy=canvasR.top+(ncy/canvas.height)*canvasR.height;
 						var pad=screenR*(canvasR.width/canvas.width)*1.6+60;
@@ -212,10 +280,11 @@ WarpSpeed.prototype={
 				for(var g=0;g<this.galaxies.length;g++){
 					var gal=this.galaxies[g];
 					var gx=gal.x/gal.z, gy=gal.y/gal.z;
-					if(gx<-0.6||gx>1.6||gy<-0.6||gy>1.6)continue;
+					var tx=this.perspectiveTiltX, ty=this.perspectiveTiltY;
+					if(gx<-1-tx||gx>1-tx||gy<-1-ty||gy>1-ty)continue;
 					var screenR=Math.max(18,gal.scale*this.size*320/gal.z);
 					if(screenR<3)continue;
-					var cx=canvas.width*(gx+0.5), cy=canvas.height*(gy+0.5);
+					var cx=canvas.width*(gx+0.5+this.perspectiveTiltX), cy=canvas.height*(gy+0.5+this.perspectiveTiltY);
 					if(innerR){
 						var vx=canvasR.left+(cx/canvas.width)*canvasR.width, vy=canvasR.top+(cy/canvas.height)*canvasR.height;
 												var pad=screenR*(canvasR.width/canvas.width)*1.6+60;
@@ -249,10 +318,11 @@ WarpSpeed.prototype={
 			for(var i=0;i<this.stars.length;i++){
 				var s=this.stars[i];
 				var xOnDisplay=s.x/s.z, yOnDisplay=s.y/s.z;
-				if(!this.WARP_EFFECT&&!this._cruiseLines&&(xOnDisplay<-0.5||xOnDisplay>0.5||yOnDisplay<-0.5||yOnDisplay>0.5))continue;
+				var tx=this.perspectiveTiltX, ty=this.perspectiveTiltY;
+				if(!this.WARP_EFFECT&&!this._cruiseLines&&(xOnDisplay<-0.5-tx||xOnDisplay>0.5-tx||yOnDisplay<-0.5-ty||yOnDisplay>0.5-ty))continue;
 				var size=s.size*this.size/s.z;
 				if(size<0.3) continue; //don't draw very small dots
-				var sx=canvas.width*(xOnDisplay+0.5), sy=canvas.height*(yOnDisplay+0.5);
+				var sx=canvas.width*(xOnDisplay+0.5+this.perspectiveTiltX), sy=canvas.height*(yOnDisplay+0.5+this.perspectiveTiltY);
 				if(this.DEPTH_ALPHA){
 					var alpha=(1000-s.z)/1000;
 					ctx.fillStyle=rgba+(alpha>1?1:alpha)+")";
@@ -265,18 +335,17 @@ WarpSpeed.prototype={
 					if(this._cruiseLines){var ct=(timeStamp()-this._cruiseStartTime)/8000;lineLenMul=1+9*(ct>1?1:ct);}
 					var enterF=this._cruiseLines?this._cruiseEnterFactor:1,exitF=this._cruiseLines?this._cruiseExitFactor:1;
 					var effLen=this.WARP_EFFECT_LENGTH*this.SPEED*lineLenMul*enterF*exitF;
-					ctx.beginPath();
 					var x2OnDisplay=s.x/(s.z+effLen), y2OnDisplay=s.y/(s.z+effLen);
 					if(this._cruiseLines&&Math.abs(x2OnDisplay)<0.05&&Math.abs(y2OnDisplay)<0.05)continue;
-					if(x2OnDisplay<-0.5||x2OnDisplay>0.5||y2OnDisplay<-0.5||y2OnDisplay>0.5)continue;
-					var sx2=canvas.width*(x2OnDisplay+0.5), sy2=canvas.height*(y2OnDisplay+0.5);
+					if(x2OnDisplay<-0.5-tx||x2OnDisplay>0.5-tx||y2OnDisplay<-0.5-ty||y2OnDisplay>0.5-ty)continue;
+					var sx2=canvas.width*(x2OnDisplay+0.5+this.perspectiveTiltX), sy2=canvas.height*(y2OnDisplay+0.5+this.perspectiveTiltY);
 					if(this._cruiseLines){var cxc=canvas.width/2,cyc=canvas.height/2,pull=0.2*this._cruiseEnterFactor*this._cruiseExitFactor;sx2=sx2+(cxc-sx2)*pull;sy2=sy2+(cyc-sy2)*pull;}
 					ctx.moveTo(sx-size/2,sy-size/2);
 					ctx.lineTo(sx2-size/2,sy2-size/2);
 					var lw=size>this.maxLineWidth?this.maxLineWidth:size;
-					if(this._cruiseLines){lw*=0.35;}
+					if(this._cruiseLines){lw*=0.18;}
 					ctx.lineWidth=lw;
-					if(this.USE_CIRCLES){ctx.lineCap="round";}else{ctx.lineCap="butt"}
+					if(this._cruiseLines){ctx.lineCap="butt";}else if(this.USE_CIRCLES){ctx.lineCap="round";}else{ctx.lineCap="butt"}
 					ctx.strokeStyle=ctx.fillStyle;
 					ctx.stroke();
 				}else if(this.USE_CIRCLES){
@@ -290,10 +359,11 @@ WarpSpeed.prototype={
 			if(this.SUN_ENABLED&&this.currentSun&&this.currentSun.z>5){
 				var sun=this.currentSun;
 				var sx=sun.x/sun.z, sy=sun.y/sun.z;
-				if(sx>=-0.8&&sx<=1.8&&sy>=-0.8&&sy<=1.8){
+				var tx=this.perspectiveTiltX, ty=this.perspectiveTiltY;
+				if(sx>=-0.8-tx&&sx<=0.8-tx&&sy>=-0.8-ty&&sy<=0.8-ty){
 					var sunScreenR=Math.max(28,(sun.radius*this.size/sun.z))*((this.WARP_EFFECT||this._cruiseLines)?1.2:1);
 					var glowR=Math.max(sunScreenR*sun.glow,55);
-					var cx=canvas.width*(sx+0.5), cy=canvas.height*(sy+0.5);
+					var cx=canvas.width*(sx+0.5+this.perspectiveTiltX), cy=canvas.height*(sy+0.5+this.perspectiveTiltY);
 					var h=sun.hue, sat=100, l=98;
 					var core="hsla("+h+","+(sat*0.35)+"%,"+l+"%,1)";
 					var mid="hsla("+(h+6)+","+sat+"%,68%,0.9)";
@@ -489,6 +559,11 @@ WarpSpeed.prototype={
 			if(WarpSpeed.RUNNING_INSTANCES[targetId])WarpSpeed.RUNNING_INSTANCES[targetId].destroy();
 		}else{
 			try{cancelAnimationFrame(this.drawRequest);}catch(e){this.drawRequest=-1;}
+			if(this._onPerspectiveMouseDown){
+				document.removeEventListener("mousedown",this._onPerspectiveMouseDown);
+				document.removeEventListener("mousemove",this._onPerspectiveMouseMove);
+				document.removeEventListener("mouseup",this._onPerspectiveMouseUp);
+			}
 			WarpSpeed.RUNNING_INSTANCES[this.targetId]=undefined;
 		}
 	},
