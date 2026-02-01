@@ -33,3 +33,13 @@ docker run --rm -v "$(pwd):/srv/jekyll" -v "$(pwd)/_site:/srv/jekyll/_site" javi
 ```
 
 (Adjust the image name if you built with a different project path; it is typically `<directory>-jekyll`.)
+
+### Updating Gemfile.lock
+
+After adding or changing gems in `Gemfile`, regenerate the lockfile so CI and others get the same versions and CHECKSUMS:
+
+```bash
+docker compose run --rm jekyll bundle install
+```
+
+Then commit the updated `Gemfile.lock`. This keeps Bundler’s frozen install in GitHub Actions (and other environments) from failing on missing or empty CHECKSUMS.
