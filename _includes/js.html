@@ -2,26 +2,58 @@
     <canvas id="canvas" style="position:fixed; z-index:0; top:0; left:0; width:100%; height:100%;"></canvas>
 
     <style>
-        #warp-menu { position: fixed; bottom: 0; left: 0; right: 0; z-index: 10; max-width: 100%; padding: 14px 16px; border-top: 1px solid rgba(100,120,140,0.4); background: rgba(15,18,22,0.95); color: #ddd; font-family: monospace, sans-serif; font-size: 13px; box-shadow: 0 -4px 20px rgba(0,0,0,0.5); transition: transform 0.25s ease-out; }
+        #warp-menu { position: fixed; bottom: 0; left: 0; right: 0; z-index: 10; width: 100%; padding: 12px 14px; border-top: 1px solid rgba(100,120,140,0.4); background: rgba(15,18,22,0.95); color: #ddd; font-family: monospace, sans-serif; font-size: 13px; box-shadow: 0 -4px 20px rgba(0,0,0,0.5); transition: transform 0.25s ease-out; box-sizing: border-box; }
         #warp-menu.warp-menu-hidden { transform: translateY(100%); }
         #warp-menu .warp-menu-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         #warp-menu h3 { margin: 0; font-size: 14px; color: #fff; font-weight: 600; }
         #warp-menu .warp-menu-close { background: transparent; border: 1px solid #555; color: #ccc; width: 28px; height: 28px; border-radius: 4px; font-size: 16px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         #warp-menu .warp-menu-close:hover { color: #fff; border-color: #777; background: rgba(255,255,255,0.08); }
-        #warp-menu .warp-menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px 20px; max-width: 600px; }
-        #warp-menu label { display: block; margin-bottom: 2px; font-size: 12px; color: #aaa; }
-        #warp-menu select, #warp-menu input[type="number"], #warp-menu input[type="range"] { width: 100%; padding: 4px 6px; margin-bottom: 4px; background: #1a1d22; color: #eee; border: 1px solid #333; border-radius: 4px; font-size: 12px; box-sizing: border-box; }
-        #warp-menu input[type="range"] { padding: 0; height: 20px; }
+        #warp-menu .warp-menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px 16px; max-width: 100%; }
+        #warp-menu label { display: block; margin-bottom: 2px; font-size: 11px; color: #aaa; }
+        #warp-menu select, #warp-menu input[type="number"], #warp-menu input[type="range"] { width: 100%; min-width: 0; padding: 3px 6px; margin-bottom: 2px; background: #1a1d22; color: #eee; border: 1px solid #333; border-radius: 4px; font-size: 12px; box-sizing: border-box; }
+        #warp-menu input[type="number"] { width: 3.5em; }
+        #warp-menu input[type="range"] { padding: 0; height: 18px; }
         #warp-menu .warp-menu-hint { font-size: 11px; color: #666; margin-top: 10px; }
+        #warp-menu .warp-menu-group { grid-column: 1 / -1; font-size: 10px; color: #777; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 8px; margin-bottom: 2px; border-bottom: 1px solid rgba(80,90,100,0.3); padding-bottom: 3px; }
+        #warp-menu .warp-menu-group:first-child { margin-top: 0; }
+        #warp-menu .warp-menu-grid > div > span { display: inline-block; min-width: 2em; font-size: 11px; color: #999; margin-left: 2px; }
     </style>
     <div id="warp-menu" class="warp-menu-hidden">
         <div class="warp-menu-header">
-            <h3>Control Plane</h3>
+            <h3>Control Panel</h3>
             <button type="button" class="warp-menu-close" id="warp-menu-close" title="Close" aria-label="Close">×</button>
         </div>
         <div class="warp-menu-grid">
+            <div class="warp-menu-group">Propulsion</div>
             <div>
-                <label for="warp-sunGlowStyle">Sun halo style</label>
+                <label for="warp-speed">Speed</label>
+                <input type="range" id="warp-speed" min="0.1" max="2" step="0.1" value="0.5">
+                <span id="warp-speed-value">0.5</span>
+            </div>
+            <div>
+                <label for="warp-effectStyle">Effect</label>
+                <select id="warp-effectStyle">
+                    <option value="none">None</option>
+                    <option value="streaks">Streaks</option>
+                    <option value="pulse">Pulse</option>
+                    <option value="aurora">Aurora</option>
+                    <option value="lenticular">Lenticular</option>
+                    <option value="passage">Passage</option>
+                </select>
+            </div>
+            <div>
+                <label for="warp-enterMs">Enter (s)</label>
+                <input type="range" id="warp-enterMs" min="0.5" max="15" step="0.5" value="2">
+                <span id="warp-enterMs-value">2</span>
+            </div>
+            <div>
+                <label for="warp-exitMs">Exit (s)</label>
+                <input type="range" id="warp-exitMs" min="0.5" max="15" step="0.5" value="2">
+                <span id="warp-exitMs-value">2</span>
+            </div>
+            <div class="warp-menu-group">Environment</div>
+            <div>
+                <label for="warp-sunGlowStyle">Sun halo</label>
                 <select id="warp-sunGlowStyle">
                     <option value="minimal">minimal</option>
                     <option value="sharp">sharp</option>
@@ -31,38 +63,36 @@
                 </select>
             </div>
             <div>
-                <label for="warp-speed">Speed</label>
-                <input type="range" id="warp-speed" min="0.1" max="2" step="0.1" value="0.5">
-                <span id="warp-speed-value">0.5</span>
-            </div>
-            <div>
                 <label for="warp-density">Stars</label>
-                <input type="number" id="warp-density" min="1" max="20" value="5" style="width: 4em;">
+                <input type="number" id="warp-density" min="1" max="20" value="5">
             </div>
             <div>
                 <label for="warp-nebulaCount">Nebulae</label>
-                <input type="number" id="warp-nebulaCount" min="0" max="20" value="4" style="width: 4em;">
+                <input type="number" id="warp-nebulaCount" min="0" max="20" value="4">
             </div>
             <div>
                 <label for="warp-galaxyCount">Galaxies</label>
-                <input type="number" id="warp-galaxyCount" min="0" max="20" value="4" style="width: 4em;">
+                <input type="number" id="warp-galaxyCount" min="0" max="20" value="4">
             </div>
         </div>
-        <div class="warp-menu-hint">H = menu. Space or left-click hold = boost. Left-click + drag = perspective.</div>
+        <div class="warp-menu-hint">H = panel. Space or hold click = boost. Click + drag = perspective.</div>
     </div>
 
     <script type="text/javascript" src="/assets/js/warp-speed/warpspeed.js"></script>
     <script>
-        var warpConfig = { speed: 0.5, speedAdjFactor: 0.03, density: 5, shape: "square", warpEffect: false, depthFade: false, starSize: 5, backgroundColor: "black", starColor: "#FFFFFF", sun: true, sunRadius: 90, sunGlow: 3.5, sunGlowStyle: "soft", galaxies: true, galaxyCount: 4, nebulae: true, nebulaCount: 4, zodiacalLight: true };
+        var warpConfig = { speed: 0.5, speedAdjFactor: 0.03, density: 5, shape: "square", warpEffect: false, warpEffectStyle: "streaks", depthFade: false, starSize: 5, backgroundColor: "black", starColor: "#FFFFFF", sun: true, sunRadius: 90, sunGlow: 3.5, sunGlowStyle: "soft", galaxies: true, galaxyCount: 4, nebulae: true, nebulaCount: 4, zodiacalLight: true, warpEnterMs: 2000, warpExitMs: 2000 };
         var warpSpeedInstance = new WarpSpeed("canvas", warpConfig);
 
         var warpMenu = document.getElementById("warp-menu");
+        var warpEffectStyleSelect = document.getElementById("warp-effectStyle");
         var warpSelect = document.getElementById("warp-sunGlowStyle");
         var warpSpeedInput = document.getElementById("warp-speed");
         var warpSpeedValue = document.getElementById("warp-speed-value");
         var warpDensity = document.getElementById("warp-density");
         var warpNebulaCount = document.getElementById("warp-nebulaCount");
         var warpGalaxyCount = document.getElementById("warp-galaxyCount");
+        var warpEnterMsInput = document.getElementById("warp-enterMs");
+        var warpExitMsInput = document.getElementById("warp-exitMs");
         var warpCloseBtn = document.getElementById("warp-menu-close");
 
         function applyWarpConfig() {
@@ -89,6 +119,18 @@
         });
 
         warpCloseBtn.addEventListener("click", function() { warpMenu.classList.add("warp-menu-hidden"); });
+
+        document.addEventListener("click", function(e) {
+            if (!warpMenu.classList.contains("warp-menu-hidden") && !warpMenu.contains(e.target)) {
+                warpMenu.classList.add("warp-menu-hidden");
+            }
+        });
+
+        warpEffectStyleSelect.addEventListener("change", function() {
+            warpConfig.warpEffectStyle = warpEffectStyleSelect.value;
+            applyWarpConfig();
+        });
+        if (warpConfig.warpEffectStyle) { warpEffectStyleSelect.value = warpConfig.warpEffectStyle; }
 
         warpSelect.addEventListener("change", function() {
             warpConfig.sunGlowStyle = warpSelect.value;
@@ -118,6 +160,21 @@
             var v = parseInt(warpGalaxyCount.value, 10);
             if (!isNaN(v) && v >= 0 && v <= 20) { warpConfig.galaxyCount = v; applyWarpConfig(); }
         });
+
+        warpEnterMsInput.addEventListener("input", function() {
+            var v = parseFloat(warpEnterMsInput.value);
+            warpConfig.warpEnterMs = Math.round(v * 1000);
+            document.getElementById("warp-enterMs-value").textContent = v;
+            applyWarpConfig();
+        });
+        warpExitMsInput.addEventListener("input", function() {
+            var v = parseFloat(warpExitMsInput.value);
+            warpConfig.warpExitMs = Math.round(v * 1000);
+            document.getElementById("warp-exitMs-value").textContent = v;
+            applyWarpConfig();
+        });
+        if (warpConfig.warpEnterMs != null) { warpEnterMsInput.value = warpConfig.warpEnterMs / 1000; document.getElementById("warp-enterMs-value").textContent = warpConfig.warpEnterMs / 1000; }
+        if (warpConfig.warpExitMs != null) { warpExitMsInput.value = warpConfig.warpExitMs / 1000; document.getElementById("warp-exitMs-value").textContent = warpConfig.warpExitMs / 1000; }
     </script>
 {% endif %}
 
