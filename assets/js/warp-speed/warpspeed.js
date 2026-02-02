@@ -26,16 +26,26 @@ function WarpSpeed(targetId,config){
 	this.TARGET_SPEED=config.targetSpeed==undefined||config.targetSpeed<0?this.SPEED:config.targetSpeed;
 	this._normalTargetSpeed=this.TARGET_SPEED;
 	this._boostOn=false;
-	this._cruiseLines=false;
 	this._boostStartTime=0;
-	this._cruiseStartTime=0;
-	this._cruiseExitStartTime=0;
+	this._warpExiting=false;
+	this._warpExitStartTime=0;
+	this._exitStartSpeed=0;
+	this._exitPhaseMs=0;
+	this._exitShowWarp=false;
+	this._wasInCruiseLastFrame=false;
+	var warpEnterMs=config.warpEnterMs!=null?Math.max(0,config.warpEnterMs):2000;
+	var warpExitMs=config.warpExitMs!=null?Math.max(0,config.warpExitMs):warpEnterMs;
+	this.WARP_ENTER_MS=warpEnterMs;
+	this.WARP_EXIT_MS=warpExitMs;
 	this.SPEED_ADJ_FACTOR=config.speedAdjFactor==undefined?0.03:config.speedAdjFactor<0?0:config.speedAdjFactor>1?1:config.speedAdjFactor;
 	this.DENSITY=config.density==undefined||config.density<=0?0.7:config.density;
 	this.USE_CIRCLES=config.shape==undefined?true:config.shape=="circle";
 	this.DEPTH_ALPHA=config.depthFade==undefined?true:config.depthFade;
 	this.WARP_EFFECT=config.warpEffect==undefined?true:config.warpEffect;
 	this.WARP_EFFECT_LENGTH=config.warpEffectLength==undefined?5:config.warpEffectLength<0?0:config.warpEffectLength;
+	var warpStyle=config.warpEffectStyle;
+	var validWarpStyles=["streaks","pulse","aurora","lenticular","passage","none"];
+	this.WARP_EFFECT_STYLE=(typeof warpStyle==="string"&&validWarpStyles.indexOf(warpStyle)!==-1)?warpStyle:"none";
 	this.STAR_SCALE=config.starSize==undefined||config.starSize<=0?3:config.starSize;
 	this.BACKGROUND_COLOR=config.backgroundColor==undefined?"hsl(263,45%,7%)":config.backgroundColor;
 	this.SUN_ENABLED=config.sun!==false;
@@ -136,6 +146,10 @@ function WarpSpeed(targetId,config){
 	this._leftStartY=0;
 	this._leftLastX=0;
 	this._leftLastY=0;
+	this._leftDownTime=0;
+	this._holdBoostMs=250;
+	this._holdBoostTimerId=null;
+	this._boostActivatedByMouse=false;
 	WarpSpeed.RUNNING_INSTANCES[targetId]=this;
 	this._bindPerspectiveDrag();
 	this.draw();
@@ -154,16 +168,24 @@ WarpSpeed.prototype={
 			var onBackground=e.target===canvas||(!inMenu&&!interactive);
 			if(!onBackground)return;
 			self._leftMaybeBoost=true;
+			self._leftPerspectiveDrag=false;
+			self._boostActivatedByMouse=false;
 			self._leftStartX=self._leftLastX=e.clientX;
 			self._leftStartY=self._leftLastY=e.clientY;
-			self.setBoost(true);
+			self._leftDownTime=timeStamp();
+			if(self._holdBoostTimerId!==null){clearTimeout(self._holdBoostTimerId);self._holdBoostTimerId=null;}
+			self._holdBoostTimerId=setTimeout(function(){
+				if(self._leftMaybeBoost&&!self._leftPerspectiveDrag){self.setBoost(true);self._boostActivatedByMouse=true;}
+				self._holdBoostTimerId=null;
+			},self._holdBoostMs);
 		};
 		this._onPerspectiveMouseMove=function(e){
 			if(self._leftMaybeBoost&&(e.buttons&1)){
 				var dx=e.clientX-self._leftStartX, dy=e.clientY-self._leftStartY;
 				var dist=Math.sqrt(dx*dx+dy*dy);
 				if(dist>=self._perspectiveMinDragPx){
-					self.setBoost(false);
+					if(self._holdBoostTimerId!==null){clearTimeout(self._holdBoostTimerId);self._holdBoostTimerId=null;}
+					if(self._boostActivatedByMouse){self.setBoost(false);self._boostActivatedByMouse=false;}
 					self._leftMaybeBoost=false;
 					self._leftPerspectiveDrag=true;
 					var ddx=e.clientX-self._leftLastX, ddy=e.clientY-self._leftLastY;
@@ -188,7 +210,8 @@ WarpSpeed.prototype={
 		};
 		this._onPerspectiveMouseUp=function(e){
 			if(e.button===0){
-				self.setBoost(false);
+				if(self._holdBoostTimerId!==null){clearTimeout(self._holdBoostTimerId);self._holdBoostTimerId=null;}
+				if(self._boostActivatedByMouse){self.setBoost(false);self._boostActivatedByMouse=false;}
 				self._leftMaybeBoost=false;
 				self._leftPerspectiveDrag=false;
 			}
@@ -215,21 +238,24 @@ WarpSpeed.prototype={
 				canvas.height=(canvas.clientHeight<10?10:canvas.clientHeight)*(window.devicePixelRatio||1);
 			}
 			this.size=(canvas.height<canvas.width?canvas.height:canvas.width)/(10/(this.STAR_SCALE<=0?0:this.STAR_SCALE));
-			var now=timeStamp();
-			if(this._boostOn&&(now-this._boostStartTime)>2400&&this.SPEED>=this._normalTargetSpeed*3.5){
-				if(!this._cruiseLines){this._cruiseStartTime=now;}
-				this._cruiseLines=true;
+			// Warp effects only in cruise mode: near max speed + minimum boost time
+			var cruiseSpeedThreshold=this._normalTargetSpeed*4.5;
+			var boostDuration=timeStamp()-this._boostStartTime;
+			var inCruiseMode=this._boostOn&&boostDuration>=this.WARP_ENTER_MS&&this.SPEED>=cruiseSpeedThreshold;
+			var showWarpLines;
+			if(inCruiseMode){
+				this._warpExiting=false;
+				this._wasInCruiseLastFrame=true;
+				showWarpLines=this.WARP_EFFECT_STYLE!=="none";
+			}else{
+				if(this._wasInCruiseLastFrame&&!this._boostOn){this._warpExitStartTime=timeStamp();this._exitStartSpeed=this.SPEED;this._exitPhaseMs=this.WARP_EXIT_MS;this._exitShowWarp=true;this._warpExiting=true;}
+				else if(!this._warpExiting&&!this._boostOn&&this.SPEED>this._normalTargetSpeed){this._warpExitStartTime=timeStamp();this._exitStartSpeed=this.SPEED;this._exitPhaseMs=1000;this._exitShowWarp=false;this._warpExiting=true;}
+				this._wasInCruiseLastFrame=false;
+				var exitElapsed=timeStamp()-this._warpExitStartTime;
+				showWarpLines=this._warpExiting&&exitElapsed<this._exitPhaseMs&&this._exitShowWarp&&this.WARP_EFFECT_STYLE!=="none";
+				if(this._warpExiting&&exitElapsed>=this._exitPhaseMs)this._warpExiting=false;
 			}
-			if(!this._boostOn&&this._cruiseLines&&this._cruiseExitStartTime===0&&this.SPEED<this._normalTargetSpeed*1.5){this._cruiseLines=false;}
-			this._cruiseEnterFactor=1;this._cruiseExitFactor=1;
-			if(this._cruiseLines){
-				this._cruiseEnterFactor=Math.min(1,(now-this._cruiseStartTime)/800);
-				if(this._cruiseExitStartTime>0){
-					this._cruiseExitFactor=Math.max(0,1-(now-this._cruiseExitStartTime)/1800);
-					if(this._cruiseExitFactor<=0){this._cruiseLines=false;this._cruiseExitStartTime=0;this._cruiseExitFactor=0;}
-				}
-			}
-			if(this.WARP_EFFECT||this._cruiseLines) this.maxLineWidth=this.size/55;
+			if(showWarpLines||this.WARP_EFFECT) this.maxLineWidth=this.size/55;
 			var ctx=canvas.getContext("2d");
 			ctx.fillStyle=this.BACKGROUND_COLOR;
 			ctx.fillRect(0,0,canvas.width,canvas.height);
@@ -314,12 +340,16 @@ WarpSpeed.prototype={
 					ctx.restore();
 				}
 			}
+			var cxc=canvas.width/2, cyc=canvas.height/2;
+			var warpStyle=showWarpLines?this.WARP_EFFECT_STYLE:null;
+			var isWormhole=warpStyle==="aurora"||warpStyle==="lenticular"||warpStyle==="passage";
 			var rgb="rgb("+this.STAR_R+","+this.STAR_G+","+this.STAR_B+")", rgba="rgba("+this.STAR_R+","+this.STAR_G+","+this.STAR_B+",";
 			for(var i=0;i<this.stars.length;i++){
 				var s=this.stars[i];
 				var xOnDisplay=s.x/s.z, yOnDisplay=s.y/s.z;
 				var tx=this.perspectiveTiltX, ty=this.perspectiveTiltY;
-				if(!this.WARP_EFFECT&&!this._cruiseLines&&(xOnDisplay<-0.5-tx||xOnDisplay>0.5-tx||yOnDisplay<-0.5-ty||yOnDisplay>0.5-ty))continue;
+				var drawAsWarp=showWarpLines;
+				if(!drawAsWarp&&(xOnDisplay<-0.5-tx||xOnDisplay>0.5-tx||yOnDisplay<-0.5-ty||yOnDisplay>0.5-ty))continue;
 				var size=s.size*this.size/s.z;
 				if(size<0.3) continue; //don't draw very small dots
 				var sx=canvas.width*(xOnDisplay+0.5+this.perspectiveTiltX), sy=canvas.height*(yOnDisplay+0.5+this.perspectiveTiltY);
@@ -329,25 +359,28 @@ WarpSpeed.prototype={
 				}else{
 					ctx.fillStyle=rgb;
 				}
-				if(this.WARP_EFFECT||this._cruiseLines){
-					if(this._cruiseLines&&i%3!==0)continue;
-					var lineLenMul=1;
-					if(this._cruiseLines){var ct=(timeStamp()-this._cruiseStartTime)/8000;lineLenMul=1+9*(ct>1?1:ct);}
-					var enterF=this._cruiseLines?this._cruiseEnterFactor:1,exitF=this._cruiseLines?this._cruiseExitFactor:1;
-					var effLen=this.WARP_EFFECT_LENGTH*this.SPEED*lineLenMul*enterF*exitF;
+				if(drawAsWarp){
+					var effLen=this.WARP_EFFECT_LENGTH*this.SPEED;
+					var style=warpStyle||"streaks";
+					if(style==="pulse"){var t=timeStamp()*0.003;effLen*=0.85+0.25*Math.sin(t);}
+					else if(style==="streaks")effLen*=2.2;
+					else if(isWormhole)effLen*=2.0;
 					var x2OnDisplay=s.x/(s.z+effLen), y2OnDisplay=s.y/(s.z+effLen);
-					if(this._cruiseLines&&Math.abs(x2OnDisplay)<0.05&&Math.abs(y2OnDisplay)<0.05)continue;
 					if(x2OnDisplay<-0.5-tx||x2OnDisplay>0.5-tx||y2OnDisplay<-0.5-ty||y2OnDisplay>0.5-ty)continue;
 					var sx2=canvas.width*(x2OnDisplay+0.5+this.perspectiveTiltX), sy2=canvas.height*(y2OnDisplay+0.5+this.perspectiveTiltY);
-					if(this._cruiseLines){var cxc=canvas.width/2,cyc=canvas.height/2,pull=0.2*this._cruiseEnterFactor*this._cruiseExitFactor;sx2=sx2+(cxc-sx2)*pull;sy2=sy2+(cyc-sy2)*pull;}
+					var lw=size>this.maxLineWidth?this.maxLineWidth:size;
+					if(style==="streaks")lw*=0.5;
+					ctx.lineWidth=lw;
+					if(style==="streaks"){ctx.lineCap="butt";ctx.globalAlpha=0.85;}
+					else{ctx.lineCap="round";}
+					if(style==="aurora"){var u=(sx/canvas.width);var h=u<0.33?210:u<0.66?190:150;ctx.strokeStyle="hsla("+h+",70%,70%,0.72)";}
+					else{ctx.strokeStyle=ctx.fillStyle;}
+					ctx.beginPath();
 					ctx.moveTo(sx-size/2,sy-size/2);
 					ctx.lineTo(sx2-size/2,sy2-size/2);
-					var lw=size>this.maxLineWidth?this.maxLineWidth:size;
-					if(this._cruiseLines){lw*=0.18;}
-					ctx.lineWidth=lw;
-					if(this._cruiseLines){ctx.lineCap="butt";}else if(this.USE_CIRCLES){ctx.lineCap="round";}else{ctx.lineCap="butt"}
-					ctx.strokeStyle=ctx.fillStyle;
 					ctx.stroke();
+					if(style==="lenticular"){var gx=(sx+sx2)*0.5,gy=(sy+sy2)*0.5;var gx2=cxc+(gx-cxc)*0.4,gy2=cyc+(gy-cyc)*0.4;ctx.globalAlpha=0.09;ctx.strokeStyle=ctx.fillStyle;ctx.beginPath();ctx.moveTo(gx-size/2,gy-size/2);ctx.lineTo(gx2-size/2,gy2-size/2);ctx.stroke();ctx.globalAlpha=1;}
+					if(style==="streaks")ctx.globalAlpha=1;
 				}else if(this.USE_CIRCLES){
 					ctx.beginPath();
 					ctx.arc(sx-size/2,sy-size/2,size/2,0,2*Math.PI);
@@ -361,7 +394,7 @@ WarpSpeed.prototype={
 				var sx=sun.x/sun.z, sy=sun.y/sun.z;
 				var tx=this.perspectiveTiltX, ty=this.perspectiveTiltY;
 				if(sx>=-0.8-tx&&sx<=0.8-tx&&sy>=-0.8-ty&&sy<=0.8-ty){
-					var sunScreenR=Math.max(28,(sun.radius*this.size/sun.z))*((this.WARP_EFFECT||this._cruiseLines)?1.2:1);
+					var sunScreenR=Math.max(28,(sun.radius*this.size/sun.z))*((this.WARP_EFFECT||showWarpLines)?1.2:1);
 					var glowR=Math.max(sunScreenR*sun.glow,55);
 					var cx=canvas.width*(sx+0.5+this.perspectiveTiltX), cy=canvas.height*(sy+0.5+this.perspectiveTiltY);
 					var h=sun.hue, sat=100, l=98;
@@ -466,6 +499,8 @@ WarpSpeed.prototype={
 					}
 				}
 			}
+			if(showWarpLines&&warpStyle==="aurora"){var g=ctx.createLinearGradient(0,0,canvas.width,0);g.addColorStop(0,"rgba(80,120,220,0.1)");g.addColorStop(0.35,"rgba(90,160,220,0.05)");g.addColorStop(0.5,"rgba(255,255,255,0)");g.addColorStop(0.65,"rgba(80,200,160,0.06)");g.addColorStop(1,"rgba(60,200,120,0.11)");ctx.fillStyle=g;ctx.fillRect(0,0,canvas.width,canvas.height);}
+			if(showWarpLines&&warpStyle==="passage"){var flash=0.04+0.03*Math.sin(timeStamp()*0.004);ctx.fillStyle="rgba(255,255,255,"+flash+")";ctx.fillRect(0,0,canvas.width,canvas.height);}
 			this.prevW=canvas.clientWidth;
 			this.prevH=canvas.clientHeight;
 		}
@@ -478,8 +513,9 @@ WarpSpeed.prototype={
 		if(speedMulF>3)speedMulF=3;
 		this.lastMoveTS=t;
 		if(this.PAUSED)return;
+		if(this._warpExiting){var exitElapsed=t-this._warpExitStartTime;if(exitElapsed>=this._exitPhaseMs){this._warpExiting=false;this.TARGET_SPEED=this._normalTargetSpeed;}else{this.TARGET_SPEED=this._normalTargetSpeed+(this._exitStartSpeed-this._normalTargetSpeed)*(1-exitElapsed/this._exitPhaseMs);}}
 		var adjF=this.SPEED_ADJ_FACTOR<0?0:this.SPEED_ADJ_FACTOR>1?1:this.SPEED_ADJ_FACTOR;
-		if(this.TARGET_SPEED<this.SPEED){adjF*=0.006;}
+		if(this.TARGET_SPEED<this.SPEED&&!this._warpExiting){adjF*=0.006;}
 		var speedAdjF=Math.pow(adjF,1/speedMulF);
 		this.SPEED=this.TARGET_SPEED*speedAdjF+this.SPEED*(1-speedAdjF);
 		if(this.SPEED<0)this.SPEED=0;
@@ -574,8 +610,8 @@ WarpSpeed.prototype={
 		this.PAUSED=false;
 	},
 	setBoost:function(on){
-		if(on){this.TARGET_SPEED=this._normalTargetSpeed*5;if(!this._boostOn){this._boostStartTime=timeStamp();}this._boostOn=true;this._cruiseExitStartTime=0;}else{this.TARGET_SPEED=this._normalTargetSpeed;this._boostOn=false;if(this._cruiseLines){this._cruiseExitStartTime=timeStamp();}}
-	}
+		if(on){this.TARGET_SPEED=this._normalTargetSpeed*5;if(!this._boostOn){this._boostStartTime=timeStamp();}this._boostOn=true;this._warpExiting=false;}else{this._boostOn=false;this.TARGET_SPEED=this._normalTargetSpeed;}
+		}
 }
 
 WarpSpeed.destroy=WarpSpeed.prototype.destroy;
