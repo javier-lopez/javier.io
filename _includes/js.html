@@ -17,10 +17,32 @@
         #warp-menu .warp-menu-group { grid-column: 1 / -1; font-size: 10px; color: #777; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 8px; margin-bottom: 2px; border-bottom: 1px solid rgba(80,90,100,0.3); padding-bottom: 3px; }
         #warp-menu .warp-menu-group:first-child { margin-top: 0; }
         #warp-menu .warp-menu-grid > div > span { display: inline-block; min-width: 2em; font-size: 11px; color: #999; margin-left: 2px; }
-        #warp-menu-toggle { display: none; position: fixed; bottom: 72px; right: 16px; z-index: 5; width: 44px; height: 44px; padding: 0; border: 1px solid #555; border-radius: 4px; background: rgba(15,18,22,0.95); color: #ccc; cursor: pointer; align-items: center; justify-content: center; box-shadow: 0 2px 12px rgba(0,0,0,0.4); }
+        #warp-menu-toggle { display: none; position: fixed; bottom: 20px; left: 16px; z-index: 5; width: 32px; height: 32px; padding: 0; border: 1px solid #555; border-radius: 4px; background: rgba(15,18,22,0.95); color: #ccc; cursor: pointer; align-items: center; justify-content: center; box-shadow: 0 1px 6px rgba(0,0,0,0.3); }
         #warp-menu-toggle:hover { color: #fff; border-color: #777; background: rgba(255,255,255,0.08); }
-        #warp-menu-toggle svg { width: 24px; height: 24px; }
+        #warp-menu-toggle svg { width: 18px; height: 18px; }
         @media (max-width: 991px) { #warp-menu-toggle { display: flex; } }
+        /* Mobile: clearer text and single-column layout */
+        @media (max-width: 768px) {
+            #warp-menu { padding: 14px 16px; font-size: 15px; color: #e0e0e0; }
+            #warp-menu h3 { font-size: 17px; color: #fff; margin-bottom: 2px; }
+            #warp-menu .warp-menu-header { margin-bottom: 14px; }
+            #warp-menu .warp-menu-grid { grid-template-columns: 1fr; gap: 12px 0; max-height: 60vh; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+            #warp-menu label { font-size: 14px; color: #ccc; margin-bottom: 4px; }
+            #warp-menu .warp-menu-group { font-size: 12px; color: #aaa; margin-top: 14px; margin-bottom: 6px; padding-bottom: 6px; }
+            #warp-menu .warp-menu-group:first-child { margin-top: 0; }
+            #warp-menu select, #warp-menu input[type="number"], #warp-menu input[type="range"] { font-size: 16px; padding: 8px 10px; min-height: 44px; margin-bottom: 4px; color: #fff; background: #22262c; border-color: #444; }
+            #warp-menu input[type="number"] { width: 4em; }
+            #warp-menu input[type="range"] { height: 28px; padding: 0; }
+            #warp-menu .warp-menu-grid > div > span { font-size: 14px; color: #bbb; }
+            #warp-menu .warp-menu-hint { font-size: 12px; color: #999; margin-top: 12px; line-height: 1.45; }
+            #warp-menu .warp-menu-close { width: 36px; height: 36px; font-size: 20px; }
+        }
+        @media (max-width: 480px) {
+            #warp-menu { padding: 16px; font-size: 16px; }
+            #warp-menu h3 { font-size: 18px; }
+            #warp-menu label { font-size: 15px; }
+            #warp-menu .warp-menu-hint { font-size: 13px; }
+        }
     </style>
     <div id="warp-menu" class="warp-menu-hidden">
         <div class="warp-menu-header">
@@ -107,6 +129,8 @@
         var warpExitMsInput = document.getElementById("warp-exitMs");
         var warpCloseBtn = document.getElementById("warp-menu-close");
         var warpMenuToggle = document.getElementById("warp-menu-toggle");
+
+        if (window.location.hash === "#warp-panel") { warpMenu.classList.remove("warp-menu-hidden"); }
 
         function applyWarpConfig() {
             warpSpeedInstance.destroy();
