@@ -126,6 +126,30 @@
     margin: 15px !important;
     font-size: clamp(1.25rem, 4.5vw, 1.5rem) !important;
   }
+  /* Portrait móvil: iconos y enlaces más grandes y fáciles de pulsar */
+  @media only screen and (max-width: 600px) {
+    #footer a {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      min-width: 44px !important;
+      min-height: 44px !important;
+      padding: 10px !important;
+      margin: 0 4px !important;
+    }
+    #footer a i {
+      margin: 0 !important;
+      font-size: 1.75rem !important;
+    }
+    .helloText p:last-child a {
+      font-size: 1.2rem !important;
+      padding: 0.6em 1em !important;
+      display: inline-block !important;
+      min-height: 44px !important;
+      line-height: 1.4 !important;
+      box-sizing: border-box !important;
+    }
+  }
   #content {
     font-size: 1.7vmax !important;
   }
