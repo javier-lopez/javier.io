@@ -32,6 +32,29 @@
 }
 
 @media only screen and (max-width:991px) {
+  body {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    box-sizing: border-box;
+  }
+  /* Permitir que el layout table/table-cell se encoja y no recorte el texto */
+  #container {
+    min-width: 0 !important;
+  }
+  #middle {
+    min-width: 0 !important;
+  }
+  #inner {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow: visible !important;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    box-sizing: border-box;
+  }
   .indexHeader {
     margin-top: 15vmax !important;
   }
@@ -41,15 +64,49 @@
     height: 6vmax;
   }
   .indexHello {
-    font-size: 5vmax !important;
+    font-size: clamp(1.5rem, 6vw, 2.5rem) !important;
+  }
+  /* Móviles: título más pequeño para que no se trunque (375px–480px) */
+  @media only screen and (max-width: 480px) {
+    .indexHello {
+      font-size: clamp(1.2rem, 4.5vw, 1.65rem) !important;
+    }
   }
   .helloText {
-    margin-left: 1rem !important;
-    margin-right: 1rem !important;
+    min-width: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    max-width: 100% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+  .helloText p {
+    font-size: clamp(1rem, 3.5vw, 1.25rem) !important;
   }
   .helloText > p:first-child {
-    font-size: 2vmax !important;
+    font-size: clamp(1rem, 3.5vw, 1.25rem) !important;
     line-height: 1.6 !important;
+  }
+  .helloText a {
+    font-size: inherit;
+  }
+  #hello {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  #hello h1 {
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-wrap: break-word;
+    word-break: break-word;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .helloText p {
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
   #content * {
     overflow: auto;
@@ -67,7 +124,7 @@
   }
   #footer a i {
     margin: 15px !important;
-    font-size: 2.5vmax !important;
+    font-size: clamp(1.25rem, 4.5vw, 1.5rem) !important;
   }
   #content {
     font-size: 1.7vmax !important;
