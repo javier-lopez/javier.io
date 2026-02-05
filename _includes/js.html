@@ -17,6 +17,10 @@
         #warp-menu .warp-menu-group { grid-column: 1 / -1; font-size: 10px; color: #777; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 8px; margin-bottom: 2px; border-bottom: 1px solid rgba(80,90,100,0.3); padding-bottom: 3px; }
         #warp-menu .warp-menu-group:first-child { margin-top: 0; }
         #warp-menu .warp-menu-grid > div > span { display: inline-block; min-width: 2em; font-size: 11px; color: #999; margin-left: 2px; }
+        #warp-menu-toggle { display: none; position: fixed; bottom: 72px; right: 16px; z-index: 5; width: 44px; height: 44px; padding: 0; border: 1px solid #555; border-radius: 4px; background: rgba(15,18,22,0.95); color: #ccc; cursor: pointer; align-items: center; justify-content: center; box-shadow: 0 2px 12px rgba(0,0,0,0.4); }
+        #warp-menu-toggle:hover { color: #fff; border-color: #777; background: rgba(255,255,255,0.08); }
+        #warp-menu-toggle svg { width: 24px; height: 24px; }
+        @media (max-width: 991px) { #warp-menu-toggle { display: flex; } }
     </style>
     <div id="warp-menu" class="warp-menu-hidden">
         <div class="warp-menu-header">
@@ -75,8 +79,16 @@
                 <input type="number" id="warp-galaxyCount" min="0" max="20" value="4">
             </div>
         </div>
-        <div class="warp-menu-hint">H = panel. Space or hold click = boost. Click + drag = perspective.</div>
+        <div class="warp-menu-hint">H = panel. Space or hold click = boost. Click + drag = perspective. On mobile: tap the console icon to open this panel.</div>
     </div>
+    <button type="button" id="warp-menu-toggle" class="warp-menu-toggle" title="Control Panel" aria-label="Open control panel">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+            <line x1="6" y1="8" x2="18" y2="8"/>
+            <line x1="6" y1="11" x2="14" y2="11"/>
+            <polyline points="6,14 8,16 6,18"/>
+        </svg>
+    </button>
 
     <script type="text/javascript" src="/assets/js/warp-speed/warpspeed.js"></script>
     <script>
@@ -94,6 +106,7 @@
         var warpEnterMsInput = document.getElementById("warp-enterMs");
         var warpExitMsInput = document.getElementById("warp-exitMs");
         var warpCloseBtn = document.getElementById("warp-menu-close");
+        var warpMenuToggle = document.getElementById("warp-menu-toggle");
 
         function applyWarpConfig() {
             warpSpeedInstance.destroy();
@@ -119,9 +132,10 @@
         });
 
         warpCloseBtn.addEventListener("click", function() { warpMenu.classList.add("warp-menu-hidden"); });
+        if (warpMenuToggle) { warpMenuToggle.addEventListener("click", function() { warpMenu.classList.toggle("warp-menu-hidden"); }); }
 
         document.addEventListener("click", function(e) {
-            if (!warpMenu.classList.contains("warp-menu-hidden") && !warpMenu.contains(e.target)) {
+            if (!warpMenu.classList.contains("warp-menu-hidden") && !warpMenu.contains(e.target) && !(warpMenuToggle && warpMenuToggle.contains(e.target))) {
                 warpMenu.classList.add("warp-menu-hidden");
             }
         });

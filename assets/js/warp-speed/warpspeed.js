@@ -152,6 +152,7 @@ function WarpSpeed(targetId,config){
 	this._boostActivatedByMouse=false;
 	WarpSpeed.RUNNING_INSTANCES[targetId]=this;
 	this._bindPerspectiveDrag();
+	this._bindTouch();
 	this.draw();
 }
 WarpSpeed.prototype={
@@ -219,6 +220,70 @@ WarpSpeed.prototype={
 		document.addEventListener("mousedown",this._onPerspectiveMouseDown);
 		document.addEventListener("mousemove",this._onPerspectiveMouseMove);
 		document.addEventListener("mouseup",this._onPerspectiveMouseUp);
+	},
+	_bindTouch:function(){
+		var self=this;
+		var isOnBackground=function(e){
+			var canvas=document.getElementById(self.targetId);
+			if(!canvas)return false;
+			var warpMenu=document.getElementById("warp-menu");
+			var inMenu=warpMenu&&warpMenu.contains(e.target);
+			var interactive=e.target&&["A","BUTTON","INPUT","SELECT","TEXTAREA"].indexOf(e.target.tagName)!==-1;
+			return e.target===canvas||(!inMenu&&!interactive);
+		};
+		this._onPerspectiveTouchStart=function(e){
+			if(!e.touches||e.touches.length===0)return;
+			if(!isOnBackground(e))return;
+			var t=e.touches[0];
+			self._leftMaybeBoost=true;
+			self._leftPerspectiveDrag=false;
+			self._boostActivatedByMouse=false;
+			self._leftStartX=self._leftLastX=t.clientX;
+			self._leftStartY=self._leftLastY=t.clientY;
+			self._leftDownTime=timeStamp();
+			if(self._holdBoostTimerId!==null){clearTimeout(self._holdBoostTimerId);self._holdBoostTimerId=null;}
+			self._holdBoostTimerId=setTimeout(function(){
+				if(self._leftMaybeBoost&&!self._leftPerspectiveDrag){self.setBoost(true);self._boostActivatedByMouse=true;}
+				self._holdBoostTimerId=null;
+			},self._holdBoostMs);
+		};
+		this._onPerspectiveTouchMove=function(e){
+			if(!e.touches||e.touches.length===0)return;
+			var t=e.touches[0];
+			if(self._leftMaybeBoost){
+				var dx=t.clientX-self._leftStartX, dy=t.clientY-self._leftStartY;
+				var dist=Math.sqrt(dx*dx+dy*dy);
+				if(dist>=self._perspectiveMinDragPx){
+					if(self._holdBoostTimerId!==null){clearTimeout(self._holdBoostTimerId);self._holdBoostTimerId=null;}
+					if(self._boostActivatedByMouse){self.setBoost(false);self._boostActivatedByMouse=false;}
+					self._leftMaybeBoost=false;
+					self._leftPerspectiveDrag=true;
+				}
+			}
+			if(self._leftPerspectiveDrag){
+				var ddx=t.clientX-self._leftLastX, ddy=t.clientY-self._leftLastY;
+				self.perspectiveTiltX+=ddx*self._perspectiveSensitivity;
+				self.perspectiveTiltY+=ddy*self._perspectiveSensitivity;
+				var m=self._perspectiveMaxTilt;
+				self.perspectiveTiltX=Math.max(-m,Math.min(m,self.perspectiveTiltX));
+				self.perspectiveTiltY=Math.max(-m,Math.min(m,self.perspectiveTiltY));
+			}
+			self._leftLastX=t.clientX;
+			self._leftLastY=t.clientY;
+		};
+		this._onPerspectiveTouchEnd=function(e){
+			if(e.touches&&e.touches.length>0)return;
+			if(self._holdBoostTimerId!==null){clearTimeout(self._holdBoostTimerId);self._holdBoostTimerId=null;}
+			if(self._boostActivatedByMouse){self.setBoost(false);self._boostActivatedByMouse=false;}
+			self._leftMaybeBoost=false;
+			self._leftPerspectiveDrag=false;
+		};
+		if("ontouchstart" in window){
+			document.addEventListener("touchstart",this._onPerspectiveTouchStart,false);
+			document.addEventListener("touchmove",this._onPerspectiveTouchMove,false);
+			document.addEventListener("touchend",this._onPerspectiveTouchEnd,false);
+			document.addEventListener("touchcancel",this._onPerspectiveTouchEnd,false);
+		}
 	},
 	_spawnSun:function(initialZ){
 		var hue=Math.random()<0.8?Math.random()*55:200+Math.random()*22;
@@ -599,6 +664,12 @@ WarpSpeed.prototype={
 				document.removeEventListener("mousedown",this._onPerspectiveMouseDown);
 				document.removeEventListener("mousemove",this._onPerspectiveMouseMove);
 				document.removeEventListener("mouseup",this._onPerspectiveMouseUp);
+			}
+			if(this._onPerspectiveTouchStart){
+				document.removeEventListener("touchstart",this._onPerspectiveTouchStart);
+				document.removeEventListener("touchmove",this._onPerspectiveTouchMove);
+				document.removeEventListener("touchend",this._onPerspectiveTouchEnd);
+				document.removeEventListener("touchcancel",this._onPerspectiveTouchEnd);
 			}
 			WarpSpeed.RUNNING_INSTANCES[this.targetId]=undefined;
 		}
