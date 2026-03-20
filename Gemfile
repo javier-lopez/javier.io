@@ -9,4 +9,5 @@ gem "jekyll", "~> 4.4"
 gem "classifier-reborn", "~> 2.3"
 gem "jekyll-seo-tag", "~> 2.8"
 # Speed up LSI (related posts) - classifier-reborn auto-detects Numo
-gem "numo-openblas"
+# numo-linalg uses the system libopenblas-dev installed in CI
+gem "numo-linalg"
