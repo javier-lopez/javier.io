@@ -1,0 +1,3 @@
+# Override for local/dev: disable LSI so builds are fast (no GSL).
+# Load with: jekyll serve --config _config.yml,_config_development.yml
+lsi: false

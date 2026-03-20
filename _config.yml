@@ -14,6 +14,7 @@ plugins_dir: ./_plugins
 plugins:
   - jekyll-seo-tag
 
+exclude:      [deploy, setup]
 safe:        false
 future:      true
 lsi:         true
