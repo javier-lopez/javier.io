@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "hack the planet"
+tags: [security, shell]
 ---
 
 ## {{ page.title }}

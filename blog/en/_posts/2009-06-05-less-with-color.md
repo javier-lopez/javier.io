@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "less is more, and even more with color"
+tags: [shell, tools]
 ---
 
 ## {{ page.title }}

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "terminfo variable"
+tags: [shell, tools]
 ---
 
 ## {{ page.title }}
@@ -20,7 +21,7 @@ Or/and specify the TERMINFO variable, eg:
 
     TERMINFO='/usr/share/terminfo/'  ./bin/atop
 
-This is specially useful for compiled programs who configured the TERMINFO variable to a different one during compilation time.
+This is especially useful for compiled programs who configured the TERMINFO variable to a different one during compilation time.
 
 That's it, happy launching &#128523;
 

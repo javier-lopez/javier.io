@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "shrink root volumes in AWS"
+tags: [aws, linux]
 ---
 
 ## {{ page.title }}

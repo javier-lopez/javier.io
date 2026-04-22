@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "package python scripts and dependencies in single files with pex"
+tags: [python, docker]
 ---
 
 ## {{ page.title }}

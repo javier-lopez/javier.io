@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "bash autocompletion"
+tags: [shell, tools]
 ---
 
 ## {{ page.title }}
@@ -11,7 +12,7 @@ title: "bash autocompletion"
 
 **Update:** It's highly recommended to upgrade [bash-completion](https://viajemotu.wordpress.com/2013/10/16/upgrade-to-bash-completion-2-0/) to version &gt;= 2.0 for an improved performance.
 
-I really like minimalism systems (and cli apps), they are faster, more stable and easier to control. I think it's pretty cool to be able to write a command and get without hesitation a result (I'm aware I'm probably already deprecated, in a world where touch and gui applications are the norm, who would still prefer text based systems?). Sadly many of these commands are not specially user friendly, they contain tons of options and sometimes these options are quite hard to write correctly, when you download scripts from Internet it gets worse, all options must be written by hand because the lack autocompletion.
+I really like minimalism systems (and cli apps), they are faster, more stable and easier to control. I think it's pretty cool to be able to write a command and get without hesitation a result (I'm aware I'm probably already deprecated, in a world where touch and gui applications are the norm, who would still prefer text based systems?). Sadly many of these commands are not especially user friendly, they contain tons of options and sometimes these options are quite hard to write correctly, when you download scripts from Internet it gets worse, all options must be written by hand because the lack autocompletion.
 
 Many people don't realize this autocompletion magic work by programming simple bash scripts, so I decided to write a few notes about the process.
 
@@ -299,7 +300,7 @@ Other pre-defined functions can be found at: <http://anonscm.debian.org/gitweb/?
 
 ### Debug
 
-Bash autocompletion scripts are easy to create, however eventually (specially with larger cli commands) there are chances things doesn't work as expected, in those cases enabling bash verbose mode is the easiest and faster method to debug such scripts:
+Bash autocompletion scripts are easy to create, however eventually (especially with larger cli commands) there are chances things doesn't work as expected, in those cases enabling bash verbose mode is the easiest and faster method to debug such scripts:
 
 <pre class="sh_sh">
 $ set -x

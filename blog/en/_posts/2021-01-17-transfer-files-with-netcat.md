@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "transfer files with netcat"
+tags: [networking, shell]
 ---
 
 ## {{ page.title }}

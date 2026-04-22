@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "ipod shuffle and rebuild_db"
+tags: [music, linux]
 ---
 
 ## {{ page.title }}

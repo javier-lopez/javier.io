@@ -1,16 +1,17 @@
 ---
 layout: post
 title: "bebes, ciudadanos del mundo"
+tags: [personal]
 ---
 
 ## {{ page.title }}
 
 ###### {{ page.date | date_to_string }}
 
-Entre los 6 y los 8 meses, los bebes de toda las culturas son iguales, despues, un fenomeno comienza a pasar,
-empiezan a filtrar los sonidos del idioma envolvente, empiezan a registrar estadistias sobre lo que escuchan
-en preparacion para aprender su idioma madre. Estas estadisticas de sonidos solo las toman si la interaccion
-viene de personas, no funciona si es por audio o video, necesitan la interaccion social. Para mantener esos
+Entre los 6 y los 8 meses, los bebés de todas las culturas son iguales, después, un fenómeno comienza a pasar,
+empiezan a filtrar los sonidos del idioma envolvente, empiezan a registrar estadísticas sobre lo que escuchan
+en preparación para aprender su idioma madre. Estas estadísticas de sonidos solo las toman si la interacción
+viene de personas, no funciona si es por audio o video, necesitan la interacción social. Para mantener esos
 filtros abiertos / vivos es necesario **exponer a un bebe a interacciones sociales con personas del idioma
 objetivo a partir de los 6 meses.**
 

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "host several sites in a single box with docker and traefik v2, http"
+tags: [docker, networking]
 ---
 
 ## {{ page.title }}

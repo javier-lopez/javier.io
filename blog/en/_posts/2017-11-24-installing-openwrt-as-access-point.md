@@ -1,13 +1,14 @@
 ---
 layout: post
 title: "installing openwrt as an access point"
+tags: [networking]
 ---
 
 ## {{ page.title }}
 
 ###### {{ page.date | date_to_string }}
 
-In previous post I wrote about how to use [openwrt as a wireless repeater](http://javier.io/blog/en/2014/06/10/installing-openwrt-as-wireless-repeater.html), this time I'll use it as an independent access point with its own subnet, how practical!
+In previous post I wrote about how to use [openwrt as a wireless repeater](/blog/en/2017/11/23/installing-openwrt-as-wireless-repeater.html), this time I'll use it as an independent access point with its own subnet, how practical!
 
 The target device is a [TP-Link N750](http://www.amazon.com/TP-LINK-TL-WDR4300-Wireless-Gigabit-300Mbps/dp/B0088CJT4U), and I'm using the latest [trunk build](http://downloads.openwrt.org/snapshots/trunk/ar71xx/), the installation process is pretty straigh forward.
 

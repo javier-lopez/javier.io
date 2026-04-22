@@ -1,2 +1,7 @@
 .cursor
 _site
+.jekyll-cache
+.playwright-mcp
+*.png
+!assets/img/**/*.png
+!assets/**/*.png

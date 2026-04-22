@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "logstash + redis + elasticsearch + kibana3"
+tags: [tools, shell]
 ---
 
 ## {{ page.title }}

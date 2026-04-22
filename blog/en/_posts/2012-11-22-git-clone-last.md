@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "git clone only the last snapshot of a project"
+tags: [tools]
 ---
 
 ## {{ page.title }}

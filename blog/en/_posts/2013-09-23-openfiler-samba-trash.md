@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "openfile and samba trash support"
+tags: [linux, networking]
 ---
 
 ## {{ page.title }}

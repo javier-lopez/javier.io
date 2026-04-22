@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "citrix on linux"
+tags: [linux, security]
 ---
 
 ## {{ page.title }}

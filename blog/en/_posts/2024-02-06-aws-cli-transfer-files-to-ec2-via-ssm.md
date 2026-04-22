@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "transfer files to ec2 instances via SSM and netcat"
+tags: [aws, networking]
 ---
 
 ## {{ page.title }}

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "remote environments normalization"
+tags: [shell, tools]
 ---
 
 ## {{ page.title }}

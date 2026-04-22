@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "online partners"
+tags: [personal]
 ---
 
 ## {{ page.title }}

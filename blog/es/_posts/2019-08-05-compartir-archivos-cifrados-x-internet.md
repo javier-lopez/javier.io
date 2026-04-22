@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "compartiendo archivos cifrados x internet"
+tags: [security]
 ---
 
 ## {{ page.title }}

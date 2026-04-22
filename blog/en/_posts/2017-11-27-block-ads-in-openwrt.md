@@ -1,13 +1,14 @@
 ---
 layout: post
 title: "block ads in openwrt routers"
+tags: [networking, security]
 ---
 
 ## {{ page.title }}
 
 ###### {{ page.date | date_to_string }}
 
-In previous posts I wrote about how to [block YouTube and other services by ip](http://javier.io/blog/en/2017/11/26/block-youtube-in-openwrt.html), this time I'll show how to do the same by dns, kind of adblock for openwrt.
+In previous posts I wrote about how to [block YouTube and other services by ip](/blog/en/2017/11/26/block-youtube-in-openwrt.html), this time I'll show how to do the same by dns, kind of adblock for openwrt.
 
 The target router is a [TP-Link N750](http://www.amazon.com/TP-LINK-TL-WDR4300-Wireless-Gigabit-300Mbps/dp/B0088CJT4U), and I'm using the latest [trunk build](http://downloads.openwrt.org/snapshots/trunk/ar71xx/).
 

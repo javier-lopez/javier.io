@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "active extensions in firefox nightly"
+tags: [tools]
 ---
 
 ## {{ page.title }}

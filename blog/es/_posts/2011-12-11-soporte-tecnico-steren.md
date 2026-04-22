@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "soporte técnico de steren"
+tags: [personal]
 ---
 
 ## {{ page.title }}

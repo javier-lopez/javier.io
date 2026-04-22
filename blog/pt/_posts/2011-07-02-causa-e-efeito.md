@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "causa e efeito"
+tags: [music, personal]
 ---
 
 ## {{ page.title }}

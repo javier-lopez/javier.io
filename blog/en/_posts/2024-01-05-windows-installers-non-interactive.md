@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "windows installers non interactive"
+tags: [tools]
 ---
 
 ## {{ page.title }}

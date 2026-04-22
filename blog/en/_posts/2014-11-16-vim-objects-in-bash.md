@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "using vim objects in bash"
+tags: [tools, shell]
 ---
 
 ## {{ page.title }}

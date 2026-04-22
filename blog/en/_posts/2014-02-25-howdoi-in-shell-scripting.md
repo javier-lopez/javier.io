@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "howdoi, a code search tool and a sh implementation"
+tags: [shell, tools]
 ---
 
 ## {{ page.title }}

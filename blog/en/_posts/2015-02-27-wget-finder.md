@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "wget-finder for packagers"
+tags: [shell, linux]
 ---
 
 ## {{ page.title }}

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "using imagemagick, awk and kmeans to find dominant colors in images"
+tags: [shell, tools]
 ---
 
 ## {{ page.title }}

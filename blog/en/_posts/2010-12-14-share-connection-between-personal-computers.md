@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "share connection between personal computers"
+tags: [networking, shell]
 ---
 
 ## {{ page.title }}

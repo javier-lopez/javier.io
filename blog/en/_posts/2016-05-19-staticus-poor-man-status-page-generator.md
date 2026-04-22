@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "staticus, a poor man status page generator"
+tags: [shell, tools]
 ---
 
 ## {{ page.title }}

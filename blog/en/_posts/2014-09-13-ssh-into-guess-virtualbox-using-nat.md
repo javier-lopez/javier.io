@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "ssh into a guest vbox machine on NAT mode"
+tags: [networking]
 ---
 
 ## {{ page.title }}

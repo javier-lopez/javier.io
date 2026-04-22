@@ -2,39 +2,71 @@
 <html>
   <head>
     {% include meta.html %}
-    <link href="assets/css/flashblock.css" rel="stylesheet" type="text/css">
-    <title>javier.io | 404</title>
+    <title>{{ page.title }} | javier.io</title>
+    <!-- Preload fontawesome font + stylesheet in parallel so the footer icons
+         render the moment the DOM hits them. Without this the first paint shows
+         the raw anchors in the site's default red before FA resolves. -->
+    <link rel="preload" as="style" href="/assets/css/fontawesome.min.css">
+    <link rel="preload" as="font" type="font/woff"
+          href="/assets/font/fontawesome-webfont.woff?v=3.2.1" crossorigin>
+    <style>
+      /* Critical layout — inlined so it applies before the external
+         stylesheet chain resolves and stops the first-frame red-icon flash. */
+      html { background: #000; }
+      body.error-page {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-height: 100vh;
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        background: transparent;
+      }
+      .warp-bg-canvas {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+        pointer-events: none;
+      }
+      .error-main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem 1rem;
+        box-sizing: border-box;
+      }
+      .error-main > * {
+        width: 100%;
+        max-width: 720px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      /* Footer uses the site-wide #footer.indexFooter styling (same as index)
+         via {% raw %}{% include footer.html case="index.html" %}{% endraw %} in the body. The only bit
+         we inline here is the default anchor color so icons don't flash red
+         (site default #B03A44) before default_black.css and responsive.css
+         settle. */
+      #footer.indexFooter a { color: #888; }
+    </style>
   </head>
 
-  <body onload="init()">
-    {% include header.html %}
-    <div id="content">
+  <body class="error-page">
+    {% include warp-bg.html %}
+
+    <main class="error-main">
       {{ content }}
-    </div>
+    </main>
 
-    <script type="text/javascript">
-      var PIECE_NUMBER = 1;
-    </script>
+    {% include footer.html case="index.html" %}
 
-    <!--replace window size by h1 size so the canvas get drawn in the middle of the page-->
-    <!--TODO 05-10-2013 06:15 >> figure out how to modify the mouse movements-->
-    <script type="text/javascript" src="assets/js/top-up/jquery/all.js"></script>
+    <div id="baroque-hint" class="baroqueHint" hidden>click or tap to hear Bach</div>
 
-    <script type="text/javascript" src="assets/js/js-sm2/soundmanager2-nodebug-jsmin.js"></script>
-    <script type="text/javascript" src="assets/js/js-modernizr/modernizr-1.6.min.js"></script>
-    <script type="text/javascript" src="assets/js/js-baroque/min/song-data.min.js"></script>
-    <script type="text/javascript" src="assets/js/js-baroque/min/thread.min.js"></script>
-    <script type="text/javascript" src="assets/js/js-baroque/min/machine.min.js"></script>
-    <script type="text/javascript" src="assets/js/js-baroque/min/wheel.min.js"></script>
-    <script type="text/javascript" src="assets/js/js-baroque/min/nub.min.js"></script>
-    <script type="text/javascript" src="assets/js/js-baroque/min/common.min.js"></script>
-    <script type="text/javascript" src="assets/js/js-baroque/min/main.min.js"></script>
-
-    <script type="text/javascript">
-      var PIECE_NUMBER = 1;
-      /* from genius Alexander Chen: http://www.youtube.com/watch?v=JTWp25pzFCc */
-      /* var aboutURL = 'http://blog.chenalexander.com/2011/baroque-bach-cello/'; */
-      /* The rest of the code is in main.js */
-    </script>
+    <script src="/assets/js/baroque.js"></script>
   </body>
 </html>

@@ -3,16 +3,303 @@
   <head>
     {% include meta.html %}
     <title>{{ page.title }}</title>
+    <link rel="preload" as="style" href="/assets/css/fontawesome.min.css">
+    <link rel="preload" as="font" type="font/woff"
+          href="/assets/font/fontawesome-webfont.woff?v=3.2.1" crossorigin>
+    <style>
+      /* Critical blog styles — inlined to avoid first-paint flash while the
+         external stylesheet chain resolves. */
+      html { background: #000; }
+      body.blog-page {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-height: 100vh;
+        min-height: 100dvh;
+        background: transparent;
+        color: #d8d8dc;
+        font-family: 'PT Sans', sans-serif;
+      }
+      .warp-bg-canvas {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+        pointer-events: none;
+      }
+      .blog-wrap {
+        /* Wide ceiling (1440px) with 88% viewport floor — matches the
+           original layout's dense horizontal use on desktop, reduces
+           the empty gutters that made the column feel cramped. */
+        width: min(88%, 1440px);
+        max-width: 100%;
+        margin: 0 auto;
+        padding: clamp(2rem, 5vw, 4rem) clamp(1rem, 2.5vw, 2rem) 6rem;
+        box-sizing: border-box;
+      }
+      #footer.indexFooter a { color: #888; }
+    </style>
   </head>
 
-  <body onload="sh_highlightDocument('/assets/js/lang/', '.js');">
-    {% include header_blog.html %}
+  <body class="blog-page{% if page.layout == 'post' %} is-post{% endif %}">
+    {% unless page.layout == 'post' %}{% include warp-bg.html %}{% endunless %}
 
-    <div id="content">
-      {{ content }}
+    <div class="blog-wrap">
+      <header class="blog-header">
+        <h1 class="blog-brand"><a href="/blog/">Javier L&oacute;pez</a></h1>
+
+        <label class="blog-search-wrap" aria-label="Filter posts">
+          <svg viewBox="0 0 20 20" class="blog-search-icon" aria-hidden="true">
+            <circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="13" y1="13" x2="17" y2="17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <input type="search" id="blog-filter" class="blog-search"
+                 placeholder="Filter by title…" autocomplete="off"
+                 aria-label="Filter posts by title">
+        </label>
+
+        <nav class="blog-langs" aria-label="Posts by language">
+          <a href="/blog/" data-lang="all">all</a>
+          <a href="/blog/en.html" data-lang="en">en</a>
+          <a href="/blog/es.html" data-lang="es">es</a>
+          <a href="/blog/pt.html" data-lang="pt">pt</a>
+          <a href="/atom.xml" data-lang="rss" aria-label="RSS feed">rss</a>
+        </nav>
+      </header>
+
+      <main class="blog-content">
+        {{ content }}
+      </main>
     </div>
 
-    {% include footer.html %}
-    {% include js.html %}
+    {% include footer.html case="index.html" %}
+
+    <script>
+      // Client-side title filter — replaces the dead Swiftype search.
+      // On list pages (blog index, lang filters, tags): filter post items
+      // live as user types.
+      // On post pages (where there's no list to filter): Enter redirects
+      // to /blog/?q=<term> so the search still reaches somewhere useful.
+      // On /blog/ load, the `?q=` query-param (if any) pre-fills and
+      // applies the filter — zero third-party dependencies.
+      (function () {
+        var input = document.getElementById('blog-filter');
+        if (!input) return;
+        var isPostPage = document.body.classList.contains('is-post');
+
+        if (isPostPage) {
+          input.addEventListener('keydown', function (e) {
+            if (e.key !== 'Enter') return;
+            e.preventDefault();
+            var q = input.value.trim();
+            window.location.href = '/blog/' + (q ? '?q=' + encodeURIComponent(q) : '');
+          });
+          return;
+        }
+
+        var getItems = function () {
+          return Array.prototype.slice.call(
+            document.querySelectorAll('.post-list .post-item'));
+        };
+        var getYearGroups = function () {
+          return Array.prototype.slice.call(
+            document.querySelectorAll('.year-group'));
+        };
+        var applyFilter = function () {
+          var q = input.value.trim().toLowerCase();
+          var hasQuery = q.length > 0;
+          getItems().forEach(function (li) {
+            var a = li.querySelector('a');
+            var match = !hasQuery || (a && a.textContent.toLowerCase().indexOf(q) !== -1);
+            li.style.display = match ? '' : 'none';
+          });
+          getYearGroups().forEach(function (section) {
+            var visible = Array.prototype.slice.call(
+              section.querySelectorAll('.post-item')).some(function (li) {
+              return li.style.display !== 'none';
+            });
+            section.style.display = hasQuery && !visible ? 'none' : '';
+          });
+        };
+        input.addEventListener('input', applyFilter);
+
+        // Honor ?q=<term> from URL (post page sent us here via Enter).
+        var params = new URLSearchParams(window.location.search);
+        var initial = params.get('q');
+        if (initial) {
+          input.value = initial;
+          applyFilter();
+          input.focus();
+        }
+      })();
+
+      // Reading time — inject as prefix on the date h6 so they render as
+      // one unit ("~6 min · 30 Jan 2025") instead of two floating pieces.
+      // Value is pre-computed by post.html and stored on #post[data-readtime].
+      (function () {
+        var post = document.querySelector('.is-post #post[data-readtime]');
+        if (!post) return;
+        var h6 = post.querySelector('h6');
+        if (!h6) return;
+        var rt = post.getAttribute('data-readtime');
+        var prefix = document.createElement('span');
+        prefix.className = 'post-readtime';
+        prefix.textContent = '~' + rt + ' min · ';
+        h6.insertBefore(prefix, h6.firstChild);
+      })();
+
+      // Post-page enhancements — all share a reference to #post. Broken into
+      // small IIFEs so each concern reads top-to-bottom without surprise.
+      (function () {
+        var post = document.querySelector('.is-post #post');
+        if (!post) return;
+        var postTitle = post.querySelector('h2:first-of-type');
+        var slugify = function (text) {
+          return text.toLowerCase()
+            .replace(/[^\w\s-]/g, '')
+            .trim()
+            .replace(/\s+/g, '-');
+        };
+
+        // (1) Auto-assign ids to every section heading (not the post title)
+        //     so we can deep-link into specific sections.
+        var sectionHeadings = Array.prototype.filter.call(
+          post.querySelectorAll('h2, h3, h4'),
+          function (h) { return h !== postTitle; }
+        );
+        sectionHeadings.forEach(function (h, i) {
+          if (!h.id) h.id = slugify(h.textContent) || 'section-' + i;
+        });
+
+        // (2) Heading anchor — a dim "#" appears on hover, click copies the
+        //     section URL so readers can share deep-links in Slack/Twitter.
+        sectionHeadings.forEach(function (h) {
+          var a = document.createElement('a');
+          a.href = '#' + h.id;
+          a.className = 'heading-anchor';
+          a.setAttribute('aria-label', 'Link to this section');
+          a.textContent = '#';
+          a.addEventListener('click', function (e) {
+            e.preventDefault();
+            var url = window.location.origin + window.location.pathname + '#' + h.id;
+            history.replaceState(null, '', '#' + h.id);
+            if (navigator.clipboard) {
+              navigator.clipboard.writeText(url).catch(function(){});
+            }
+          });
+          h.appendChild(a);
+        });
+
+        // (3) Copy-to-clipboard button on code blocks — invisible until
+        //     you hover the <pre>, turns "copied" for 1.5s after success.
+        post.querySelectorAll('pre').forEach(function (pre) {
+          if (pre.classList.contains('lyric')) return; // poems aren't code
+          var btn = document.createElement('button');
+          btn.className = 'post-copy-btn';
+          btn.type = 'button';
+          btn.textContent = 'copy';
+          btn.setAttribute('aria-label', 'Copy code to clipboard');
+          btn.addEventListener('click', function () {
+            var code = pre.querySelector('code');
+            var text = (code || pre).innerText;
+            if (!navigator.clipboard) return;
+            navigator.clipboard.writeText(text).then(function () {
+              btn.textContent = 'copied';
+              btn.classList.add('copied');
+              setTimeout(function () {
+                btn.textContent = 'copy';
+                btn.classList.remove('copied');
+              }, 1500);
+            }).catch(function(){});
+          });
+          pre.appendChild(btn);
+        });
+
+        // (4) Auto-generated TOC — only for long posts (5+ h3 sections),
+        //     collapsible <details>, inserted right after the date so the
+        //     reader can scan it before diving in.
+        var h3s = Array.prototype.filter.call(
+          post.querySelectorAll('h3'),
+          function (h) { return h !== postTitle; }
+        );
+        if (h3s.length >= 5) {
+          var toc = document.createElement('details');
+          toc.className = 'post-toc';
+          var summary = document.createElement('summary');
+          summary.textContent = 'Contenido';
+          toc.appendChild(summary);
+          var list = document.createElement('ol');
+          h3s.forEach(function (h) {
+            var li = document.createElement('li');
+            var a = document.createElement('a');
+            a.href = '#' + h.id;
+            a.textContent = h.textContent.replace(/#$/, '').trim();
+            li.appendChild(a);
+            list.appendChild(li);
+          });
+          toc.appendChild(list);
+          var date = post.querySelector('h6');
+          if (date && date.nextSibling) {
+            date.parentNode.insertBefore(toc, date.nextSibling);
+          } else {
+            h3s[0].parentNode.insertBefore(toc, h3s[0]);
+          }
+        }
+      })();
+    </script>
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/highlight.min.js"></script>
+    <script>
+      if (typeof hljs !== 'undefined') {
+        hljs.configure({
+          languages: ['bash', 'shell', 'yaml', 'json', 'diff', 'ini',
+                      'dockerfile', 'nginx', 'apache', 'http', 'sql',
+                      'python', 'ruby', 'c', 'cpp', 'javascript', 'css',
+                      'xml', 'markdown', 'makefile', 'lua', 'go', 'rust']
+        });
+        // Legacy posts (~60 files) use raw <pre class="sh_sh">…</pre> from
+        // the old shjs highlighter — no nested <code>. Wrap the existing
+        // children in a <code> so hljs picks them up, with a language hint
+        // derived from the shjs class. Uses DOM moves, no innerHTML.
+        var shToHljs = {
+          sh_sh: 'bash', sh_bash: 'bash', sh_cpp: 'cpp', sh_c: 'c',
+          sh_python: 'python', sh_ruby: 'ruby', sh_javascript: 'javascript',
+          sh_html: 'xml', sh_css: 'css', sh_java: 'java', sh_perl: 'perl',
+          sh_php: 'php', sh_diff: 'diff', sh_makefile: 'makefile',
+          sh_log: null, sh_properties: 'ini', sh_sql: 'sql'
+        };
+        document.querySelectorAll('#post pre[class^="sh_"]').forEach(function(pre) {
+          var lang = shToHljs[pre.className];
+          var code = document.createElement('code');
+          if (lang) code.className = 'language-' + lang;
+          while (pre.firstChild) { code.appendChild(pre.firstChild); }
+          pre.appendChild(code);
+          pre.className = 'highlight';
+        });
+        hljs.highlightAll();
+      }
+    </script>
+
+    {% if page.layout == 'post' %}
+      <!-- medium-zoom — click any inline image to zoom to full size. Replaces
+           the old TopUp lightbox (which silently depended on jQuery). -->
+      <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js"></script>
+      <script>
+        // Legacy posts use the markdown pattern `[![](img)](img)` which renders
+        // as <a href="img"><img></a>. That self-referential anchor swallows the
+        // click before medium-zoom can open the zoom view, so unwrap any image
+        // whose sole parent-anchor child is the image itself.
+        document.querySelectorAll('#post a > img').forEach(function (img) {
+          var a = img.parentNode;
+          if (a.childNodes.length === 1) {
+            a.parentNode.replaceChild(img, a);
+          }
+        });
+        if (typeof mediumZoom === 'function') {
+          mediumZoom('#post img', { background: 'rgba(0,0,0,0.92)', margin: 32 });
+        }
+      </script>
+    {% endif %}
   </body>
 </html>

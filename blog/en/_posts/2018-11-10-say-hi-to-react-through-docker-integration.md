@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "say hi to react through docker integration"
+tags: [docker]
 ---
 
 ## {{ page.title }}

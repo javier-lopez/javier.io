@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "install tmux on windows 10"
+tags: [tools]
 ---
 
 ## {{ page.title }}

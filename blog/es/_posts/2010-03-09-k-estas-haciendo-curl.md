@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "k estas haciendo? (curl + cookies + post)"
+tags: [shell, tools]
 ---
 
 ## {{ page.title }}

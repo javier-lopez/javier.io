@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "deb package cache"
+tags: [linux, networking]
 ---
 
 ## {{ page.title }}

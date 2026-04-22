@@ -64,12 +64,14 @@
     height: 6vmax;
   }
   .indexHello {
-    font-size: clamp(1.5rem, 6vw, 2.5rem) !important;
+    /* Mobile clamp matches the brand voice — Exo 2 lighter is set by
+       default_black.css; here we just retune the size so it wraps cleanly
+       on narrow screens without breaking the typographic style. */
+    font-size: clamp(2rem, 8vw, 3rem) !important;
   }
-  /* Móviles: título más pequeño para que no se trunque (375px–480px) */
   @media only screen and (max-width: 480px) {
     .indexHello {
-      font-size: clamp(1.2rem, 4.5vw, 1.65rem) !important;
+      font-size: clamp(1.75rem, 7vw, 2.4rem) !important;
     }
   }
   .helloText {
@@ -111,12 +113,12 @@
   #content * {
     overflow: auto;
   }
+  #main-layer,
+  #main-canvas {
+    overflow: visible;
+  }
   pre {
     overflow: auto;
-  }
-  pre.lyric {
-    max-width: 100% !important;
-    font-size: 1.5vmax !important;
   }
   #footer {
     text-align: center !important;

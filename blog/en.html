@@ -1,12 +1,19 @@
 ---
 layout: blog
+title: "javier.io | english posts"
 ---
 
-<div>
-  <h2></h2>
-  <ul class="related-posts">
-    {% for post in site.categories.en%}
-      <li>&laquo; <a href="{{ post.url }}">{{ post.title }}</a><span>{{ post.date | date_to_string }}</span></li>
-    {% endfor %}
-  </ul>
-</div>
+{% assign groups = site.categories.en | group_by_exp: "post", "post.date | date: '%Y'" %}
+{% for group in groups %}
+  <section class="year-group">
+    <h3 class="year-heading" aria-hidden="true">{{ group.name }}</h3>
+    <ul class="post-list">
+      {% for post in group.items %}
+        <li class="post-item">
+          <a href="{{ post.url }}">{{ post.title }}</a>
+          <time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%b %-d" }}</time>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endfor %}

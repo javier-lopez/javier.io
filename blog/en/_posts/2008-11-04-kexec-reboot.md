@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "kexec reboot"
+tags: [linux]
 ---
 
 ## {{ page.title }}

@@ -1,0 +1,32 @@
+<canvas id="warp-canvas" class="warp-bg-canvas" aria-hidden="true"></canvas>
+<script src="/assets/js/warp-speed/warpspeed.js"></script>
+<script>
+  (function () {
+    // Same visual as the index — same WarpSpeed config — so the site reads as
+    // one continuous scene when visitors land on /error or any other page
+    // hosting this include. The star canvas sits behind everything via z-index.
+    new WarpSpeed("warp-canvas", {
+      speed: 0.5,
+      speedAdjFactor: 0.03,
+      density: 5,
+      shape: "square",
+      warpEffect: false,
+      warpEffectStyle: "streaks",
+      depthFade: false,
+      starSize: 5,
+      backgroundColor: "black",
+      starColor: "#FFFFFF",
+      sun: true,
+      sunRadius: 90,
+      sunGlow: 3.5,
+      sunGlowStyle: "soft",
+      galaxies: true,
+      galaxyCount: 4,
+      nebulae: true,
+      nebulaCount: 4,
+      zodiacalLight: true,
+      warpEnterMs: 2000,
+      warpExitMs: 2000
+    });
+  })();
+</script>

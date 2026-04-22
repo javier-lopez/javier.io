@@ -32,14 +32,16 @@ body {
 #header > a { font-size: 200%; text-shadow: 1px 1px 1px rgba(140, 140, 140, 1); }
 
 /************************ hello world in home ***************************/
-#hello h1 {
+/* "Hello world!" — uses the same Exo 2 lighter brand voice as the blog
+   header. Single source of typographic identity across the site. */
+#hello h1, .indexHello {
   text-align: center;
-  /*color: #777;*/
-  color: #aaa;
-  padding-top: 5%;
-  margin-bottom: 0.5em;
-  font-family: 'Vollkorn','serif';
-  font-size: 220%;
+  color: #fafafa;
+  padding-top: 4%;
+  margin: 0 0 0.6em;
+  font: lighter clamp(2.5rem, 7vw, 4rem)/1 'Exo 2', sans-serif;
+  letter-spacing: 0.01em;
+  text-shadow: 2px 2px 4px rgba(90, 90, 120, 0.9);
 }
 
 .helloText {
@@ -248,25 +250,40 @@ pre {
   font-size: 1.1em;
 }
 
-pre.lyric {
-  margin: auto;
-  max-width: 50%;
+/* Poetry — serif anthology look. Titles that head a <pre class="lyric">
+   block get a quieter italic treatment with a hairline accent (no box),
+   and the verse body swaps terminal-monospace for Vollkorn serif with
+   breathing line-height. `white-space: pre-line` preserves the authored
+   line breaks while letting CSS handle horizontal centering. */
+.is-post #post h3:has(+ pre.lyric) {
+  border: none;
+  padding: 0 0 0.5rem;
+  margin: 3.5rem auto 1.75rem;
+  max-width: 36ch;
   text-align: center;
+  font-family: Vollkorn, Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(1.35rem, 2vw, 1.7rem);
+  color: #eaeaee;
+  letter-spacing: 0.01em;
+  border-bottom: 1px solid rgba(176, 58, 68, 0.4);
 }
-
-a.pgp {
-  margin: auto;
-  background: #000;
-  display: inline-block;
-  border: 1px solid #CCCCCC;
-  color: #fff;
-}
-
-pre.pgp {
-  margin: auto;
-  /*max-width: 50%;*/
-  display: inline-block;
-  text-align: left;
+.is-post #post pre.lyric {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0 auto 3.5rem;
+  max-width: 52ch;
+  font-family: Vollkorn, Georgia, 'Times New Roman', serif;
+  font-size: clamp(1.1rem, 1.4vw, 1.25rem);
+  line-height: 1.8;
+  letter-spacing: 0.005em;
+  color: #e8e8ec;
+  text-align: center;
+  white-space: pre-line;
+  overflow-x: visible;
+  border-radius: 0;
 }
 
 iframe.showterm { display: block; margin:  0 auto; }
@@ -406,16 +423,852 @@ h2 + img + p:first-letter {
 /********************************* 404 **********************************/
 /************************************************************************/
 
-body.piece1, canvas.piece1 { background: #000000; }
-body.piece2, canvas.piece2 { background: #3D76D1; }
+/* Opt-out of the narrow centered body the rest of the site uses:
+   the 404 page lays itself out with flexbox against the full viewport. */
+body.error-page {
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+}
+.warp-bg-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+}
+.error-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  gap: 0.4em;
+}
+.error-main > * {
+  width: 100%;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* The 404 page uses the index's <footer id="footer" class="indexFooter">
+   directly via the footer.html include, so no 404-specific footer styles
+   are needed here. */
 
-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
+.errorTitle {
+  color: #888;
+  font-family: 'Vollkorn', serif;
+  font-size: clamp(3rem, 10vw, 6rem);
+  font-weight: normal;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  letter-spacing: 0.08em;
+  text-shadow: 2px 2px 6px rgba(80,80,110,0.4);
+}
+.errorTagline {
+  color: #666;
+  font-family: 'Vollkorn', serif;
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  font-style: italic;
+  text-align: center;
+  margin: 0.2em auto 1rem;
+}
+.baroqueStage {
+  width: 100%;
+  max-width: 720px;
+  aspect-ratio: 16 / 10;
+  position: relative;
+  margin-top: -3rem;
+}
+.baroqueStage canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.baroqueHint {
+  position: fixed;
+  left: 50%;
+  /* Sits above the footer on both mobile and desktop. The calc combines
+     footer height (~88px with icon hitboxes), visible breathing room, and
+     the iOS home-indicator safe area. */
+  bottom: calc(120px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  color: rgba(200, 200, 220, 0.55);
+  font-family: 'PT Sans', sans-serif;
+  font-size: clamp(0.85rem, 2.2vw, 1rem);
+  letter-spacing: 0.04em;
+  pointer-events: none;
+  white-space: nowrap;
+  text-align: center;
+  z-index: 2;
+  animation: baroqueHintPulse 2.4s ease-in-out infinite;
+  transition: opacity 0.6s ease;
+}
+.baroqueHint[hidden] { display: none; }
+.baroqueHint.is-hiding {
+  opacity: 0 !important;
+  animation: none;
+}
+@keyframes baroqueHintPulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.85; }
 }
 
-#main-layer { position: absolute; }
+/************************************************************************/
+/******************************** /blog *********************************/
+/************************************************************************/
+
+/* Opt-out of the site-wide narrow body — the blog uses its own .blog-wrap
+   centered container so mobile can breathe. */
+body.blog-page {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+/* Whisper of stars on blog + post pages — ties the black page to the
+   warp-speed starfield on the index. Very subtle: 12 pinpricks at fixed
+   viewport positions, so they feel like constellations rather than
+   decoration. */
+body.blog-page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle 1.5px at 12% 14%, rgba(255,255,255,0.85), transparent 100%),
+    radial-gradient(circle 1px   at 27% 62%, rgba(255,255,255,0.6),  transparent 100%),
+    radial-gradient(circle 2px   at 43% 22%, rgba(255,255,255,0.9),  transparent 100%),
+    radial-gradient(circle 1.5px at 68% 81%, rgba(255,255,255,0.7),  transparent 100%),
+    radial-gradient(circle 1px   at 82% 28%, rgba(255,255,255,0.55), transparent 100%),
+    radial-gradient(circle 2px   at 91% 67%, rgba(255,255,255,0.8),  transparent 100%),
+    radial-gradient(circle 1px   at 38% 95%, rgba(255,255,255,0.5),  transparent 100%),
+    radial-gradient(circle 1.5px at 6% 78%,  rgba(255,255,255,0.7),  transparent 100%),
+    radial-gradient(circle 1px   at 55% 45%, rgba(255,255,255,0.4),  transparent 100%),
+    radial-gradient(circle 1.5px at 73% 9%,  rgba(255,255,255,0.75), transparent 100%),
+    radial-gradient(circle 1px   at 20% 38%, rgba(255,255,255,0.45), transparent 100%),
+    radial-gradient(circle 1.5px at 88% 92%, rgba(255,255,255,0.65), transparent 100%);
+}
+
+/* Header layout (desktop): brand spans both rows on the left, search sits
+   top-right at brand baseline, langs sit just below search.
+   The brand's vertical mass anchors the controls without forcing them
+   into one cramped row.
+   Mobile (<720px): everything stacks linearly via flex column. */
+.blog-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: clamp(1rem, 2.5vw, 1.5rem);
+}
+.blog-brand {
+  font: lighter clamp(2.25rem, 8vw, 4.5rem)/1 'Exo 2', sans-serif;
+  margin: 0;
+  letter-spacing: 0.01em;
+  text-shadow: 2px 2px 4px rgba(90,90,120,0.9);
+  word-break: break-word;
+}
+.blog-brand a {
+  color: #fafafa;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s ease;
+}
+.blog-brand a:hover { border-bottom-color: #fafafa; }
+
+/* Back link shown on individual post pages instead of search + langs —
+   once you're reading an article, lang-switcher is noise (posts aren't
+   translated across languages) and filtering a list doesn't apply. */
+.blog-back {
+  color: #999;
+  text-decoration: none;
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  padding: 0.4em 0.2em;
+  border-bottom: 1px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.blog-back:hover {
+  color: #fff;
+  border-bottom-color: rgba(255,255,255,0.4);
+}
+
+@media (min-width: 720px) {
+  /* Brand fills row 1, search sits to its right baseline-aligned (so the
+     small input visually lands in the bottom half of the big brand text
+     instead of floating above it). Langs go on row 2 below the brand,
+     right-aligned. */
+  .blog-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "brand search"
+      ".     langs";
+    align-items: baseline;
+    column-gap: 1.5rem;
+    row-gap: 0.5rem;
+  }
+  .blog-brand        { grid-area: brand; }
+  .blog-search-wrap  { grid-area: search; }
+  .blog-langs        { grid-area: langs; justify-self: end; }
+
+}
+
+/* Search box. The wrap fills its grid cell — that cell auto-sizes to the
+   width of .blog-langs (in the row below) so search and langs end up
+   sharing the exact same horizontal extent: from "all" to "rss". */
+.blog-search-wrap {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+.blog-search-icon {
+  position: absolute;
+  left: 0.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  color: rgba(255,255,255,0.4);
+  pointer-events: none;
+}
+.blog-search {
+  width: 100%;
+  padding: 0.55em 0.75em 0.55em 2.2rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 4px;
+  color: #eee;
+  font: 1.1rem 'PT Sans', sans-serif;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+.blog-search::placeholder { color: rgba(255,255,255,0.4); }
+.blog-search:focus {
+  outline: none;
+  border-color: rgba(255,255,255,0.35);
+  background: rgba(255,255,255,0.08);
+}
+.blog-search::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background:
+    linear-gradient(45deg, transparent 45%, rgba(255,255,255,0.5) 45% 55%, transparent 55%),
+    linear-gradient(-45deg, transparent 45%, rgba(255,255,255,0.5) 45% 55%, transparent 55%);
+  cursor: pointer;
+}
+
+.blog-langs {
+  display: flex;
+  gap: 0.4rem;
+  font-size: clamp(1.1rem, 1.5vw, 1.25rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.blog-langs a {
+  color: #999;
+  text-decoration: none;
+  /* WCAG / Apple HIG / MD recommend ≥44px tap targets. The padding gives
+     each link a real hitbox without inflating the visual chrome. */
+  padding: 0.55em 0.5em;
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 2px solid transparent;
+  border-radius: 4px;
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+/* Bracket wrapping — drawn with CSS borders (not text glyphs) so we can
+   size them precisely to match the uppercase cap-height. PT Sans's `[`
+   glyph over-shoots cap-height and shrinking the font-size under-shoots
+   it; hand-drawn L-shapes sidestep both. RSS keeps its plain wordmark
+   since it's a format, not a language tag. */
+.blog-langs a {
+  padding: 0.55em 0.4em;
+  position: relative;
+}
+.blog-langs a::before,
+.blog-langs a::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0.16em;
+  height: 1em;
+  border: 1px solid currentColor;
+  opacity: 0.7;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+}
+.blog-langs a::before { left: 0.06em;  border-right: none; }
+.blog-langs a::after  { right: 0.06em; border-left: none; }
+.blog-langs a:hover::before,
+.blog-langs a:hover::after { opacity: 1; }
+.blog-langs a[data-lang="rss"]::before,
+.blog-langs a[data-lang="rss"]::after { display: none; }
+.blog-langs a:hover {
+  color: #fff;
+  border-bottom-color: rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.04);
+}
+.blog-langs a:hover::before,
+.blog-langs a:hover::after { opacity: 1; }
+
+/* Post list — grouped by year via a <section class="year-group">. */
+.year-group {
+  margin-bottom: 2rem;
+}
+.year-heading {
+  font: clamp(1.15rem, 1.7vw, 1.35rem) 'PT Sans', sans-serif;
+  font-weight: 400;
+  color: #aaa;
+  letter-spacing: 0.25em;
+  margin: 1.5rem 0 1rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+/* Tighter gap above the first year so it sits closer to the langs nav. */
+.year-group:first-of-type .year-heading { margin-top: 0; }
+
+.post-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.post-list .post-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.8rem 0;
+  font-family: 'PT Sans', sans-serif;
+  /* Wider range for better scannability — list is the primary surface of
+     /blog, titles should feel substantial at desktop widths. */
+  font-size: clamp(1.2rem, 2.1vw, 1.55rem);
+  line-height: 1.45;
+  border: none;
+}
+.post-list .post-item::before { content: none !important; }
+.post-list .post-item a {
+  /* Brand red — same anchor color the rest of the site uses (#B03A44). */
+  color: #B03A44;
+  text-decoration: none;
+  flex: 1 1 auto;
+  min-width: 0;
+  line-height: 1.4;
+  transition: color 0.12s ease;
+}
+.post-list .post-item a:hover {
+  color: #CD0D1D;
+  text-decoration: none;
+}
+.post-list .post-item time {
+  /* Bright enough to read at a glance, dim enough to defer to titles. */
+  color: #c8c8cc;
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  white-space: nowrap;
+  flex: 0 0 auto;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Individual post view — wrapped in #post by post.html layout.
+   The warp-speed background is intentionally NOT included on post pages
+   (see _layouts/blog.html); technical articles need a calm background
+   so the animation doesn't compete with reading. */
+body.blog-page.is-post { background: transparent; }
+.is-post .blog-content { padding-top: 0; }
+/* Tighter gap between lang nav and post title — reading-focused pages
+   benefit from the title being visible without scrolling. */
+.is-post #post {
+  /* No background / blur needed — body is solid black, post sits on it. */
+  padding: 0;
+  margin-bottom: 2rem;
+  position: relative;
+}
+.is-post #post h2:first-of-type {
+  /* Bright white serif — hierarchy from size + font family + weight
+     differential (Exo 2 lighter brand vs Vollkorn 400 title) rather
+     than color. Small top margin because the full blog header (brand +
+     search + langs) above already has its own margin-bottom. */
+  font: 400 clamp(1.75rem, 4vw, 2.25rem)/1.2 'Vollkorn', serif;
+  color: #fff;
+  margin: 0.5rem 0 1.5rem;
+  text-transform: none;
+}
+/* Poetry posts — detected by the presence of a <pre class="lyric"> in
+   the body. Give the main post title the same italic serif + hairline
+   treatment the per-poem <h3> titles get inside el-amor-las-mujeres,
+   so any poem-only post (madre-terra, nao-tenho-dinheiro, etc.) reads
+   as an anthology page rather than a technical article. */
+.is-post #post:has(pre.lyric) h2:first-of-type {
+  font: italic 400 clamp(1.6rem, 3.6vw, 2.1rem)/1.25 'Vollkorn', serif;
+  color: #eaeaee;
+  letter-spacing: 0.01em;
+  text-align: center;
+  max-width: 36ch;
+  margin: 0.75rem auto 2rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid rgba(176, 58, 68, 0.4);
+}
+.is-post #post h2:first-of-type::first-letter { text-transform: uppercase; }
+.is-post #post h6:first-of-type {
+  font: 400 0.95rem 'PT Sans', sans-serif;
+  color: #888;
+  margin: 0 0 1.75rem;
+  letter-spacing: 0.08em;
+  text-align: left;
+}
+
+/* Desktop: pin the date to the top-right of the post so it sits on the
+   same baseline as the title — matches the original layout where title
+   and date share a single line. Mobile keeps the stacked layout. */
+@media (min-width: 720px) {
+  .is-post #post h2:first-of-type {
+    padding-right: 9rem;
+  }
+  .is-post #post h6:first-of-type {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    line-height: 1.4;
+  }
+}
+/* Reading time — injected as prefix inside the date <h6> by blog.html JS,
+   so it inherits the h6 position/typography. Just dim it a notch so the
+   date stays the primary value. */
+.is-post #post .post-readtime {
+  color: #6a6a70;
+  letter-spacing: 0.05em;
+  font-variant-numeric: tabular-nums;
+}
+.is-post #post h2 {
+  /* Bolder + bigger so section headings clearly outrank body text —
+     bold 700 Vollkorn at ~32-36px vs 22px body gives a 1.5× ratio
+     (plus weight differential) that the reader notices without squinting. */
+  font: 700 clamp(1.6rem, 3.8vw, 2.1rem)/1.2 'Vollkorn', serif;
+  color: #fff;
+  margin: 3rem 0 0.85rem;
+  letter-spacing: -0.01em;
+}
+/* Auto-generated table of contents — minimal variant that blends with
+   the site's dark/literary tone: no box, no bg, no border-radius. Just
+   a small-caps label with a brand-red hairline (same accent used on
+   poem titles) and a numbered list. Only rendered on posts with 5+ h3
+   sections (see blog.html JS). */
+.is-post #post .post-toc {
+  margin: 0 0 2.5rem;
+  padding: 0;
+  background: transparent;
+  border: none;
+  font-family: 'PT Sans', sans-serif;
+  max-width: 46rem;
+}
+.is-post #post .post-toc summary {
+  cursor: pointer;
+  color: #999;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  list-style: none;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid rgba(176, 58, 68, 0.4);
+  user-select: none;
+}
+.is-post #post .post-toc summary::-webkit-details-marker { display: none; }
+.is-post #post .post-toc summary::before {
+  content: '+ ';
+  color: #666;
+}
+.is-post #post .post-toc[open] summary::before { content: '− '; }
+.is-post #post .post-toc summary:hover { color: #d8d8dc; }
+.is-post #post .post-toc ol {
+  list-style: none;
+  padding: 0;
+  margin: 0.8rem 0 0;
+  counter-reset: toc-counter;
+}
+.is-post #post .post-toc li {
+  counter-increment: toc-counter;
+  padding: 0.2rem 0;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  border: none;
+  color: #8a8a90;
+}
+.is-post #post .post-toc li::before {
+  content: counter(toc-counter, decimal-leading-zero);
+  color: rgba(176, 58, 68, 0.65);
+  margin-right: 0.8em;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  font-size: 0.85em;
+}
+.is-post #post .post-toc a {
+  color: #bdbdc2;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.is-post #post .post-toc a:hover {
+  color: #B03A44;
+  border-bottom-color: rgba(176,58,68,0.4);
+}
+/* h3 inside posts inherits the site-wide `h3 { border: 4px double;
+   text-align: center }` treatment (used as a boxed quote). We keep that
+   frame but give it generous vertical breathing room so the subtitle
+   that follows doesn't kiss the bottom border. */
+.is-post #post h3 {
+  font: 400 clamp(1.15rem, 2vw, 1.35rem)/1.4 'PT Sans', sans-serif;
+  color: #e0e0e0;
+  padding: 0.45rem 1rem;
+  margin: 2.5rem 0 1.5rem;
+}
+.is-post #post p {
+  /* 18.4px floor (mobile) up to 22.4px ceiling (wide desktop). Color
+     slightly dimmer than before (#c8 vs #d8) so the white section h2s
+     above it win the contrast ratio without needing a bigger size gap. */
+  font-size: clamp(1.15rem, 1.85vw, 1.4rem);
+  line-height: 1.7;
+  margin: 0 0 1.2em;
+  color: #c8c8cc;
+}
+.is-post #post a { color: #B03A44; }
+.is-post #post a:hover { color: #CD0D1D; text-decoration: underline; }
+
+/* Section separator — markdown `---` renders as <hr>. Replaces the
+   default thin line with a dim four-point star, echoing the cosmic
+   starfield in the background. Use sparingly (1-2 per post) to mark
+   larger shifts between sections. */
+.is-post #post hr {
+  border: none;
+  text-align: center;
+  margin: 3rem auto;
+  height: auto;
+  overflow: visible;
+  line-height: 1;
+  background: none;
+}
+.is-post #post hr::before {
+  content: '✦';
+  color: rgba(224, 224, 228, 0.4);
+  font-size: 1rem;
+  letter-spacing: 0;
+}
+.is-post #post strong { color: #f0f0f0; }
+.is-post #post ul, .is-post #post ol {
+  padding-left: 1.6rem;
+  margin: 0.9rem 0 1.4rem;
+}
+.is-post #post li {
+  color: #d8d8dc;
+  font-size: clamp(1.15rem, 1.85vw, 1.4rem);
+  line-height: 1.65;
+  padding-bottom: 0.4em;
+  list-style: disc outside;
+}
+.is-post #post li::before { content: none !important; }
+/* Inline code — monospace + dim brand-red accent, no chip box. Flows with
+   prose instead of fragmenting it. */
+.is-post #post :not(pre) > code {
+  color: #e8a2aa;
+  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, 'Liberation Mono', monospace;
+  font-size: 0.92em;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  word-break: break-word;
+}
+/* Code blocks — highlight.js (.hljs) owns the background and syntax colors
+   (Tokyo Night Dark theme, loaded in meta.html). We strip the outer <pre>
+   chrome so the theme can render edge-to-edge inside its own rounded frame. */
+.is-post #post pre, .is-post #post .sh_sourceCode {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  max-width: 100%;
+  box-sizing: border-box;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  border-radius: 6px;
+  position: relative;
+}
+/* Copy-to-clipboard button injected by JS on each <pre>. Hidden until the
+   reader hovers the block so it doesn't visually compete with the code. */
+.is-post #post .post-copy-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #9a9a9e;
+  font: 400 0.7rem 'PT Sans', sans-serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.25em 0.7em;
+  border-radius: 3px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  z-index: 2;
+}
+.is-post #post pre:hover .post-copy-btn,
+.is-post #post .post-copy-btn:focus { opacity: 1; }
+.is-post #post .post-copy-btn:hover {
+  color: #fff;
+  border-color: rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.1);
+}
+.is-post #post .post-copy-btn.copied {
+  color: #8fd19e;
+  border-color: rgba(143,209,158,0.4);
+  opacity: 1;
+}
+/* Heading anchor — a dim "#" appended by JS to each h2/h3/h4 (except the
+   post title). Invisible until the heading is hovered; click copies a
+   deep-link URL to the clipboard. */
+.is-post #post .heading-anchor {
+  display: inline-block;
+  margin-left: 0.4em;
+  color: rgba(176, 58, 68, 0.55);
+  font-weight: 400;
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 0.15s ease, color 0.15s ease;
+}
+.is-post #post h2:hover .heading-anchor,
+.is-post #post h3:hover .heading-anchor,
+.is-post #post h4:hover .heading-anchor,
+.is-post #post .heading-anchor:focus { opacity: 1; }
+.is-post #post .heading-anchor:hover { color: #B03A44; }
+/* Post footer — three-column row at the end of each article:
+   [← older] [ tags ] [ newer →]. Tags sit in the dead center that would
+   otherwise be wasted empty space between the two nav links. On narrow
+   screens the grid collapses to a stacked layout so nothing overflows. */
+.post-footer {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1.5rem;
+  align-items: center;
+  margin: 3rem 0 1.5rem;
+  padding: 1.5rem 0 0;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  font-family: 'PT Sans', sans-serif;
+}
+.post-footer-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+  color: #c0c0c8;
+  text-decoration: none;
+  padding: 0.5rem 0;
+  transition: color 0.15s ease;
+  min-width: 0;
+}
+.post-footer-link:hover { color: #B03A44; }
+.post-footer-link.post-nav-prev { text-align: left; }
+.post-footer-link.post-nav-next { text-align: right; }
+.post-footer-link.post-footer-empty { padding: 0; }
+.post-footer .post-nav-dir {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #888;
+}
+.post-footer-link:hover .post-nav-dir { color: #c0c0c8; }
+.post-footer .post-nav-title {
+  font-size: 1rem;
+  line-height: 1.35;
+  overflow-wrap: break-word;
+}
+.post-footer-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  justify-content: center;
+  align-items: center;
+}
+.post-footer-tags.post-footer-empty { display: none; }
+@media (max-width: 640px) {
+  .post-footer {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .post-footer-link.post-nav-next { text-align: left; }
+  .post-footer-tags { justify-content: flex-start; }
+}
+.is-post #post pre code,
+.is-post #post pre code.hljs {
+  display: block;
+  padding: 1rem 1.15rem;
+  border-radius: 6px;
+  font-size: inherit;
+  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, 'Liberation Mono', monospace;
+  overflow-x: auto;
+}
+.is-post #post img {
+  /* Center images horizontally — matches the original layout where
+     posts often used <center> wrappers. Cap preview at 720px so clicking
+     to zoom actually scales up for screenshots/diagrams whose natural
+     size is larger (small natural-size images stay unchanged). */
+  display: block;
+  max-width: min(100%, 720px);
+  height: auto;
+  margin: 1.25rem auto;
+  border-radius: 4px;
+  cursor: zoom-in;
+}
+.is-post #post img.medium-zoom-image--opened {
+  cursor: zoom-out;
+}
+/* (Removed: rule that was breaking inline text-links by treating any
+   single-anchor paragraph as a centered block. Image wrappers are rare
+   enough that we tolerate them being left-aligned rather than risk
+   misaligning normal text links.) */
+.is-post #post iframe {
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  border: 0;
+  border-radius: 4px;
+}
+/* Blockquote rendered as a bordered box (not a left-rule) — matches the
+   original site's treatment where a quote stands out as a framed aside.
+   Generous vertical margins so the subtitle below breathes. */
+.is-post #post blockquote {
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 1rem 1.5rem;
+  margin: 2.25rem 0;
+  color: #d8d8dc;
+  font-style: normal;
+}
+.is-post #post blockquote p {
+  margin: 0;
+}
+.is-post #post blockquote p + p {
+  margin-top: 0.8em;
+}
+
+/* Tags — shown at the bottom of a post (if the post has any tags in
+   its frontmatter) and also on /blog/tags/. Lightweight pill chips. */
+.tag-chip {
+  display: inline-block;
+  padding: 0.3em 0.8em;
+  background: rgba(176, 58, 68, 0.12);
+  border: 1px solid rgba(176, 58, 68, 0.35);
+  border-radius: 999px;
+  color: #d9b4ba;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-family: 'PT Sans', sans-serif;
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+}
+.tag-chip:hover {
+  background: rgba(176, 58, 68, 0.25);
+  border-color: rgba(176, 58, 68, 0.6);
+  color: #fff;
+  text-decoration: none;
+}
+.tag-chip .tag-count {
+  display: inline-block;
+  margin-left: 0.4em;
+  padding: 0 0.4em;
+  background: rgba(255,255,255,0.08);
+  border-radius: 6px;
+  font-size: 0.8em;
+  color: #bbb;
+}
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.6rem;
+  margin-bottom: 2.5rem;
+}
+.tag-section {
+  margin-bottom: 2rem;
+}
+.tag-section .tag-heading {
+  font: 400 clamp(1.25rem, 2.2vw, 1.5rem) 'Vollkorn', serif;
+  color: #e8e8e8;
+  margin: 2rem 0 0.6rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+  scroll-margin-top: 1rem;
+}
+.tags-empty {
+  color: #888;
+  font-style: italic;
+  padding: 2rem 0;
+}
+.tags-empty code {
+  background: rgba(255,255,255,0.07);
+  padding: 0.1em 0.4em;
+  border-radius: 3px;
+}
+
+/* Related entries — minimal, just text. No backdrop / border / box —
+   matches the original which had no container framing. */
+#related {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+#related h5 {
+  font: 400 clamp(1rem, 1.4vw, 1.15rem) 'Vollkorn', serif;
+  color: #aaa;
+  margin: 0 0 0.6rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+#related ul { margin: 0; padding: 0; list-style: none; }
+#related li, #related .post-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.6rem 0;
+  color: #aaa;
+  font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+  line-height: 1.45;
+}
+#related li::before, #related .post-item::before { content: none !important; }
+#related li a, #related .post-item a {
+  color: #B03A44;
+  text-decoration: none;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+#related li a:hover, #related .post-item a:hover { color: #CD0D1D; }
+#related .post-item time {
+  color: #c8c8cc;
+  font-size: clamp(0.9rem, 1.2vw, 1rem);
+  white-space: nowrap;
+  flex: 0 0 auto;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Disqus — give it a bit of breathing room */
+#disqus-thread, #disqus {
+  margin-top: 2rem;
+  background: transparent;
+}
 
 /* time box */
 #loader {

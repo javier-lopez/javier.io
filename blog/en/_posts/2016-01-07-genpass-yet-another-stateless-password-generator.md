@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "genpass, yet another stateless password generator"
+tags: [security, tools]
 ---
 
 ## {{ page.title }}

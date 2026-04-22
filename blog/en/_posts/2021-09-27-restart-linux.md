@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "restart firefox"
+tags: [tools]
 ---
 
 ## {{ page.title }}

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "compile software in pristine environments with pbuilder"
+tags: [linux, tools]
 ---
 
 ## {{ page.title }}

@@ -1,0 +1,37 @@
+---
+layout: blog
+title: "javier.io | tags"
+permalink: /blog/tags/
+---
+
+{% if site.tags.size == 0 %}
+  <p class="tags-empty">No tags yet. Add <code>tags: [foo, bar]</code> to a post's frontmatter to see them listed here.</p>
+{% else %}
+  <section class="tag-cloud">
+    {% assign sorted_tags = site.tags | sort %}
+    {% for tag in sorted_tags %}
+      {% assign tag_name = tag | first %}
+      {% assign tag_posts = tag | last %}
+      <a href="#{{ tag_name | slugify }}" class="tag-chip" data-count="{{ tag_posts.size }}">
+        {{ tag_name }}
+        <span class="tag-count">{{ tag_posts.size }}</span>
+      </a>
+    {% endfor %}
+  </section>
+
+  {% for tag in sorted_tags %}
+    {% assign tag_name = tag | first %}
+    {% assign tag_posts = tag | last %}
+    <section class="tag-section" id="{{ tag_name | slugify }}">
+      <h3 class="tag-heading">{{ tag_name }}</h3>
+      <ul class="post-list">
+        {% for post in tag_posts %}
+          <li class="post-item">
+            <a href="{{ post.url }}">{{ post.title }}</a>
+            <time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%b %-d, %Y" }}</time>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% endfor %}
+{% endif %}

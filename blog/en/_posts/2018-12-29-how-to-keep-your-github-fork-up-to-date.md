@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "how to keep your Git-Fork up to date"
+tags: [tools]
 ---
 
 ## {{ page.title }}

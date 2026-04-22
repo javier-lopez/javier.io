@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "dmenu for everything"
+tags: [tools, shell]
 ---
 
 ## {{ page.title }}

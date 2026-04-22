@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "host several sites in a single box with docker and traefik v2, https"
+tags: [docker, networking, security]
 ---
 
 ## {{ page.title }}
@@ -8,7 +9,7 @@ title: "host several sites in a single box with docker and traefik v2, https"
 ###### {{ page.date | date_to_string }}
 
 Last time I wrote about how simple is to [host several sites with docker +
-traefik on a single node](http://javier.io/blog/en/2020/12/01/host-several-sites-in-a-single-box-with-docker-and-traefik-http.html),
+traefik on a single node](/blog/en/2020/12/01/host-several-sites-in-a-single-box-with-docker-and-traefik-http.html),
 on this article I'll complement such information with https and automatic ssl
 certification renewal.
 
@@ -263,5 +264,5 @@ the amount of **RAM/CPU** in your machine:
 
 Happy hacking!
 
-- [http://javier.io/blog/en/2020/12/01/host-several-sites-in-a-single-box-with-docker-and-traefik-http.html](http://javier.io/blog/en/2020/12/01/host-several-sites-in-a-single-box-with-docker-and-traefik-http.html)
+- [/blog/en/2020/12/01/host-several-sites-in-a-single-box-with-docker-and-traefik-http.html](/blog/en/2020/12/01/host-several-sites-in-a-single-box-with-docker-and-traefik-http.html)
 - [https://github.com/traefik/traefik/issues/5506#issuecomment-549100716](https://traefik.io/blog/traefik-2-0-docker-101-fc2893944b9d/)

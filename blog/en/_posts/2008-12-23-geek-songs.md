@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "geek songs"
+tags: [music]
 ---
 
 ## {{ page.title }}

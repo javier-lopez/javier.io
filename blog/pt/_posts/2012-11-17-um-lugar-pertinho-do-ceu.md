@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "um lugar pertinho do céu"
+tags: [personal]
 ---
 
 ## {{ page.title }}

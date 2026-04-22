@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "ssh captcha"
+tags: [security, networking]
 ---
 
 ## {{ page.title }}

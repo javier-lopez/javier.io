@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "launch and suscribe RHEL 8/9 instances in AWS"
+tags: [aws, linux]
 ---
 
 ## {{ page.title }}

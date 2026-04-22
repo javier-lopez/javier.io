@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "installing debian build dependencies the smart way"
+tags: [linux]
 ---
 
 ## {{ page.title }}

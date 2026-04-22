@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "report bugs to debian from ubuntu"
+tags: [linux]
 ---
 
 ## {{ page.title }}

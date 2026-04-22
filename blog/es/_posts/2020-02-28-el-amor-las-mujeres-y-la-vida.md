@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "el amor, las mujeres y la vida"
+tags: [poetry, personal]
 ---
 
 ## {{ page.title }}
@@ -233,7 +234,7 @@ miro como te vas adentrando en la niebla y empiezo a recordarte.
 Ellos tienen razón
 esa felicidad al menos con mayúscula, no existe
 ah pero si existiera con minúscula
-seria semejante a nuestra breve presoledad
+sería semejante a nuestra breve presoledad
 
 Después de la alegría, viene la soledad
 después de la plenitud, viene la soledad

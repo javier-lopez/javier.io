@@ -1,9 +1,47 @@
 ---
 layout: blog
 ---
-<div id="post">
+{% assign read_time = content | number_of_words | divided_by: 250 | plus: 1 %}
+<div id="post" data-readtime="{{ read_time }}">
   {{ content }}
 </div>
+
+{% if page.next or page.previous or page.tags.size > 0 %}
+  {%- comment -%}
+    Post footer — combines chronological navigation (older ← / → newer)
+    with the post's tags in the center. Jekyll's page.next is the newer
+    post, page.previous the older one.
+  {%- endcomment -%}
+  <div class="post-footer">
+    {% if page.previous %}
+      <a href="{{ page.previous.url }}" class="post-footer-link post-nav-prev">
+        <span class="post-nav-dir">&larr; older</span>
+        <span class="post-nav-title">{{ page.previous.title }}</span>
+      </a>
+    {% else %}
+      <span class="post-footer-link post-footer-empty"></span>
+    {% endif %}
+
+    {% if page.tags and page.tags.size > 0 %}
+      <div class="post-footer-tags" aria-label="Tags">
+        {% for tag in page.tags %}
+          <a href="/blog/tags/#{{ tag | slugify }}" class="tag-chip">{{ tag }}</a>
+        {% endfor %}
+      </div>
+    {% else %}
+      <span class="post-footer-tags post-footer-empty"></span>
+    {% endif %}
+
+    {% if page.next %}
+      <a href="{{ page.next.url }}" class="post-footer-link post-nav-next">
+        <span class="post-nav-dir">newer &rarr;</span>
+        <span class="post-nav-title">{{ page.next.title }}</span>
+      </a>
+    {% else %}
+      <span class="post-footer-link post-footer-empty"></span>
+    {% endif %}
+  </div>
+{% endif %}
 
 {% include related.html %}
 {% include disqus.html %}

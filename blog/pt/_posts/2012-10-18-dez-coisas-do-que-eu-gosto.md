@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "dez coisas do que eu gosto"
+tags: [personal]
 ---
 
 ## {{ page.title }}

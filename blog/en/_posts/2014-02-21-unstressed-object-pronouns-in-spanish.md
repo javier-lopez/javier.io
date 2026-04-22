@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "unstressed direct, indirect pronouns in Spanish"
+tags: [personal]
 ---
 
 ## {{ page.title }}

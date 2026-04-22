@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "aws-cli ssm by ip"
+tags: [aws, shell]
 ---
 
 ## {{ page.title }}

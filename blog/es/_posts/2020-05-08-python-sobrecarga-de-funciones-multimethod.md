@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "python: sobrecarga de funciones, multimethod"
+tags: [python]
 ---
 
 ## {{ page.title }}

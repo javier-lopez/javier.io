@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "virtualbox and kvm sideways"
+tags: [linux]
 ---
 
 ## {{ page.title }}

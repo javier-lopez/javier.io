@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "proxy ssh + socks"
+tags: [networking, security]
 ---
 
 ## {{ page.title }}

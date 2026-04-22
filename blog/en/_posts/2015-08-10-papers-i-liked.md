@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "papers I liked"
+tags: [security, personal]
 ---
 
 ## {{ page.title }}

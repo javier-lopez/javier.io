@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "my current desktop"
+tags: [linux, personal]
 ---
 
 ## {{ page.title }}

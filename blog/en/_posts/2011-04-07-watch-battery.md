@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "watch_battery"
+tags: [shell, linux]
 ---
 
 ## {{ page.title }}

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "install 7zip with choco without admin permissions"
+tags: [tools]
 ---
 
 ## {{ page.title }}

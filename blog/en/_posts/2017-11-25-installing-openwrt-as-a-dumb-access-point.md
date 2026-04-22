@@ -1,13 +1,14 @@
 ---
 layout: post
 title: "installing openwrt as a dumb access point"
+tags: [networking]
 ---
 
 ## {{ page.title }}
 
 ###### {{ page.date | date_to_string }}
 
-In a previous post I wrote about how to use [openwrt as an independent access point](http://javier.io/blog/en/2017/11/23/installing-openwrt-as-access-point.html), this time however I'll mention how to configure it to extend a network that already has a router with dhcp in place or where a subnet is not required / desired.
+In a previous post I wrote about how to use [openwrt as an independent access point](/blog/en/2017/11/24/installing-openwrt-as-access-point.html), this time however I'll mention how to configure it to extend a network that already has a router with dhcp in place or where a subnet is not required / desired.
 
 The target device is a [TP-Link N750](http://www.amazon.com/TP-LINK-TL-WDR4300-Wireless-Gigabit-300Mbps/dp/B0088CJT4U), and I'm using the latest [stable build](http://downloads.openwrt.org/releases/18.06.2/targets/ar71xx/generic/openwrt-18.06.2-ar71xx-generic-tl-wdr4300-v1-squashfs-factory.bin), the installation process is pretty straight forward.
 

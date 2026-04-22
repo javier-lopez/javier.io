@@ -1,6 +1,8 @@
 domain:      javier.io
 title:       "javier.io"
-url:         "javier.io"
+# Full URL with protocol — Jekyll's `absolute_url` filter prepends this to
+# every internal link in the atom feed and SEO tags. Edit if you move hosts.
+url:         "https://javier.io"
 author:      "Javier López"
 description: "Javier López personal blog"
 
@@ -13,6 +15,7 @@ plugins_dir: ./_plugins
 
 plugins:
   - jekyll-seo-tag
+  - jekyll-sitemap
 
 exclude:      [deploy, setup]
 safe:        false
