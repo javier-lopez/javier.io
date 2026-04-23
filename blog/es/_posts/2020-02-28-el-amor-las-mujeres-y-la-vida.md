@@ -256,4 +256,9 @@ aunque sea preguntándote a solas
 que vendrá después de la soledad.
 </pre>
 
+<p class="post-dedication">
+Hijos, nietos, vuelvan a estos versos cuando les haga sentido.
+Si tienen la oportunidad de enamorarse, háganlo — siempre vale la pena, incluso cuando se pierde.
+</p>
+
 <br />
