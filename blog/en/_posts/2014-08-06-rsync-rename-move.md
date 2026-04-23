@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "detect file moves and renames with rsync"
+tags: [tools, linux]
 ---
 
 ## {{ page.title }}

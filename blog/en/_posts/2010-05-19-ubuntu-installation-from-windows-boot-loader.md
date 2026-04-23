@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "install ubuntu from the windows boot loader"
+tags: [linux]
 ---
 
 ## {{ page.title }}

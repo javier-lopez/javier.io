@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "on the nature of daylight, una composición de max richter"
+tags: [music]
 ---
 
 ## {{ page.title }}

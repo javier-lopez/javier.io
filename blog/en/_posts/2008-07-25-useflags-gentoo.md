@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "gentoo useflags"
+tags: [linux]
 ---
 
 ## {{ page.title }}

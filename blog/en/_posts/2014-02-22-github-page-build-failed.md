@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "setting up jekyll locally"
+tags: [tools]
 ---
 
 ## {{ page.title }}

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "backups with rsync and rdiff-backup"
+tags: [shell, tools]
 ---
 
 ## {{ page.title }}

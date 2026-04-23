@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "installing openwrt as a wireless repeater"
+tags: [networking]
 ---
 
 ## {{ page.title }}

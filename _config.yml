@@ -1,8 +1,14 @@
 domain:      javier.io
 title:       "javier.io"
-url:         "javier.io"
+# Full URL with protocol — Jekyll's `absolute_url` filter prepends this to
+# every internal link in the atom feed and SEO tags. Edit if you move hosts.
+url:         "https://javier.io"
 author:      "Javier López"
-description: "Javier López personal blog"
+# Shown in <meta description>, OG description, atom subtitle, and the
+# default for any post without its own description. Keep it specific —
+# names the pillars, the languages, and the voice of the blog.
+description: "Notas de Javier López sobre ingeniería de software, Linux, redes, IA, y ocasionalmente poesía y música. En español, inglés y portugués."
+lang:        "es"
 
 twitter:
   username: javier_flpz
@@ -13,6 +19,7 @@ plugins_dir: ./_plugins
 
 plugins:
   - jekyll-seo-tag
+  - jekyll-sitemap
 
 exclude:      [deploy, setup]
 safe:        false

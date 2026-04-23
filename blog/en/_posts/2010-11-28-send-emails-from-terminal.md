@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "send emails from terminal"
+tags: [shell, tools]
 ---
 
 ## {{ page.title }}

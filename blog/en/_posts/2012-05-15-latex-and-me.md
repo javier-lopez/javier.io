@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "latex and me"
+tags: [tools]
 ---
 
 ## {{ page.title }}

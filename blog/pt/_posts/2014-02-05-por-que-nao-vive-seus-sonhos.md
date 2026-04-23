@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "por que não está vivendo seus sonhos?"
+tags: [personal]
 ---
 
 ## {{ page.title }}

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "nossa infância"
+tags: [poetry]
 ---
 
 ## {{ page.title }}

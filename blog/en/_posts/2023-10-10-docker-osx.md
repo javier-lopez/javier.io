@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "using colima to run docker on a mac"
+tags: [docker]
 ---
 
 ## {{ page.title }}

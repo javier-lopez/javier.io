@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "out of office"
+tags: [personal]
 ---
 
 ## {{ page.title }}

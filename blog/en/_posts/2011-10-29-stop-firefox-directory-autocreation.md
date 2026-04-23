@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "stop firefox directory autocreation"
+tags: [linux, tools]
 ---
 
 ## {{ page.title }}

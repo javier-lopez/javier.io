@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "print through the ldp protocol in a cups less environment"
+tags: [linux, networking]
 ---
 
 ## {{ page.title }}

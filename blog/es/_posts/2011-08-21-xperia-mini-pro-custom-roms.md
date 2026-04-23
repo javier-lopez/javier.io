@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "xperia mini pro - custom roms"
+tags: [linux, tools]
 ---
 
 ## {{ page.title }}
@@ -43,7 +44,7 @@ Descarga:
 
 **¿Qué es android?**
 
-Android es un sistema operativo enfocado a teléfonos y tabletas, principal competencia del sistema operativo que viene en los iphone, esta basado en linux, aunque modifica muchas partes esenciales del mismo. Tiene miles de aplicaciones, gps, reconocimiento de voz, skype, twitter, facebook, youtube, angrybirds, etc.
+Android es un sistema operativo enfocado a teléfonos y tabletas, principal competencia del sistema operativo que viene en los iphone, está basado en linux, aunque modifica muchas partes esenciales del mismo. Tiene miles de aplicaciones, gps, reconocimiento de voz, skype, twitter, facebook, youtube, angrybirds, etc.
 
 **¿Qué es un custom rom?**
 
@@ -132,7 +133,7 @@ Eso creará una copia de seguridad en **/sdcard/xrecovery**, para recuperarla se
 
 - backup and restore/**restore**
 
-Algunos de los custom roms disponibles para el xperia mini pro, estan listados aquí:
+Algunos de los custom roms disponibles para el xperia mini pro, están listados aquí:
 
 - <http://tinyurl.com/3smura5>
 

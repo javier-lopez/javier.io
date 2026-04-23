@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "improve boot performance in Ubuntu Precise and above"
+tags: [linux]
 ---
 
 ## {{ page.title }}

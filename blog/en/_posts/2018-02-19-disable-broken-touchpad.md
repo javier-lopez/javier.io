@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "disable broken touchpad device"
+tags: [linux]
 ---
 
 ## {{ page.title }}

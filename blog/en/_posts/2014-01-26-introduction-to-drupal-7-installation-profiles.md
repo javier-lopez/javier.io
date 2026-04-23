@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "introduction to drupal 7 installation profiles"
+tags: [tools]
 ---
 
 ## {{ page.title }}

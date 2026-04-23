@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "minos, a tiling wm linux distribution"
+tags: [linux, tools]
 ---
 
 ## {{ page.title }}

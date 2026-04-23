@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "nvim migration"
+tags: [tools]
 ---
 
 ## {{ page.title }}

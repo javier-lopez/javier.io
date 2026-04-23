@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "madre terra"
+tags: [poetry]
 ---
 
 ## {{ page.title }}

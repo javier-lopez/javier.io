@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "configure WPA/WEP in openbsd"
+tags: [networking, linux]
 ---
 
 ## {{ page.title }}

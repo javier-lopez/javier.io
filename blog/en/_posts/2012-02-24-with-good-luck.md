@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "with good luck!"
+tags: [personal]
 ---
 
 ## {{ page.title }}

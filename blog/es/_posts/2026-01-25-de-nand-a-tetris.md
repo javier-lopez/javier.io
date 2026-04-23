@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "de nand a tetris"
+tags: [personal]
 ---
 
 ## {{ page.title }}
@@ -25,7 +26,7 @@ vinculo esa matematica con la fisica, demostrando que los reles(interruptores) d
 
 **Paper: "A Symbolic Analysis of Relay and Switching Circuits" Autor: Claude Shannon Año: 1938** La [IA Claude](https://claude.com/) de Antrophic se llama asi en su honor.
 
-- **Not**: Se utiliza para controlar la salida, 0 y 1, sin esta compuerta, el estado nunca variaria.
+- **Not**: Se utiliza para controlar la salida, 0 y 1, sin esta compuerta, el estado nunca variaría.
 - **And**: Se usa en conjunto de Not para describir la logica de una regla simple
 - **Or**: Se usa para concatenar las reglas generadas por las dos compuertas anteriores
 

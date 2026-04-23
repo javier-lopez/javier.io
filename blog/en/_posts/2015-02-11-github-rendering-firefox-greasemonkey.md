@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "fix github rendering in old firefox releases with greasemonkey"
+tags: [tools]
 ---
 
 ## {{ page.title }}

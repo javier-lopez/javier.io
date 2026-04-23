@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "hints for writing unix tools with shell scripting"
+tags: [shell]
 ---
 
 ## {{ page.title }}

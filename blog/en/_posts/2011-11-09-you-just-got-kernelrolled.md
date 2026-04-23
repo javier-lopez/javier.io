@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "you just got kernelroll'd ;)"
+tags: [linux]
 ---
 
 ## {{ page.title }}

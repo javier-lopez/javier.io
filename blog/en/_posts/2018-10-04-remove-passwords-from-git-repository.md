@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "removing passwords from git repositories"
+tags: [tools, security]
 ---
 
 ## {{ page.title }}

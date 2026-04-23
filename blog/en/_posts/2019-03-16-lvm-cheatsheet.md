@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "lvm cheatsheet"
+tags: [linux]
 ---
 
 ## {{ page.title }}

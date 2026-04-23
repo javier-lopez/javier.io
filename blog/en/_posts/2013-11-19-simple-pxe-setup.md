@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "simple pxe setup"
+tags: [networking, linux]
 ---
 
 ## {{ page.title }}
@@ -99,4 +100,4 @@ Simple! &#128527;
 References:
 
 - [https://github.com/psychomario/PyPXE](https://github.com/psychomario/PyPXE)
-- [http://javier.io/blog/es/2010/12/14/compartir-conexion-pc-a-pc.html](http://javier.io/blog/es/2010/12/14/compartir-conexion-pc-a-pc.html)
+- [/blog/en/2010/12/14/share-connection-between-personal-computers.html](/blog/en/2010/12/14/share-connection-between-personal-computers.html)

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "kernel -ck for ubuntu precise"
+tags: [linux]
 ---
 
 ## {{ page.title }}

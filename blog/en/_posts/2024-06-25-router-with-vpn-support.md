@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "router with integrated vpn support"
+tags: [networking, security]
 ---
 
 ## {{ page.title }}

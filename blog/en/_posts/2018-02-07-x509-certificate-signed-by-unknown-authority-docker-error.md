@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "x509: certificate signed by unknown authority docker error"
+tags: [docker, security]
 ---
 
 ## {{ page.title }}

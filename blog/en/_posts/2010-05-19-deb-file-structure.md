@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "deb file structure"
+tags: [linux]
 ---
 
 ## {{ page.title }}

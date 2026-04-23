@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "clipboard synchronization between X11 and gnome apps"
+tags: [linux, tools]
 ---
 
 ## {{ page.title }}

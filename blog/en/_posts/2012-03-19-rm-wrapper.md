@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "rm wrapper"
+tags: [shell, tools]
 ---
 
 ## {{ page.title }}

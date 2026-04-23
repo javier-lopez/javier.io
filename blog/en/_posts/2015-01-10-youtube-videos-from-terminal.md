@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "youtube videos from terminal"
+tags: [shell, tools]
 ---
 
 ## {{ page.title }}

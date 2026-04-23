@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "a lenda da cuca"
+tags: [personal]
 ---
 
 ## {{ page.title }}

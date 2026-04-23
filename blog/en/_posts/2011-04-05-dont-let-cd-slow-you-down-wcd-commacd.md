@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "don't let cd slow you down, cd wrappers: wcd, commacd"
+tags: [shell, tools]
 ---
 
 ## {{ page.title }}
@@ -9,7 +10,7 @@ title: "don't let cd slow you down, cd wrappers: wcd, commacd"
 
 <!--<iframe  class="showterm" src="http://showterm.io/ae29f68bee555cd89c65d" width="640" height="350">&nbsp;</iframe>-->
 
-Using a console interface to manage a computer has its disadvantages, some of them are specially visible when dealing with multiple files at the same time (moving/renaming/copying), typing long and crypted commands/options or moving around. On this entry I'll talk about the last one.
+Using a console interface to manage a computer has its disadvantages, some of them are especially visible when dealing with multiple files at the same time (moving/renaming/copying), typing long and crypted commands/options or moving around. On this entry I'll talk about the last one.
 
 The default `cd` behaviour on bash to change directories is quite strict, it requires to write full/relative paths and doesn't recognize fuzzy search or any more complicated way of finding directories, some people use many [aliases](https://github.com/relevance/etc/blob/master/bash/project_aliases.sh) to workaround these issues, others change its default shell or use third party tools, eg: [fasd](https://github.com/clvv/fasd), [bd](https://github.com/vigneshwaranr/bd), [fzf](https://github.com/junegunn/fzf), etc to create a semi automatic way of moving faster.
 

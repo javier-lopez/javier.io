@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "access localhost with pagekite"
+tags: [networking, tools]
 ---
 
 ## {{ page.title }}

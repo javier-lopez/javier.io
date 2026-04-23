@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "wire and wireless concurrent connections with wicd"
+tags: [networking, linux]
 ---
 
 ## {{ page.title }}

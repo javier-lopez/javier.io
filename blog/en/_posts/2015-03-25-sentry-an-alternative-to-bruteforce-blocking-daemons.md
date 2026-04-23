@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "sentry, an alternative to fail2ban and other bruteforce blocking daemons"
+tags: [security, linux]
 ---
 
 ## {{ page.title }}

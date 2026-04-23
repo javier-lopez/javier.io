@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "carteras fuera de línea para criptomonedas"
+tags: [security, docker]
 ---
 
 ## {{ page.title }}
@@ -11,13 +12,13 @@ Las carteras para criptomonedas son piezas de software que dan acceso a los
 [blockchains](https://es.wikipedia.org/wiki/Cadena_de_bloques) de Bitcoin,
 Ethereum, etc, **cada criptomoneda tiene su propia cartera**, asi una cartera
 para Bitcoin solo funcionará para ese protocolo. Y si se tienen `N`
-criptomonedas, se requeriran la misma cantidad de carteras para administrar los
+criptomonedas, se requerirán la misma cantidad de carteras para administrar los
 fondos.
 
 También existen programas que pueden acceder a varios protocolos al mismo
-tiempo, las multicarteras, sin embargo esos programas estan desarrollados por
+tiempo, las multicarteras, sin embargo esos programas están desarrollados por
 terceras partes, por lo que tienden a ser menos confiables, por tal razón en
-este artículo se hará enfásis en la utilización de las carteras oficiales.
+este artículo se hará énfasis en la utilización de las carteras oficiales.
 
 Para usar una cartera se requieren dos cosas, una clave pública y una privada.
 

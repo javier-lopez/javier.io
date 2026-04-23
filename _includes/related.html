@@ -1,8 +1,8 @@
-<div id="related">
+<div id="related" aria-label="Related entries">
   <h5>Related Entries:</h5>
-  <ul class="related-posts">
+  <ul class="post-list">
     {% for post in site.related_posts limit:3 %}
-    <li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>
+      {% include post-list-item.html post=post date_format="%b %-d, %Y" %}
     {% endfor %}
   </ul>
 </div>

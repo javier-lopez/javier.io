@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "install apt packages from deb postinst"
+tags: [linux, shell]
 ---
 
 ## {{ page.title }}

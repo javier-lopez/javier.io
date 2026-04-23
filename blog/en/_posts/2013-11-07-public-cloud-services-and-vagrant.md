@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "public cloud services (digitalocean, aws) and vagrant"
+tags: [aws, tools]
 ---
 
 ## {{ page.title }}

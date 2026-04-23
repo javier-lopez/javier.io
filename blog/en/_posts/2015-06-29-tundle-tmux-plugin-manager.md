@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "tundle, a tmux plugin manager"
+tags: [tools, shell]
 ---
 
 ## {{ page.title }}
@@ -14,7 +15,7 @@ In the past I've been a regular [byobu](http://byobu.co/) user, a distribution f
 
 Unfortunately, like vi/emacs, the default screen/tmux settings are quite bad, so many people either personalize heavily its own settings or use a distribution/plugin system.
 
-I used to use byobu because of its ease of installation (at least on Ubuntu) and default status bar. However, for my needs, it looked overwhealming and was difficult to modify, I prefer systems with a plugin centric approach (like [vim + vundle](https://github.com/javier-lopez/vundle), or [sh + shundle](http://javier.io/blog/en/2013/11/15/shundle.html)), so at the end I decided to migrate. Since tmux is way better than screen, I focused on it.
+I used to use byobu because of its ease of installation (at least on Ubuntu) and default status bar. However, for my needs, it looked overwhealming and was difficult to modify, I prefer systems with a plugin centric approach (like [vim + vundle](https://github.com/javier-lopez/vundle), or [sh + shundle](/blog/en/2013/11/15/shundle.html)), so at the end I decided to migrate. Since tmux is way better than screen, I focused on it.
 
 There is a recent attempt to create a general tmux plugin environment:
 

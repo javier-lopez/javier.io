@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "el amor, las mujeres y la vida"
+tags: [poetry, personal]
 ---
 
 ## {{ page.title }}
@@ -233,7 +234,7 @@ miro como te vas adentrando en la niebla y empiezo a recordarte.
 Ellos tienen razón
 esa felicidad al menos con mayúscula, no existe
 ah pero si existiera con minúscula
-seria semejante a nuestra breve presoledad
+sería semejante a nuestra breve presoledad
 
 Después de la alegría, viene la soledad
 después de la plenitud, viene la soledad
@@ -254,5 +255,10 @@ otra vez estas vos
 aunque sea preguntándote a solas
 que vendrá después de la soledad.
 </pre>
+
+<p class="post-dedication">
+Hijos, nietos, vuelvan a estos versos cuando les haga sentido.
+Si tienen la oportunidad de enamorarse, háganlo — siempre vale la pena, incluso cuando se pierde.
+</p>
 
 <br />

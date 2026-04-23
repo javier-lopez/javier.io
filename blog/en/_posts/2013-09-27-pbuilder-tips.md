@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "pbuilder tips"
+tags: [linux]
 ---
 
 ## {{ page.title }}

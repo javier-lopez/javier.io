@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "multicursor in ubuntu"
+tags: [linux, tools]
 ---
 
 ## {{ page.title }}

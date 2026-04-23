@@ -1,0 +1,18 @@
+{%- comment -%}
+  Single post-list <li> with title + reading time badge + date.
+  Used by blog index, language filter pages, tags page, and related entries.
+
+  Usage:
+    {% include post-list-item.html post=post %}
+    {% include post-list-item.html post=post date_format="%b %-d, %Y" %}
+
+  Reading time = words / 250 wpm + 1 min floor. Shared with the per-post
+  date line inside post.html so the value stays consistent.
+{%- endcomment -%}
+{%- assign rt = include.post.content | number_of_words | divided_by: 250 | plus: 1 -%}
+{%- assign date_fmt = include.date_format | default: "%b %-d" -%}
+<li class="post-item">
+  <a href="{{ include.post.url }}">{{ include.post.title }}</a>
+  <span class="post-readtime-badge" aria-label="Reading time">~{{ rt }} min</span>
+  <time datetime="{{ include.post.date | date: '%Y-%m-%d' }}">{{ include.post.date | date: date_fmt }}</time>
+</li>

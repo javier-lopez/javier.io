@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "a simple mpc web interface"
+tags: [music, python]
 ---
 
 ## {{ page.title }}
