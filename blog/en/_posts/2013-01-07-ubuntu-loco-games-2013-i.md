@@ -11,8 +11,6 @@ description: "The ubuntu-mx team is still celebrating its recent approval status
 
 [![][209]][210]
 
-Update: [ubuntu loco games 2013 – update](/blog/en/2013/01/09/ubuntu-loco-games-2013-update.html)
-
 The ubuntu-mx team is still celebrating its recent approval status and one way
 to do it is organizating the first edition of the Ubuntu Loco Games, the idea
 is simple know each other and have fun at the same time, interested?, join us!
