@@ -26,7 +26,7 @@ open bugs of the current package =)
 
 Seems like it’s been a while since this little hack was made:
 
-<http://www.chiark.greenend.org.uk/ucgi/~cjwatson/blosxom/2008/01/31#2008-01-31-vim-lpbug-omnicomplete>
+<https://web.archive.org/web/20100911131524/http://www.chiark.greenend.org.uk:80/ucgi/~cjwatson/blosxom/2008/01/31>
 
 <http://tinyurl.com/7es2j48>
 

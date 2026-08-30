@@ -145,7 +145,7 @@ despues subirlo a los archivos. El proceso ‘corto’ es el siguiente:
 * Crear un nuevo paquete fuente $ merge-buildpackage -rfakeroot  
 * Verificar que se compila correctamente en pbuilder y si funciona pedir a un MOTU que revise los cambios y si estan bien que suba el paquete.
 
-  [58]: code.google.com/soc
+  [58]: https://web.archive.org/web/2010/http://code.google.com/soc/
   [59]: /assets/img/viajemotu-links-aleatorios-semana-27-4-julio-1.png
   [60]: /assets/img/viajemotu-links-aleatorios-semana-27-4-julio-2.png
   [61]: /assets/img/viajemotu-links-aleatorios-semana-27-4-julio-3.png

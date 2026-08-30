@@ -44,7 +44,7 @@ $ source file_where_pump_function_is_defined
 $ complete -F \_pump pump
 </pre>
 
-Now whenever pump is typed followed by &lt;Tab&gt;&lt;Tab&gt; **\_primp()** will be called and will require to fill the [COMPREPLY](http://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html) array.
+Now whenever pump is typed followed by &lt;Tab&gt;&lt;Tab&gt; **\_primp()** will be called and will require to fill the [COMPREPLY](https://web.archive.org/web/20260728065230/https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html) array.
 
 Most of the files who contain these functions live in **/etc/bash_completion.d/** and in recent years in **/usr/share/bash-completion/completions/** (in Debian/Ubuntu systems), let's suppose we've the following hand made script:
 

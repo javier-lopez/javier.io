@@ -15,7 +15,7 @@ I access a fair amount of remote environments through ssh, when I do it most of 
 $ sh &lt;(wget -qO- javier.io/s)
 </pre>
 
-<iframe class="showterm" src="http://showterm.io/3bfc94afe0f51e8d6411f" width="640" height="350">&nbsp;</iframe>
+<iframe class="showterm" src="https://web.archive.org/web/20161117210452/http://showterm.io/3bfc94afe0f51e8d6411f" width="640" height="350">&nbsp;</iframe>
 
 Some of my favorite changes are:
 

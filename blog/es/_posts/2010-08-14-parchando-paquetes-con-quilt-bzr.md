@@ -9,7 +9,6 @@ description: "Introduccion Como parte del Ubuntu hug day de esta semana, el equi
 
 ###### {{ page.date | date_to_string }}
 
-![][98]
 
 **Introduccion**
 
@@ -334,10 +333,9 @@ riesgo.
   * [Parchando paquetes con quilt][112]
   * [Parchando paquetes con debdiff][113]
 
-  [98]: /assets/img/viajemotu-parchando-paquetes-con-quilt-bzr-1.png
   [99]: https://wiki.ubuntu.com/UbuntuBugDay/20100812
   [100]: https://wiki.ubuntu.com/OperationCleansweep
-  [101]: www.xsane.org
+  [101]: http://www.xsane.org/
   [102]: https://bugs.launchpad.net/ubuntu/+source/xsane/+bug/611950
   [103]: http://launchpadlibrarian.net/52766337/xsane.h.diff
   [104]: /blog/es/2010/08/06/como-arreglar-bugs-con-bzr-version-corta.html

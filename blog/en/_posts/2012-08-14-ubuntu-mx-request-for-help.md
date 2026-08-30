@@ -26,7 +26,7 @@ reactivate their launchpad membership, with an excellent response (at least
 half of the team is still active and willing).
 
 So, we’re setting up some tasks (an exhaustive list in Spanish can be found
-here: <http://pad.ubuntu-uk.org/KhKIZ6NPr7> , with an English translation
+here: <https://web.archive.org/web/20120818142132/http://pad.ubuntu-uk.org:80/KhKIZ6NPr7> , with an English translation
 coming up). One of the main ideas we’re following up is to restart our
 podcasting cycle (we called the iniciative the “Ubuntu-mx podcast Revival”).
 

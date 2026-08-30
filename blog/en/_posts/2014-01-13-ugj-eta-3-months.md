@@ -22,6 +22,6 @@ we’ve already started pushing publicity through our main media channels, so
 Happy Jamming =D!
 
   [303]: https://wiki.ubuntu.com/UbuntuGlobalJam
-  [304]: http://loco.ubuntu.com/events/global/2656/
+  [304]: https://web.archive.org/web/20230822165251/https://loco.ubuntu.com/events/global/2656/
 
 Originally published at [viajemotu.wordpress.com](https://viajemotu.wordpress.com/2014/01/13/ugj-eta-3-months/)

@@ -27,7 +27,7 @@ At the vision cafe, from 11:00am till nightfall
 Yes!, bring your laptop, and try any of our activities, we’ll regard you with
 candy bribery }=) <http://tinyurl.com/points-lst>
 
-<http://loco.ubuntu.com/events/ubuntu-mx/1926/detail/>
+<https://web.archive.org/web/20230822165251/https://loco.ubuntu.com/events/ubuntu-mx/1926/detail/>
 
   [174]: /assets/img/viajemotu-ugj-mexico-city-08-sept-11-00am-1.jpg
   [175]: webchat.freenode.net/?randomnick=1&channels=ugj-mx

@@ -52,7 +52,7 @@ yourself:
 
   [179]: https://launchpad.net/~ubuntu-mx
   [180]: http://princessleia.com
-  [181]: http://jhosman.com/es/
+  [181]: https://web.archive.org/web/20141220055740/http://jhosman.com/es/
   [182]: /assets/img/viajemotu-report-ugj-mexico-df-08-09-2012-1.jpg
   [184]: https://plus.google.com/100959159342504605789/posts
 

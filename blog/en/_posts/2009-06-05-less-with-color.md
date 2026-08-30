@@ -9,7 +9,6 @@ description: "I've just discovered how to colorize less output, It may seems uni
 
 ###### {{ page.date | date_to_string }}
 
-**![](/assets/img/1.png)**
 
 I've just discovered how to colorize **less** output, It may seems unimportant but I really prefer to colorize my life when possible.
 

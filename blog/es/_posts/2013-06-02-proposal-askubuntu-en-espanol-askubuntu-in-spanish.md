@@ -17,7 +17,7 @@ internacionalización en los sistemas de Preguntas y Respuestas:
 Algunos equipos locales, como Ubuntu Perú y Ubuntu Colombia, han ido más lejos
 y han creado sus propios sitios:
 
-  * <http://ubuntu.shapado.com>
+  * <https://web.archive.org/web/20170301210026/http://ubuntu.shapado.com:80/>
   * <http://ayuda.ubuntu.pe> (liberado hoy mismo)
 
 Esto, en mi opinión, solo contribuye a fragmentar aún más la información ya
@@ -69,7 +69,7 @@ Lately the Ubuntu community has been discussing about i18n in the Q&A systems:
 Some LoCo Teams, such as Ubuntu Perú and Ubuntu Colombia, have created their
 own sites:
 
-  * <http://ubuntu.shapado.com>
+  * <https://web.archive.org/web/20170301210026/http://ubuntu.shapado.com:80/>
   * <http://ayuda.ubuntu.pe> (launched today)
 
 This, in my opinion, just helps to fragment even more the already distributed

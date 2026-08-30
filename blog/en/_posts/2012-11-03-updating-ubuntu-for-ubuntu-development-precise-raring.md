@@ -99,7 +99,7 @@ Have fun n_n/
 
   [204]: /blog/en/2011/11/23/setting-up-ubuntu-for-ubuntu-development-upgrade.html
   [205]: https://github.com/chilicuil/dotfiles/blob/master/.pbuilderrc
-  [206]: https://github.com/chilicuil/learn/blob/master/autocp/bash_completion.d/pbuilder
+  [206]: https://github.com/javier-lopez/learn/blob/master/autocp/completions/pbuilder
   [207]: https://bugs.launchpad.net/ubuntu/+source/debootstrap/+bug/1068707
 
 Originally published at [viajemotu.wordpress.com](https://viajemotu.wordpress.com/2012/11/03/updating-ubuntu-for-ubuntu-development-precise-raring/)

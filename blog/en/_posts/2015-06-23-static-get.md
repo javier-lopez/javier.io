@@ -9,7 +9,7 @@ description: "Lastly I've required static versions of common linux utilities, it
 
 ###### {{ page.date | date_to_string }}
 
-[Lastly](/blog/en/2015/02/27/wget-finder.html) I've required static versions of common linux utilities, it's been fun to compile them a couple of times but it gets boring pretty quickly, so I've decided to create a repository with all the static recipes I've found on Internet ([bifrost](https://github.com/jelaas/bifrost-build), [morpheus](http://morpheus.2f30.org/), [etc](https://github.com/minos-org/minos-static/tree/master/misc-autosync-resources)).
+[Lastly](/blog/en/2015/02/27/wget-finder.html) I've required static versions of common linux utilities, it's been fun to compile them a couple of times but it gets boring pretty quickly, so I've decided to create a repository with all the static recipes I've found on Internet ([bifrost](https://github.com/jelaas/bifrost-build), [morpheus](https://web.archive.org/web/20201108140241/http://morpheus.2f30.org/), [etc](https://github.com/minos-org/minos-static/tree/master/misc-autosync-resources)).
 
 Now I can get *git static* with:
 
@@ -33,7 +33,7 @@ Be aware than using static binaries have its [drawbacks](http://www.akkadia.org/
 That's it, happy fetching &#128523;
 
 - [bifrost](https://github.com/jelaas/bifrost-build)
-- [morpheus](http://morpheus.2f30.org/)
+- [morpheus](https://web.archive.org/web/20201108140241/http://morpheus.2f30.org/)
 - [sabotage, not real static recipes](https://github.com/sabotage-linux/sabotage)
 - [portablelinuxapps, not real static recipes](http://portablelinuxapps.org)
 - [https://github.com/minos-org/minos-static](https://github.com/minos-org/minos-static)

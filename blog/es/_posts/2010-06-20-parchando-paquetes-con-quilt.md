@@ -203,7 +203,7 @@ Referencias:
 
   * <http://www.miriamruiz.es/weblog/?p=134>
   * <https://wiki.ubuntu.com/Bugs/HowToFix>
-  * <http://pkg-perl.alioth.debian.org/howto/quilt.html#quilt_for_debian_maintainers>
+  * <https://web.archive.org/web/20170910200600/http://pkg-perl.alioth.debian.org:80/howto/quilt.html>
   * <http://scie.nti.st/2008/10/13/get-rxvt-unicode-with-256-color-support-on-ubunut>
 
   [32]: http://software.schmorp.de/pkg/rxvt-unicode.html
@@ -211,7 +211,7 @@ Referencias:
   [34]: https://bugs.launchpad.net/ubuntu/+source/rxvt-unicode/+bug/578129
   [35]: https://wiki.ubuntu.com/PackagingGuide/Howtos/Quilt
   [36]: https://wiki.ubuntu.com/PackagingGuide/Howtos/Dpatch
-  [37]: http://pkg-perl.alioth.debian.org/howto/quilt.html#quilt_for_debian_maintainers
+  [37]: https://web.archive.org/web/20170910200600/http://pkg-perl.alioth.debian.org:80/howto/quilt.html
   [38]: http://en.wikipedia.org/wiki/Terminfo
 
 Publicado originalmente en [viajemotu.wordpress.com](https://viajemotu.wordpress.com/2010/06/20/parchando-paquetes-con-quilt/)

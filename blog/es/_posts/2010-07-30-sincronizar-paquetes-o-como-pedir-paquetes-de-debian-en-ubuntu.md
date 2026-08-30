@@ -129,7 +129,7 @@ anterioridad.
   [86]: https://wiki.ubuntu.com/MaverickReleaseSchedule
   [87]: https://wiki.ubuntu.com/FeatureFreeze
   [88]: http://packages.qa.debian.org/z/zathura.html
-  [89]: zathura.pwmt.or
+  [89]: https://pwmt.org/projects/zathura/
   [90]: https://launchpad.net/ubuntu/+bugs?field.searchtext=Sync&orderby=-datecreated&search=Search&field.status%3Alist=NEW&assignee_option=any&field.assignee=&field.bug_reporter=&field.bug_supervisor=&field.bug_commenter=&field.subscriber=&field.component-empty-marker=1&field.tag=&field.tags_combinator=ANY&field.status_upstream-empty-marker=1&field.has_cve.used=&field.omit_dupes.used=&field.omit_dupes=on&field.affects_me.used=&field.has_no_package.used=&field.has_patch.used=&field.has_branches.used=&field.has_branches=on&field.has_no_branches.used=&field.has_no_branches=on
 
 Publicado originalmente en [viajemotu.wordpress.com](https://viajemotu.wordpress.com/2010/07/30/sincronizar-paquetes-o-como-pedir-paquetes-de-debian-en-ubuntu/)

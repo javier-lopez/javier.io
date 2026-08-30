@@ -39,7 +39,7 @@ anula por falta de datos, genial =)
 
 Un dia de estos terminare imprimiendolo para pegarlo en mi pared.
 
-<http://hall-of-fame.ubuntu.com/#latestdevelopers>
+<https://web.archive.org/web/20171024015234/http://hall-of-fame.ubuntu.com/>
 
 Inspirador
 

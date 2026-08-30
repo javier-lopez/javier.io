@@ -59,7 +59,7 @@ solo se editan detalles, como cambio de directorios/variables o se aplica el
 respectivo parche, espero comentar en mi siguiente entrada como hacerlo con
 [quilt][24] , un metodo un poco más elegante. Es indispensable que se tenga
 una idea clara de como funciona patch y diff
-(<http://www.gnu.org/software/diffutils/manual/diff.html>), otra guia un poco
+(<https://web.archive.org/web/20240809185331/http://www.gnu.org/software/diffutils/manual/diff.html>), otra guia un poco
 mas digerible esta en: (<http://andalinux.wordpress.com/2009/08/24/crear-y-aplicar-parches-patches-en-linux/>).
 
 Una vez editado se actualiza debian/changelog:
@@ -188,7 +188,7 @@ Referencias:
   [21]: http://us.generation-nt.com/answer/bug-556198-mpd-segfault-when-trying-play-m4a-aac-lc-file-help-168868501.html?page=2
   [22]: http://tinyurl.com/2d2usxt
   [23]: https://launchpad.net/
-  [24]: http://savannah.nongnu.org/projects/quilt
+  [24]: https://web.archive.org/web/20260802205332/http://savannah.nongnu.org/projects/quilt
   [25]: https://help.launchpad.net/Packaging/PPA
   [27]: http://www.youtube.com/watch?v=SAxFpKBG-bU&feature=channel
   [28]: http://ubuntuforums.org/showthread.php?s=1e88fa1ad823decb139b63258360baeb&t=929498

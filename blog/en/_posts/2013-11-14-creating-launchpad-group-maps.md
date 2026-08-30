@@ -44,7 +44,7 @@ running everything using only javascript but with large groups (>10 members)
 the process took too much time.
 
 <pre class="sh_sh">
-wget https://raw.githubusercontent.com/chilicuil/learn/master/sh/tools/lp-g9n-team
+wget https://raw.githubusercontent.com/javier-lopez/learn/master/sh/tools/lp-g9n-team
 sh lp-g9n-team your-lp-group #~ubuntumembers by default
 </pre>
 
@@ -99,24 +99,24 @@ for your own.
   [279]: https://launchpad.net/~dholbach-huggers
   [280]: https://launchpad.net/~ubuntu-mars
   [281]: /assets/img/viajemotu-creating-launchpad-group-maps-1.jpg
-  [282]: http://people.ubuntu.com/~chilicuil/ubuntumembers-map.html
+  [282]: https://web.archive.org/web/20160421153042/http://people.ubuntu.com:80/~chilicuil/ubuntumembers-map.html
   [284]: http://www.google.com/drive/apps.html#fusiontables
   [285]: https://help.launchpad.net/API/launchpadlib
   [286]: http://code.google.com/p/geopy/
   [287]: http://docs.google.com/
   [288]: /assets/img/viajemotu-creating-launchpad-group-maps-3.jpg
-  [289]: /blog/en/2013/11/14/creating-launchpad-group-maps.htmlfusion/
+  [289]: /assets/img/viajemotu-creating-launchpad-group-maps-3.jpg
   [290]: /assets/img/viajemotu-creating-launchpad-group-maps-4.jpg
-  [291]: /blog/en/2013/11/14/creating-launchpad-group-maps.htmlupload/
+  [291]: /assets/img/viajemotu-creating-launchpad-group-maps-4.jpg
   [292]: /assets/img/viajemotu-creating-launchpad-group-maps-5.jpg
-  [293]: /blog/en/2013/11/14/creating-launchpad-group-maps.htmltable/
+  [293]: /assets/img/viajemotu-creating-launchpad-group-maps-5.jpg
   [294]: /assets/img/viajemotu-creating-launchpad-group-maps-6.jpg
-  [295]: /blog/en/2013/11/14/creating-launchpad-group-maps.htmlshare/
+  [295]: /assets/img/viajemotu-creating-launchpad-group-maps-6.jpg
   [296]: /assets/img/viajemotu-creating-launchpad-group-maps-7.jpg
-  [297]: /blog/en/2013/11/14/creating-launchpad-group-maps.htmlshare2/
+  [297]: /assets/img/viajemotu-creating-launchpad-group-maps-7.jpg
   [298]: /assets/img/viajemotu-creating-launchpad-group-maps-8.jpg
-  [299]: /blog/en/2013/11/14/creating-launchpad-group-maps.htmldetails/
+  [299]: /assets/img/viajemotu-creating-launchpad-group-maps-8.jpg
   [300]: /assets/img/viajemotu-creating-launchpad-group-maps-9.jpg
-  [301]: /blog/en/2013/11/14/creating-launchpad-group-maps.htmldetails2/
+  [301]: /assets/img/viajemotu-creating-launchpad-group-maps-9.jpg
 
 Originally published at [viajemotu.wordpress.com](https://viajemotu.wordpress.com/2013/11/14/launchpad-maps/)

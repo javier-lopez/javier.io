@@ -28,7 +28,7 @@ setting up the ubuntu development environment (update vm and pbuilder for
 rairing, ubuntu 13.04).
 
 You can see the rest of the scheduled sessions in:
-<http://loco.ubuntu.com/teams/ubuntu-mx/events>  
+<https://web.archive.org/web/20230822165251/https://loco.ubuntu.com/teams/ubuntu-mx/events>  
 * * *
 Nada, comenzaré ‘ubuntu hours’ (un tipo de evento en ubuntu, enfocado a reunir
 a personas interesadas en ubuntu por una hr en una situación informal)
@@ -40,7 +40,7 @@ La primera sesion será el dia 1 de Noviembre a las 21:00 (UTC-6) y será sobre
 configurar el entorno de desarrollo para ubuntu 13.04, raring.
 
 Pueden ver el resto de las sesiones planificadas en:
-<http://loco.ubuntu.com/teams/ubuntu-mx/events>
+<https://web.archive.org/web/20230822165251/https://loco.ubuntu.com/teams/ubuntu-mx/events>
 
 G+: <https://plus.google.com/116276435434146297915/posts>  
 Twitter: <https://twitter.com/ugjdf>  

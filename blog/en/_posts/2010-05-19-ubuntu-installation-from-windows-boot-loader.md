@@ -20,13 +20,13 @@ Then I created a **C:\boot\grub** directory and saved initrd (installer) and lin
 
 For the x86 architecture, the files can be downloaded from:
 
-- [http://archive.ubuntu.com/ubuntu/dists/lucid/main/installer-i386/current/images/netboot/ubuntu-installer/i386/initrd.gz](http://archive.ubuntu.com/ubuntu/dists/lucid/main/installer-i386/current/images/netboot/ubuntu-installer/i386/initrd.gz)
-- [http://archive.ubuntu.com/ubuntu/dists/lucid/main/installer-i386/current/images/netboot/ubuntu-installer/i386/linux](http://archive.ubuntu.com/ubuntu/dists/lucid/main/installer-i386/current/images/netboot/ubuntu-installer/i386/linux)
+- [https://web.archive.org/web/20140228001450/http://archive.ubuntu.com/ubuntu/dists/lucid/main/installer-i386/current/images/netboot/ubuntu-installer/i386/initrd.gz](https://web.archive.org/web/20140228001450/http://archive.ubuntu.com/ubuntu/dists/lucid/main/installer-i386/current/images/netboot/ubuntu-installer/i386/initrd.gz)
+- [https://web.archive.org/web/20150309195524/http://archive.ubuntu.com:80/ubuntu/dists/lucid/main/installer-i386/current/images/netboot/ubuntu-installer/i386/linux](https://web.archive.org/web/20150309195524/http://archive.ubuntu.com:80/ubuntu/dists/lucid/main/installer-i386/current/images/netboot/ubuntu-installer/i386/linux)
 
 For amd64:
 
-- [http://archive.ubuntu.com/ubuntu/dists/lucid/main/installer-amd64/current/images/netboot/ubuntu-installer/amd64/initrd.gz](http://archive.ubuntu.com/ubuntu/dists/lucid/main/installer-amd64/current/images/netboot/ubuntu-installer/amd64/initrd.gz)
-- [http://archive.ubuntu.com/ubuntu/dists/lucid/main/installer-amd64/current/images/netboot/ubuntu-installer/amd64/linux](http://archive.ubuntu.com/ubuntu/dists/lucid/main/installer-amd64/current/images/netboot/ubuntu-installer/amd64/linux)
+- [https://web.archive.org/web/20101229085053/http://archive.ubuntu.com/ubuntu/dists/lucid/main/installer-amd64/current/images/netboot/ubuntu-installer/amd64/initrd.gz](https://web.archive.org/web/20101229085053/http://archive.ubuntu.com/ubuntu/dists/lucid/main/installer-amd64/current/images/netboot/ubuntu-installer/amd64/initrd.gz)
+- [https://web.archive.org/web/20141004180829/http://archive.ubuntu.com:80/ubuntu/dists/lucid/main/installer-amd64/current/images/netboot/ubuntu-installer/amd64/linux](https://web.archive.org/web/20141004180829/http://archive.ubuntu.com:80/ubuntu/dists/lucid/main/installer-amd64/current/images/netboot/ubuntu-installer/amd64/linux)
 
 **[![](/assets/img/28.png)](/assets/img/28.png)**
 

@@ -25,14 +25,14 @@ ubuntu warriors to:
 <http://pad.ubuntu.com/LocoGames>
 
 If you are not sure which one is your Ubuntu Loco Team, look for it at:
-<http://loco.ubuntu.com/>
+<https://web.archive.org/web/20230822165251/https://loco.ubuntu.com/>
 
 ![][215]
 
 The information of the formal server will be delivered 10 minutes before the
 event at [@ubuntumx][216] and #ubuntu-mx =)
 
-<http://loco.ubuntu.com/events/ubuntu-mx/2173/detail/>
+<https://web.archive.org/web/20230822165251/https://loco.ubuntu.com/events/ubuntu-mx/2173/detail/>
 
   [209]: /assets/img/viajemotu-ubuntu-loco-games-2013-i-2.jpg
   [210]: /assets/img/viajemotu-ubuntu-loco-games-2013-i-1.jpg

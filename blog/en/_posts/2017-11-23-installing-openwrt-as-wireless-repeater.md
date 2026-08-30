@@ -31,7 +31,7 @@ To flash the image go to the **System Tools &#x25B7; Firmware Upgrade** menu
 
 **[![](/assets/img/99.png)](/assets/img/99.png)**
 
-Be aware that the trunk build is minimal, it doesn't include the [luci web interface](luci.subsignal.org), so it's up to every person to decide if they want it or not.
+Be aware that the trunk build is minimal, it doesn't include the [luci web interface](https://github.com/openwrt/luci), so it's up to every person to decide if they want it or not.
 
 To install additional software connect to the device and share temporary your laptop/desktop internet
 

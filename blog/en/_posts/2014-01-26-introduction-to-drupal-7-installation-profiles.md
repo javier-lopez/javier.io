@@ -304,6 +304,6 @@ I had to adjust mostly the **weight** parameter and add missing links. Not diffi
 
 If you had problems with the above description, a probably better and more up-to-date approach to profile Drupal installation is described at:
 
-- [http://salsadigital.com.au/news/drupal-installation-profile-and-distributions](http://salsadigital.com.au/news/drupal-installation-profile-and-distributions)
+- [https://web.archive.org/web/20200331105719/https://salsadigital.com.au/news/drupal-installation-profile-and-distributions](https://web.archive.org/web/20200331105719/https://salsadigital.com.au/news/drupal-installation-profile-and-distributions)
 
 That's it, I hope this information can save some time to someone, have fun!

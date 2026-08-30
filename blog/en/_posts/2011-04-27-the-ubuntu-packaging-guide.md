@@ -25,7 +25,7 @@ to:
 $ bzr branch lp:ubuntu-packaging-guide
 </pre>
 
-#### install sphinx ( <http://sphinx.pocoo.org/> )
+#### install sphinx ( <https://web.archive.org/web/20121022183301/http://sphinx.pocoo.org:80/> )
 
 <pre class="sh_sh">
 $ sudo apt-get install python-sphinx

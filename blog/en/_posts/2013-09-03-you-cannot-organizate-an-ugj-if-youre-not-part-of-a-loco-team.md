@@ -26,6 +26,6 @@ you, or just hangout with your local friends. **Ubuntu is a state of mind**!
 
   [272]: /assets/img/viajemotu-you-cannot-organizate-an-ugj-if-youre-not-part-of-a-loco-team-1.jpg
   [274]: /assets/img/viajemotu-you-cannot-organizate-an-ugj-if-youre-not-part-of-a-loco-team-3.jpg
-  [275]: http://loco.ubuntu.com/events/global/2315/
+  [275]: https://web.archive.org/web/20230822165251/https://loco.ubuntu.com/events/global/2315/
 
 Originally published at [viajemotu.wordpress.com](https://viajemotu.wordpress.com/2013/09/03/you-cannot-organizate-an-ugj-if-youre-not-part-of-a-loco-team/)

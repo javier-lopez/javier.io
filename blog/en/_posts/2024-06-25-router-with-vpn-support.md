@@ -25,7 +25,7 @@ Reconfigure LAN to use 10.9.8.1 so it doesn't conflict with default networking s
 
 In order to use Wireguard a firware upgrade is required (only OpenVPN by default). Download and unzip https://static.tp-link.com/upload/firmware/2023/202310/20231018/ER605(UN)_v2_2.2.2%20Build%2020231017.zip
 
-Go to http://192.168.0.1/webpages/index.html and then to **Firmware Upgrade**
+Go to https://web.archive.org/web/20220112060440/https://192.168.0.1/webpages/index.html and then to **Firmware Upgrade**
 
 Upload: **ER605v2_un_2.2.2_20231017-rel68869_up_2023-10-17_19.23.22.bin**
 
@@ -54,7 +54,7 @@ Go to the **Locations** submenu and select the desired area, on this case I choo
 
 Download the Wireguard configuration file
 
-Go to http://192.168.0.1/webpages/index.html and then to **VPN -> Wireguard -> Peers**:
+Go to https://web.archive.org/web/20220112060440/https://192.168.0.1/webpages/index.html and then to **VPN -> Wireguard -> Peers**:
 
     Interface: Select surfshark
     Public Key: Copy the string from the Server public key field from previous step

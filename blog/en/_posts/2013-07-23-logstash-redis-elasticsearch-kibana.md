@@ -14,7 +14,7 @@ description: "- logstash - redis - elasticsearch - kibana3 - sendemail Compositi
 - [logstash](http://logstash.net/)
 - [redis](http://redis.io/)
 - [elasticsearch](http://elasticsearch.org/)
-- [kibana3](http://three.kibana.org/)
+- [kibana3](https://web.archive.org/web/20260518021107/http://three.kibana.org/)
 - [sendemail](http://caspian.dotconf.net/menu/Software/SendEmail/)
 
 [Composition](http://en.wikipedia.org/wiki/Unix_philosophy) applied to logging has been a great sucess lately, this week I've verified how easy is to use logstash and friends with 48 servers distributed in two datacenters, I've created a script to deploy all programs in a single node.
@@ -68,4 +68,4 @@ $ sudo crontab -l
 */1 * * * * /usr/local/bin/check_alerts_logstash.sh
 </pre>
 
-- [http://cleversoft.wordpress.com/2013/04/05/887/](http://cleversoft.wordpress.com/2013/04/05/887/)
+- [https://web.archive.org/web/20140512201521/http://cleversoft.wordpress.com:80/2013/04/05/887/](https://web.archive.org/web/20140512201521/http://cleversoft.wordpress.com:80/2013/04/05/887/)

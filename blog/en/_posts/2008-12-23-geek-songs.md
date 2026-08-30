@@ -23,8 +23,9 @@ Here are some geeky songs I was not aware of, it's not that I spend all my day l
 
 #### White and nerdy
 <div class="youtube">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/Nh9mVsBKwYs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/N9qYF9DZPdw" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
+\[+\] [Watch on YouTube](https://www.youtube.com/watch?v=N9qYF9DZPdw) (label blocks embedding on every upload)
 
 #### Mc hawking -Entropy
 <div class="youtube">
@@ -38,8 +39,9 @@ Here are some geeky songs I was not aware of, it's not that I spend all my day l
 
 #### The geeks get the girls
 <div class="youtube">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/pDcz43pt6r4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/AtGGC7i-XPE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
+\[+\] [Studio version on YouTube](https://www.youtube.com/watch?v=pDcz43pt6r4) (embedding blocked by the label; live take above)
 
 #### Sunny sunny sunday
 <div class="youtube">

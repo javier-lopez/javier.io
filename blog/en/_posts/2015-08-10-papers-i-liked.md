@@ -13,7 +13,7 @@ From time to time I read papers about any subject, mostly about computer science
 
 ### Computer Security
 
-- [PrivExec: Private Execution as an Operating System Service](http://www.iseclab.org/papers/sp2013privexec) - 2013. [[pdf]](http://f.javier.io/rep/papers/sp2013privexec.pdf) 16 Pag. Kernel side private / temporal / irrecoverable execution environments.
+- [PrivExec: Private Execution as an Operating System Service](https://web.archive.org/web/20150506055748/http://www.iseclab.org:80/papers/sp2013privexec) - 2013. [[pdf]](http://f.javier.io/rep/papers/sp2013privexec.pdf) 16 Pag. Kernel side private / temporal / irrecoverable execution environments.
 
 
 - [Alcatraz: An Isolated Environment for Experimenting with Untrusted Software](https://www.comp.nus.edu.sg/~liangzk/papers/tissec09.pdf) - 2009. [[pdf]](http://f.javier.io/rep/papers/alcatraz-an-isolated-environment-for-experimenting-with-untrusted-software.pdf) 37 Pag. Commit + policy driven temporal sandboxing environments.
@@ -26,7 +26,7 @@ From time to time I read papers about any subject, mostly about computer science
 
 ### Computer Virtualization
 
-- [Performance Evaluation of Container-based Virtualization for High Performance Computing Environments](http://marceloneves.org/papers/pdp2013-containers.pdf) - 2014. [[pdf]](http://f.javier.io/rep/papers/pdp2013-containers.pdf) 8 Pag. Xen, Openvz, Linux Vserver, LXC performance evaluation.
+- [Performance Evaluation of Container-based Virtualization for High Performance Computing Environments](https://web.archive.org/web/20180920220251/http://marceloneves.org:80/papers/pdp2013-containers.pdf) - 2014. [[pdf]](http://f.javier.io/rep/papers/pdp2013-containers.pdf) 8 Pag. Xen, Openvz, Linux Vserver, LXC performance evaluation.
 
 ### Computer Operation Systems
 

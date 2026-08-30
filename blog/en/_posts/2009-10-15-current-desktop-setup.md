@@ -11,6 +11,6 @@ description: "Ubuntu 9.04 + E17 + Ecomorp"
 
 **[![](/assets/img/5.png)](/assets/img/5.png)**
 **[![](/assets/img/6.png)](/assets/img/6.png)**
-**[![](/assets/img/7.png)](/assets/img/7png)**
+**[![](/assets/img/7.png)](/assets/img/7.png)**
 
 **Ubuntu 9.04 + E17 + Ecomorp**

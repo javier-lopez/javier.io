@@ -83,7 +83,7 @@ one thing I really like is that developers and MOTU’s go and give an answer to
 ‘normal people’, I couldn’t stop myself from querying the database. The ‘maco’
 question is really inspiring.
 
-<http://www.jonobacon.org/2010/08/23/getting-more-developers-interested-in-participating-in-ubuntu/>
+<https://web.archive.org/web/20170223150952/http://www.jonobacon.org/2010/08/23/getting-more-developers-interested-in-participating-in-ubuntu/>
 
 <http://fnords.wordpress.com/2010/08/24/getting-more-developers-interested-in-ubuntu/>
 
@@ -112,12 +112,12 @@ A #ubuntu-beginners thread with several blogs like this.
 
 <http://daniel.holba.ch/blog/?p=806>
 
-Han liberado la nueva version de Harvest ( <http://harvest.ubuntu.com/> ), al
+Han liberado la nueva version de Harvest ( <https://web.archive.org/web/20130812151151/http://harvest.ubuntu.com> ), al
 parecer una plataforma para hacer mas facil la colaboracion con ubuntu, probe
 la version beta, pero no lo entendi, sin embargo creo que habra tutoriales
 para aprender a usarlo, lo seguire de cerca
 
-The new version of Harvest (<http://harvest.ubuntu.com/>) has been released,
+The new version of Harvest (<https://web.archive.org/web/20130812151151/http://harvest.ubuntu.com>) has been released,
 it seems like a platform to making easier to collaborate with ubuntu, I tested
 the beta version but to be honest I didn’t get it, however it seems like
 tutorials will be made to get involved with it, I’ll look forward to it.

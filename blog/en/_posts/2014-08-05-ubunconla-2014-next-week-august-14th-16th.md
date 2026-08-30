@@ -40,6 +40,6 @@ gobiernos locales y otras instituciones.
 ¡Espero verlos por ahí!
 
   [312]: http://ubuconla.org/
-  [313]: http://ubuconla.org/speakers.php
+  [313]: https://web.archive.org/web/20150222022937/http://ubuconla.org/speakers.php
 
 Originally published at [viajemotu.wordpress.com](https://viajemotu.wordpress.com/2014/08/05/ubunconla-2014-next-week-august-14th-16th/)
