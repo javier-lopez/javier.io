@@ -2,6 +2,7 @@
 layout: post
 title: "with good luck!"
 tags: [personal]
+description: "I hate banks!, today I lost my morning trying to use paypal through my banorte account, however at the end I was able to buy my gift for Mwkdoll =)!..."
 ---
 
 ## {{ page.title }}

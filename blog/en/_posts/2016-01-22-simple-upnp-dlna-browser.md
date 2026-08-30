@@ -2,6 +2,7 @@
 layout: post
 title: "a simple cli upnp/dlna browser"
 tags: [networking, shell]
+description: "Last weekend I installed a usb hard disk to my openwrt router, added some content, setup minidlna and called it a day, easy way to stream movies locally. I tested..."
 ---
 
 ## {{ page.title }}

@@ -273,8 +273,14 @@
           var lang = shToHljs[pre.className];
           var code = document.createElement('code');
           if (lang) code.className = 'language-' + lang;
-          while (pre.firstChild) { code.appendChild(pre.firstChild); }
-          pre.appendChild(code);
+          // keep the injected copy button out of <code>: hljs re-renders the
+          // code element and would flatten the button into literal text
+          Array.prototype.slice.call(pre.childNodes).forEach(function (n) {
+            if (!(n.nodeType === 1 && n.classList.contains('post-copy-btn'))) {
+              code.appendChild(n);
+            }
+          });
+          pre.insertBefore(code, pre.firstChild);
           pre.className = 'highlight';
         });
         hljs.highlightAll();

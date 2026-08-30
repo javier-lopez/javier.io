@@ -2,6 +2,7 @@
 layout: post
 title: "removing passwords from git repositories"
 tags: [tools, security]
+description: "Here's how to remove a password from any file, in all revisions, in a git repository: $ git filter-branch --tree-filter  \"find . -type f -exec sed -i -e 's/password/XXX/g'..."
 ---
 
 ## {{ page.title }}

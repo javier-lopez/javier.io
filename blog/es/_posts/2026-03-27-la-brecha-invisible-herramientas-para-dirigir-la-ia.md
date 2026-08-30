@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "la brecha invisible: herramientas para dirigir la ia"
+description: "Llevo un mes construyendo tucastigo.com — una plataforma de chat en tiempo real con pagos crypto, contenido multimedia por niveles, moderación automática y perfiles swipe. ~96,000 líneas de código (18K..."
 image: /assets/img/brecha-invisible.png
 tags: [ai, tools]
 ---

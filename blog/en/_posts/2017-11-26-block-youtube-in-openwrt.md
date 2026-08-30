@@ -2,6 +2,7 @@
 layout: post
 title: "block youtube by IP in openwrt routers"
 tags: [networking, security]
+description: "In previous posts I wrote about how to install openwrt as an access point or as a wireless repeater, this time I'll show how to block youtube and other third..."
 ---
 
 ## {{ page.title }}

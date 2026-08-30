@@ -2,6 +2,7 @@
 layout: post
 title: "fix github rendering in old firefox releases with greasemonkey"
 tags: [tools]
+description: "When the new firefox interface (aurora) was announced I knew I would never install it, since then I've been looking for alternatives, in the meantime I've been using an old..."
 ---
 
 ## {{ page.title }}

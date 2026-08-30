@@ -2,6 +2,7 @@
 layout: post
 title: "transfer files with netcat"
 tags: [networking, shell]
+description: "Here goes a quick note about how to transfer files in a LAN between computers using netcat which is available in a wide range of platforms because of its simplicity...."
 ---
 
 ## {{ page.title }}

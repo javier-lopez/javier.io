@@ -2,6 +2,7 @@
 layout: post
 title: "public cloud services (digitalocean, aws) and vagrant"
 tags: [aws, tools]
+description: "I like to keep a fast, ordered and stable computer, that's why I use virtual machines, containers, public cloud services and other means to keep it that way, all my..."
 ---
 
 ## {{ page.title }}

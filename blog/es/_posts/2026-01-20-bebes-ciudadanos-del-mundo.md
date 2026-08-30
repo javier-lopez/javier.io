@@ -2,6 +2,7 @@
 layout: post
 title: "bebes, ciudadanos del mundo"
 tags: [personal]
+description: "Entre los 6 y los 8 meses, los bebés de todas las culturas son iguales, después, un fenómeno comienza a pasar, empiezan a filtrar los sonidos del idioma envolvente, empiezan..."
 ---
 
 ## {{ page.title }}

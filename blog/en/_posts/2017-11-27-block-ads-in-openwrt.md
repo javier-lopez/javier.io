@@ -2,6 +2,7 @@
 layout: post
 title: "block ads in openwrt routers"
 tags: [networking, security]
+description: "In previous posts I wrote about how to block YouTube and other services by ip, this time I'll show how to do the same by dns, kind of adblock for..."
 ---
 
 ## {{ page.title }}

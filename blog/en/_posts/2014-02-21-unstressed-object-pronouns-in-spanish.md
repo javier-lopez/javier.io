@@ -2,6 +2,7 @@
 layout: post
 title: "unstressed direct, indirect pronouns in Spanish"
 tags: [personal]
+description: "Sometimes I help friends with Spanish grammar, I'm not an expert but I remember I wasn't that bad on my Spanish classes neither. It's also a good chance to practice..."
 ---
 
 ## {{ page.title }}

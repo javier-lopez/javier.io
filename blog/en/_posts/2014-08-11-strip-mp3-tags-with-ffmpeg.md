@@ -2,6 +2,7 @@
 layout: post
 title: "strip mp3 tags with ffmpeg"
 tags: [music, shell]
+description: "I use mpd to satisfy my local music player needs, mpd reads multimedia tags and attaches them to its database, I use these tags to look for tracks and artists..."
 ---
 
 ## {{ page.title }}

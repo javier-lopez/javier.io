@@ -2,6 +2,7 @@
 layout: post
 title: "proxy ssh + socks"
 tags: [networking, security]
+description: "- Facebook, Twitter, Youtube, etc are blocked. - Route traffic through ssh tunnels. - Unix account in an external host, eg; cjb.net, vps, etc - Ssh client - Traffic allowed..."
 ---
 
 ## {{ page.title }}

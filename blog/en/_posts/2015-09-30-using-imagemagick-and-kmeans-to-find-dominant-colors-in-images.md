@@ -2,6 +2,7 @@
 layout: post
 title: "using imagemagick, awk and kmeans to find dominant colors in images"
 tags: [shell, tools]
+description: "Some days ago I was reading \"Using python to generate awesome linux desktop themes\" and got impressed by a technique to obtain dominant colors from images, I went ahead and..."
 ---
 
 ## {{ page.title }}
@@ -20,7 +21,7 @@ $ time dcolors akira_800x800.jpg
 
 real    0m1.176s
 </pre>
-**[![](/assets/img/akira_800x800.jpg)](/assets/img/akira_800x800.jpg)**
+**[![akira 800x800](/assets/img/akira_800x800.jpg)](/assets/img/akira_800x800.jpg)**
 <center>
 <span style="background-color: #a35032">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 <span style="background-color: #414d5d">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -36,7 +37,7 @@ $ time ./dcolors --resize 100x100 -d 10 akira-cycle-2.png
 
 real    0m3.188s
 </pre>
-**[![](/assets/img/akira-cycle-2_800x800.png)](/assets/img/akira-cycle-2_800x800.png)**
+**[![akira cycle 2 800x800](/assets/img/akira-cycle-2_800x800.png)](/assets/img/akira-cycle-2_800x800.png)**
 <center>
 <span style="background-color: #315576">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 <span style="background-color: #132a45">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -57,7 +58,7 @@ $ time ./dcolors -f hex -k 8 akira-neo-tokyo-7_800x800.png
 
 real    0m1.005s
 </pre>
-**[![](/assets/img/akira-neo-tokyo-7_800x800.png)](/assets/img/akira-neo-tokyo-7_800x800.png)**
+**[![akira neo tokyo 7 800x800](/assets/img/akira-neo-tokyo-7_800x800.png)](/assets/img/akira-neo-tokyo-7_800x800.png)**
 <center>
 <span style="background-color: #495D66">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 <span style="background-color: #223634">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>

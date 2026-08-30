@@ -2,6 +2,7 @@
 layout: post
 title: "deb file structure"
 tags: [linux]
+description: "Deb packages are nothing but ar containers, what set them apart (besides the sufix) are the 3 blobs they always contain. - debian-binary: package version, normally 2.0 - control.tar.gz: compressed..."
 ---
 
 ## {{ page.title }}

@@ -2,6 +2,7 @@
 layout: post
 title: "ipod shuffle and rebuild_db"
 tags: [music, linux]
+description: "Some time ago I bought an ipod shuffle and as with all apple products it turned out to be somekind difficult to use on Linux. Rythmbox and gtkpod sometimes do..."
 ---
 
 ## {{ page.title }}

@@ -2,6 +2,7 @@
 layout: post
 title: "aws-cli ssm by ip"
 tags: [aws, shell]
+description: "Before you start, make sure that your Amazon EC2 instances are configured correctly. This involves setting up an IAM role AmazonSSMManagedInstanceCore for Systems Manager and attaching it to your instances...."
 ---
 
 ## {{ page.title }}

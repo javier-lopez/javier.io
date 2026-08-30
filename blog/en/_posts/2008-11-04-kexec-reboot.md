@@ -2,6 +2,7 @@
 layout: post
 title: "kexec reboot"
 tags: [linux]
+description: "Since the 2.6 Linux kernel version came out there is a new way to reboot quite fast. Kexec is a new call system who replaces the running kernel with a..."
 ---
 
 ## {{ page.title }}

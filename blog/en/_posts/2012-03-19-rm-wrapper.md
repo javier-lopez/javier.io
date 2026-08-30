@@ -2,6 +2,7 @@
 layout: post
 title: "rm wrapper"
 tags: [shell, tools]
+description: "Sometimes when I run: I realize I didn't mean it, so with this in my mind I made a little wrapper around rm, now, when I remove files, they're send..."
 ---
 
 ## {{ page.title }}

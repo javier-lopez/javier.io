@@ -2,6 +2,7 @@
 layout: post
 title: "howdoi, a code search tool and a sh implementation"
 tags: [shell, tools]
+description: "During these days I read about howdoi, a stackoverflow client for your terminal. And I though it was pretty cool, so I looked at a couple of implementation (the original..."
 ---
 
 ## {{ page.title }}
@@ -14,7 +15,7 @@ Get the code at:
 
 - [https://raw.github.com/javier-lopez/learn/master/sh/tools/howdoi](https://raw.github.com/javier-lopez/learn/master/sh/tools/howdoi)
 
-**[![](http://imgs.xkcd.com/comics/tar.png)](http://imgs.xkcd.com/comics/tar.png)**
+**[![tar](http://imgs.xkcd.com/comics/tar.png)](http://imgs.xkcd.com/comics/tar.png)**
 <!--<iframe class="showterm" src="http://showterm.io/ab7339312c9d960f09f77" width="640" height="350">&nbsp;</iframe>-->
 
 Happy hacking &#x263a;!

@@ -2,6 +2,7 @@
 layout: post
 title: "using vim objects in bash"
 tags: [tools, shell]
+description: "I've been using vi-mode in bash for a couple of years now, more than once I've tried to edit something with ci\", ca(, or any other popular vim object. This..."
 ---
 
 ## {{ page.title }}

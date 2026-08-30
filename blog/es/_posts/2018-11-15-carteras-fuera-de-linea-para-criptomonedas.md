@@ -2,6 +2,7 @@
 layout: post
 title: "carteras fuera de línea para criptomonedas"
 tags: [security, docker]
+description: "Las carteras para criptomonedas son piezas de software que dan acceso a los blockchains de Bitcoin, Ethereum, etc, cada criptomoneda tiene su propia cartera, asi una cartera para Bitcoin solo..."
 ---
 
 ## {{ page.title }}
@@ -113,7 +114,7 @@ hace una vez.
 
 Verificados los binarios se muestra la interfaz inicial.
 
-**[![](/assets/img/wallet-btc-1.png)](/assets/img/wallet-btc-1.png)**
+**[![wallet btc 1](/assets/img/wallet-btc-1.png)](/assets/img/wallet-btc-1.png)**
 
 Las primeras pantallas muestran opciones de conexión y preferencias que
 requeririan sus propios artículos, por el momento utilizaremos las opciones por
@@ -121,38 +122,38 @@ defecto para hacer el proceso tan rápido y eficiente como sea posible.
 
 En la primera pantalla se selecciona **Auto connect**, y se da **siguiente**.
 
-**[![](/assets/img/wallet-btc-2.png)](/assets/img/wallet-btc-2.png)**
+**[![wallet btc 2](/assets/img/wallet-btc-2.png)](/assets/img/wallet-btc-2.png)**
 
 En la segunda se pregunta por la ubicación de los datos de la cartera, se dejará
 en **default_wallet** y se da **siguiente**.
 
-**[![](/assets/img/wallet-btc-3.png)](/assets/img/wallet-btc-3.png)**
+**[![wallet btc 3](/assets/img/wallet-btc-3.png)](/assets/img/wallet-btc-3.png)**
 
 En la tercera, se pregunta por el tipo de cartera, la cartera estándar estará
 bien, se da **siguiente**.
 
-**[![](/assets/img/wallet-btc-4.png)](/assets/img/wallet-btc-4.png)**
+**[![wallet btc 4](/assets/img/wallet-btc-4.png)](/assets/img/wallet-btc-4.png)**
 
 Ahora se llega a la parte donde se elige si se desea generar una nueva cuenta o
 abrir una existente. Para abrir una nueva cuenta se selecciona **Create a new seed**
 y se da **siguiente**.
 
-**[![](/assets/img/wallet-btc-5.png)](/assets/img/wallet-btc-5.png)**
+**[![wallet btc 5](/assets/img/wallet-btc-5.png)](/assets/img/wallet-btc-5.png)**
 
 Se selecciona el formato de las llaves , **standard** y se da **siguiente**.
 
-**[![](/assets/img/wallet-btc-6.png)](/assets/img/wallet-btc-6.png)**
+**[![wallet btc 6](/assets/img/wallet-btc-6.png)](/assets/img/wallet-btc-6.png)**
 
 Ahora la cartera genera la **llave privada**, **OJO**, hay que tener mucho
 cuidado con este dato, hay que mantenerlo privado y guardarlo en un lugar
 seguro. Si se pierde u olvida los fondos se vuelven irrecuperables.
 
-**[![](/assets/img/wallet-btc-7.png)](/assets/img/wallet-btc-7.png)**
+**[![wallet btc 7](/assets/img/wallet-btc-7.png)](/assets/img/wallet-btc-7.png)**
 
 Para asegurarse que el dato ha sido almacenado, en la siguiente
 pantalla se pregunta por la llave privada.
 
-**[![](/assets/img/wallet-btc-8.png)](/assets/img/wallet-btc-8.png)**
+**[![wallet btc 8](/assets/img/wallet-btc-8.png)](/assets/img/wallet-btc-8.png)**
 
 Ahora, se pregunta por una contraseña para cifrar de manera interna la
 información recien generada, debido a la forma en que se abre la cartera no es
@@ -164,13 +165,13 @@ cifrado y mantener ese archivo en un lugar seguro. Personalmente mantengo mis
 llaves privadas en un archivo .txt y lo cifro con
 [GPG](https://es.wikipedia.org/wiki/GNU_Privacy_Guard).
 
-**[![](/assets/img/wallet-btc-9.png)](/assets/img/wallet-btc-9.png)**
+**[![wallet btc 9](/assets/img/wallet-btc-9.png)](/assets/img/wallet-btc-9.png)**
 
 Finalmente ha llegado el momento de interactuar con la nueva cuenta, desde esta
 interfaz se puede consultar el saldo, enviar y recibir bitcoins. Para ver la llave
 pública se va a la pestaña `recibir`.
 
-**[![](/assets/img/wallet-btc-9.1.png)](/assets/img/wallet-btc-9.1.png)**
+**[![wallet btc 9.1](/assets/img/wallet-btc-9.1.png)](/assets/img/wallet-btc-9.1.png)**
 
 Listo!, ahora se tiene una nueva cuenta BTC.
 
@@ -182,21 +183,21 @@ Listo!, ahora se tiene una nueva cuenta BTC.
 Si ya se cuenta con una llave privada anterior (la frase de 12 palabras) se
 continua desde el 4to paso y esta vez se selecciona **I already have a seed**.
 
-**[![](/assets/img/wallet-btc-10.png)](/assets/img/wallet-btc-10.png)**
+**[![wallet btc 10](/assets/img/wallet-btc-10.png)](/assets/img/wallet-btc-10.png)**
 
 Se introduce la llave privada y se da **siguiente**
 
-**[![](/assets/img/wallet-btc-11.png)](/assets/img/wallet-btc-11.png)**
+**[![wallet btc 11](/assets/img/wallet-btc-11.png)](/assets/img/wallet-btc-11.png)**
 
 Se preguntará por una contraseña para cifrar los datos temporales, no es
 necesario, puesto que el script eliminará esos datos al cerrar la cartera. Se
 da **siguiente**
 
-**[![](/assets/img/wallet-btc-12.png)](/assets/img/wallet-btc-12.png)**
+**[![wallet btc 12](/assets/img/wallet-btc-12.png)](/assets/img/wallet-btc-12.png)**
 
 Ya se puede interactuar con la cuenta para enviar o recibir BTC.
 
-**[![](/assets/img/wallet-btc-13.png)](/assets/img/wallet-btc-13.png)**
+**[![wallet btc 13](/assets/img/wallet-btc-13.png)](/assets/img/wallet-btc-13.png)**
 
 ### Neo
 
@@ -214,18 +215,18 @@ cartera, y la interfaz gráfica, veamos el caso de NEO.
 
 Después de verificar las sumatorias aparece la interfaz gráfica.
 
-**[![](/assets/img/wallet-neo-1.png)](/assets/img/wallet-neo-1.png)**
+**[![wallet neo 1](/assets/img/wallet-neo-1.png)](/assets/img/wallet-neo-1.png)**
 
 Aunque luce diferente, en realidad provee las mismas opciones. Para generar una
 nueva cuenta se selecciona **Create a new wallet**
 
-**[![](/assets/img/wallet-neo-2.png)](/assets/img/wallet-neo-2.png)**
+**[![wallet neo 2](/assets/img/wallet-neo-2.png)](/assets/img/wallet-neo-2.png)**
 
 La cartera de NEO nos obliga a especificar una contraseña para cifrar los datos
 temporales de la cartera, pero esa contraseña no es importante recordarla, se
 puede poner una temporal.
 
-**[![](/assets/img/wallet-neo-3.png)](/assets/img/wallet-neo-3.png)**
+**[![wallet neo 3](/assets/img/wallet-neo-3.png)](/assets/img/wallet-neo-3.png)**
 
 Una vez hecho, se proveen las llaves públicas y privadas.
 
@@ -239,16 +240,16 @@ Listo!, ahora también se tiene una nueva cuenta NEO.
 Si ya se cuenta con una llave privada de NEO anterior se selecciona la opción
 **Login using a private key** en el menú principal.
 
-**[![](/assets/img/wallet-neo-1.png)](/assets/img/wallet-neo-1.png)**
+**[![wallet neo 1](/assets/img/wallet-neo-1.png)](/assets/img/wallet-neo-1.png)**
 
 Se introduce la clave y se hace clic en **Login**
 
-**[![](/assets/img/wallet-neo-10.png)](/assets/img/wallet-neo-10.png)**
+**[![wallet neo 10](/assets/img/wallet-neo-10.png)](/assets/img/wallet-neo-10.png)**
 
 Listo, ahora se pueden enviar y recibir Neo's y criptomonedas compatibles, como
 GAS.
 
-**[![](/assets/img/wallet-neo-11.png)](/assets/img/wallet-neo-11.png)**
+**[![wallet neo 11](/assets/img/wallet-neo-11.png)](/assets/img/wallet-neo-11.png)**
 
 -------------------------------------------------------------------------------
 

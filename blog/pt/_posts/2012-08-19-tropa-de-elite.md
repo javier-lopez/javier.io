@@ -2,6 +2,7 @@
 layout: post
 title: "tropa de elite"
 tags: [personal]
+description: "A alguns meses assisti a um filme chamado tropa de elite. É a historia de um homem que lidera um grupo fortemente armado e que sobe aos morros para matar..."
 ---
 
 ## {{ page.title }}

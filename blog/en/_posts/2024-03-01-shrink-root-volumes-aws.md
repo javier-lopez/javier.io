@@ -2,6 +2,7 @@
 layout: post
 title: "shrink root volumes in AWS"
 tags: [aws, linux]
+description: "/dev/nvme1n1 → Old volume → /old /dev/nvme2n1 → New volume → /new * /dev/nvme3n1 → Backup Old volume (only applicable for XFS root volumes) → /old-backup 1. Create a snapshot..."
 ---
 
 ## {{ page.title }}

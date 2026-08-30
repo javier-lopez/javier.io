@@ -2,6 +2,7 @@
 layout: post
 title: "installing openwrt as a wireless repeater"
 tags: [networking]
+description: "Last weekend I spend some time at my parents house and the occasion was appropriate to extend the wifi signal to cover the whole house, since I don't intend to..."
 ---
 
 ## {{ page.title }}
@@ -80,19 +81,19 @@ Now, it's time to create the bridge interface (bonding the **lan** and **wwan** 
 
 **[![](/assets/img/101.png)](/assets/img/101.png)**
 
-**[![](/assets/img/openwrt-bridge.png)](/assets/img/openwrt-bridge.png)**
+**[![openwrt bridge](/assets/img/openwrt-bridge.png)](/assets/img/openwrt-bridge.png)**
 
 And join the nearby AP (linked to the **bridge/wwan** interface)
 
 - Network &#x25B7; Wifi &#x25B7; Scan
 
-**[![](/assets/img/openwrt-client.png)](/assets/img/openwrt-client.png)**
+**[![openwrt client](/assets/img/openwrt-client.png)](/assets/img/openwrt-client.png)**
 
 Finally, don't forget to create the AP repeater (linked to the **lan** interface)
 
 - Network &#x25B7; Wifi &#x25B7; Add
 
-**[![](/assets/img/openwrt-ap.png)](/assets/img/openwrt-ap.png)**
+**[![openwrt ap](/assets/img/openwrt-ap.png)](/assets/img/openwrt-ap.png)**
 
 That's it!, a simple and robust wifi extender &#9996;
 

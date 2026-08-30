@@ -2,6 +2,7 @@
 layout: post
 title: "installing openwrt as an access point"
 tags: [networking]
+description: "In previous post I wrote about how to use openwrt as a wireless repeater, this time I'll use it as an independent access point with its own subnet, how practical!..."
 ---
 
 ## {{ page.title }}
@@ -76,7 +77,7 @@ Create the Access Point (linked to the **lan** interface)
 
 - Network &#x25B7; Wifi &#x25B7; Add
 
-**[![](/assets/img/openwrt-ap.png)](/assets/img/openwrt-ap.png)**
+**[![openwrt ap](/assets/img/openwrt-ap.png)](/assets/img/openwrt-ap.png)**
 
 Connect an ethernet cable to the WAN interface (on this device it's a blue port behind) and enjoy!, happy browsing &#9996;
 

@@ -2,6 +2,7 @@
 layout: post
 title: "um lugar pertinho do céu"
 tags: [personal]
+description: "A época de ouro do cinema mexicano consagrou uma das figuras mais importantes do México, o imortal Pedro Infante. Pedro Infante foi um ator e cantor mexicano, nasceu em Sinaloa,..."
 ---
 
 ## {{ page.title }}

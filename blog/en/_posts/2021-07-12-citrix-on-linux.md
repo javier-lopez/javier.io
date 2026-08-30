@@ -2,6 +2,7 @@
 layout: post
 title: "citrix on linux"
 tags: [linux, security]
+description: "Error: \"SSL Error 61: You have not chosen to trust 'Certificate Authority'...\" on Receiver for Linux That's it, happy coworking, &#128522;"
 ---
 
 ## {{ page.title }}

@@ -2,6 +2,7 @@
 layout: post
 title: "out of office"
 tags: [personal]
+description: "I've just finished some videos for the UGJ, I spend almost all my day walking in Mexico city downtown looking at buildings and buying stuff, I took a cup of..."
 ---
 
 ## {{ page.title }}

@@ -2,6 +2,7 @@
 layout: post
 title: "host several sites in a single box with docker and traefik v2, http"
 tags: [docker, networking]
+description: "Docker is great and everything, however one of the things that still stress me is how to deploy it to production. I don't need fancy stuff, nor I want to..."
 ---
 
 ## {{ page.title }}
@@ -23,7 +24,7 @@ my own tutorial for future me and other in pain souls.
 
 ## Diagram and Folder Structure
 
-**[![](/assets/img/traefik-docker-compose.png)](/assets/img/traefik-docker-compose.png)**
+**[![traefik docker compose](/assets/img/traefik-docker-compose.png)](/assets/img/traefik-docker-compose.png)**
 
     ┬
     ├── multisite (traefik)
@@ -71,7 +72,7 @@ systems), [http://localhost:8080](http://localhost:8080) and
 personally the latter was more useful to me, helped me to debug route
 mismatches.
 
-**[![](/assets/img/traefik-dashboard.png)](/assets/img/traefik-dashboard.png)**
+**[![traefik dashboard](/assets/img/traefik-dashboard.png)](/assets/img/traefik-dashboard.png)**
 
 Traefik is able to autoconfigure its routing from Docker events/data, that is
 great but if you don't want to end with dozens of routes because of auxiliary
@@ -104,13 +105,13 @@ although simple contain enough complexity to mirror real world cases:
     $ cd site1.com/
     $ git checkout 0de86a2
 
-**[![](/assets/img/traefik-tier-3-app.png)](/assets/img/traefik-tier-3-app.png)**
+**[![traefik tier 3 app](/assets/img/traefik-tier-3-app.png)](/assets/img/traefik-tier-3-app.png)**
 
 The above image doesn't consider docker, yet helps to describe how a common web
 application works, once we take in account containers / subnets we would arrive
 to the following diagram:
 
-**[![](/assets/img/traefik-tier-3-dockerized-app.png)](/assets/img/traefik-tier-3-dockerized-app.png)**
+**[![traefik tier 3 dockerized app](/assets/img/traefik-tier-3-dockerized-app.png)](/assets/img/traefik-tier-3-dockerized-app.png)**
 
 As you can see, the only container that can communicate with both, **frontend**
 and **database** is the **app**, this is just good practices, in our final

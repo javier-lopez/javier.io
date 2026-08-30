@@ -2,6 +2,7 @@
 layout: post
 title: "nossa infância"
 tags: [poetry]
+description: "{{ page.title }} {{ page.date | datetostring }} Nossa infância é só uma lembrança demasiado vaga longe ficou aquela nossa terra a terra que nos viu cres..."
 ---
 
 ## {{ page.title }}

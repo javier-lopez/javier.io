@@ -2,6 +2,7 @@
 layout: post
 title: "não tenho dinheiro"
 tags: [poetry, music]
+description: "Eu tambem não! =)"
 ---
 
 ## {{ page.title }}

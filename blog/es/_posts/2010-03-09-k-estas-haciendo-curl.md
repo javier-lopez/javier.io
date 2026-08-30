@@ -2,6 +2,7 @@
 layout: post
 title: "k estas haciendo? (curl + cookies + post)"
 tags: [shell, tools]
+description: "En la MN habia una sección de chat al estilo de twitter, no tenia una API definida, pero podia ser analizada y convertida para desplegarse en la consola. El script..."
 ---
 
 ## {{ page.title }}

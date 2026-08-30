@@ -3,6 +3,7 @@ layout: post
 title: "pensando con flechas"
 image: /assets/img/pensando-con-flechas.png
 tags: [ai]
+description: "Ultimamente se ha popularizado la IA, pero tenemos idea de cómo funciona por dentro?, A menudo parece magia, pero en realidad, el motor principal de la IA es una rama..."
 ---
 
 ## {{ page.title }}

@@ -2,6 +2,7 @@
 layout: post
 title: "report bugs to debian from ubuntu"
 tags: [linux]
+description: "I'm a normal computer user, I don't run local mail servers and I don't have the intention to do so, I have my email account with gmail and I review..."
 ---
 
 ## {{ page.title }}
@@ -14,13 +15,13 @@ I'm a normal computer user, I don't run local mail servers and I don't have the 
 
 To report a bug from within Ubuntu, people are suppose to type:
 
-<pre>
+<pre class="sh_sh">
 $ reportbug -B debian package
 </pre>
 
 However it won't work because it won't find a local mail server (and it would let you know after you spend 15-20 min, smart programming &#128530;) After spending more precious time on Internet, you'll find out it actually can be configured to use an external smtp server (I've read somewhere Debian devs are interested in upgrade BTS, and probably they will re-invent the wheel in the process because of course there are not enought bug trackers online)...
 
-<pre>
+<pre class="sh_sh">
 $ reportbug --configure
 </pre>
 
@@ -32,7 +33,7 @@ And you'll need to input the following data:
 
 After done it a new **$HOME/.reportbugrc** file will be created and the original command would work.
 
-<pre>
+<pre class="sh_sh">
 $ reportbug -B debian package
 </pre>
 
@@ -50,7 +51,7 @@ If your report contain patches, and after configuring **reportbug** it may be a 
 
 #### apt-get source (traditional)
 
-<pre>
+<pre class="sh_sh">
 $ apt-get source xicc
 $ cd cd xicc-0.2/
 $ sed -i 's/colour/color/g' debian/control
@@ -61,7 +62,7 @@ $ submittodebian
 
 #### bzr (modern)
 
-<pre>
+<pre class="sh_sh">
 $ bzr branch lp:ubuntu/xicc
 $ cd xicc
 $ sed -i 's/colour/color/g' debian/control

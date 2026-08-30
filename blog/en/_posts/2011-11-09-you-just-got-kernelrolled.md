@@ -2,6 +2,7 @@
 layout: post
 title: "you just got kernelroll'd ;)"
 tags: [linux]
+description: "Rickrollin in kernel space &#9786;, this hack will intercept any system call to open multimedia files and replace them with rickrolling.mp3 &#128521; To set it up in Ubuntu 10.04 you'll..."
 ---
 
 ## {{ page.title }}

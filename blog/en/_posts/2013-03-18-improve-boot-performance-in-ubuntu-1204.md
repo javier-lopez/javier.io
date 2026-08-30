@@ -1,7 +1,8 @@
 ---
 layout: post
-title: "improve boot performance in Ubuntu Precise and above"
+title: "improve boot performance in ubuntu precise and above"
 tags: [linux]
+description: "The project e4rat develops tools who improve the boot process in Linux, to do so, it takes advantage of the reassignment of files in ext4 if you're not using ext4..."
 ---
 
 ## {{ page.title }}

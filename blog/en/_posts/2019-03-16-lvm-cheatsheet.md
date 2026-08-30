@@ -2,6 +2,7 @@
 layout: post
 title: "lvm cheatsheet"
 tags: [linux]
+description: "There are certain commands I keep forgetting no matter how many times I try them, ln, git and the reason for this post, LVM. So, here goes a quick how-to..."
 ---
 
 ## {{ page.title }}
@@ -20,19 +21,19 @@ In order to understand **LVM** it's required to have a clear picture of its comp
 
 A PV is **any block device** that can be used as storage, eg: **/dev/sda**
 
-**[![](/assets/img/lvm_pv.png)](/assets/img/lvm_pv.png)**
+**[![lvm pv](/assets/img/lvm_pv.png)](/assets/img/lvm_pv.png)**
 
 ## Volume Group (VG)
 
 A VG is a group of at least one PV, it usually contains several, thought.
 
-**[![](/assets/img/lvm_vg.png)](/assets/img/lvm_vg.png)**
+**[![lvm vg](/assets/img/lvm_vg.png)](/assets/img/lvm_vg.png)**
 
 ## Logical Volume (LV)
 
 A LV is a portion (partition) of a VG.
 
-**[![](/assets/img/lvm_lv.png)](/assets/img/lvm_lv.png)**
+**[![lvm lv](/assets/img/lvm_lv.png)](/assets/img/lvm_lv.png)**
 
 ### How to set up multiple hard drives as one volume?
 

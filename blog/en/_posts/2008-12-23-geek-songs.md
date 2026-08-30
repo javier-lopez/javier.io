@@ -2,6 +2,7 @@
 layout: post
 title: "geek songs"
 tags: [music]
+description: "Here are some geeky songs I was not aware of, it's not that I spend all my day looking for them &#128521; [+] Lyric [+] Lyrics [+] Lyrics [+] Lyrics..."
 ---
 
 ## {{ page.title }}

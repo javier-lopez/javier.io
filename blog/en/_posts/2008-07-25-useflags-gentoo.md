@@ -2,6 +2,7 @@
 layout: post
 title: "gentoo useflags"
 tags: [linux]
+description: "These are the flags I'm using for a pentium-m laptop. #console USE=\"${USE} bash-completion gpm ncurses slang fbcon\" #graphical interface USE=\"${USE} dbus X gnome -kde cairo libnotify \" #cd/dvd USE=\"${USE} cdr..."
 ---
 
 ## {{ page.title }}

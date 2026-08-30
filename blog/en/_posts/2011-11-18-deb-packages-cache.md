@@ -2,6 +2,7 @@
 layout: post
 title: "deb package cache"
 tags: [linux, networking]
+description: "Update: I created a script who automate the process described in this post. apt-cacher-ng is a kind of deb repository proxy, it caches deb packages on demand between the computer..."
 ---
 
 ## {{ page.title }}

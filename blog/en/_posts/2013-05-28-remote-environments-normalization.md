@@ -2,6 +2,7 @@
 layout: post
 title: "remote environments normalization"
 tags: [shell, tools]
+description: "I access a fair amount of remote environments through ssh, when I do it most of the times I end copying little bits of configuration files to make them easier..."
 ---
 
 ## {{ page.title }}

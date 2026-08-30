@@ -2,6 +2,7 @@
 layout: post
 title: "git clone only the last snapshot of a project"
 tags: [tools]
+description: "Git clone by default download all the data attached to a repository, there are sometimes however when I'm only interested in getting the latest snapshot. This can be done with..."
 ---
 
 ## {{ page.title }}

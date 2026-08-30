@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "la falsa democratizacion de la tecnologia"
+description: "Llevo una semana trabajando a medio tiempo en una aplicacion web (saludpass.com) que anteriormente me hubiera llevado meses poner en linea, considerando que aunque es basica mezcla decisiones, tecnologia, arquitectura..."
 image: /assets/img/falsa-democratizacion.png
 tags: [ai, docker, python]
 ---

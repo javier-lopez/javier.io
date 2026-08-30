@@ -2,6 +2,7 @@
 layout: post
 title: "installing debian build dependencies the smart way"
 tags: [linux]
+description: "So you're trying to build a Debian package from an upstream source tree, but you're not sure what build dependencies you should install? I have this problem all the time...."
 ---
 
 ## {{ page.title }}

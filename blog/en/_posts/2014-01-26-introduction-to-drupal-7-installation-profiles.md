@@ -2,6 +2,7 @@
 layout: post
 title: "introduction to drupal 7 installation profiles"
 tags: [tools]
+description: "Last weekend I worked on a Drupal site and it was not fun =( mostly due to incomplete and inaccurate documentation. My goal was to create a distributable bundle for..."
 ---
 
 ## {{ page.title }}

@@ -2,6 +2,7 @@
 layout: post
 title: "my current desktop"
 tags: [linux, personal]
+description: "Ubuntu 9.04 + E17 + Ecomorp"
 ---
 
 ## {{ page.title }}

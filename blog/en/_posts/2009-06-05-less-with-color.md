@@ -2,6 +2,7 @@
 layout: post
 title: "less is more, and even more with color"
 tags: [shell, tools]
+description: "I've just discovered how to colorize less output, It may seems unimportant but I really prefer to colorize my life when possible. The colors are defined by editing the ~/.bashrc..."
 ---
 
 ## {{ page.title }}

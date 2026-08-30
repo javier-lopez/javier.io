@@ -2,6 +2,7 @@
 layout: post
 title: "static-get: linux static binaries for lazy people"
 tags: [linux, shell]
+description: "Lastly I've required static versions of common linux utilities, it's been fun to compile them a couple of times but it gets boring pretty quickly, so I've decided to create..."
 ---
 
 ## {{ page.title }}

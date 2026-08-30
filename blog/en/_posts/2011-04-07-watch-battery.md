@@ -2,6 +2,7 @@
 layout: post
 title: "watch_battery"
 tags: [shell, linux]
+description: "I made a little script to look after my laptop battery so it doesn't shutdown at the middle of me working. It requieres notify-send, hibernate and acpi, and targets Ubuntu:..."
 ---
 
 ## {{ page.title }}

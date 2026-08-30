@@ -2,6 +2,7 @@
 layout: post
 title: "router with integrated vpn support"
 tags: [networking, security]
+description: "I needed a way to provide VPN coverage transparently to a local network... - ISP router (TpLink WR820N on this case) - TpLink ER605 Switch (only available vpn switch/router around)..."
 ---
 
 ## {{ page.title }}
@@ -49,7 +50,7 @@ Go to https://my.surfshark.com/vpn/manual-setup/router/wireguard/own-key:
 
 Go to the **Locations** submenu and select the desired area, on this case I choose USA/Boston:
 
-**![](/assets/img/surfshark-wireguard.png)**
+**![surfshark wireguard](/assets/img/surfshark-wireguard.png)**
 
 Download the Wireguard configuration file
 

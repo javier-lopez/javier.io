@@ -2,6 +2,7 @@
 layout: post
 title: "online partners"
 tags: [personal]
+description: "For one reason or another I find more reliable remote people, I mean, whatever I make a new friendship it's almost always the case that if I made it online..."
 ---
 
 ## {{ page.title }}

@@ -2,6 +2,7 @@
 layout: post
 title: "print through the ldp protocol in a cups less environment"
 tags: [linux, networking]
+description: "I've just discovered it's possible to print through the LDP protocol without CUPS (cups-ldp in Ubuntu). For a unkown reason I had always though that all linux systems required to..."
 ---
 
 ## {{ page.title }}

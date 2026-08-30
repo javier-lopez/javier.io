@@ -2,6 +2,7 @@
 layout: post
 title: "install ubuntu from the windows boot loader"
 tags: [linux]
+description: "I got a new netbook some weeks ago, I tested it fully for a month to verify the hardware didn't have any defects, and decided to move on with the..."
 ---
 
 ## {{ page.title }}

@@ -2,6 +2,7 @@
 layout: post
 title: "genpass, yet another stateless password generator"
 tags: [security, tools]
+description: "Since some time I've realized I'm pretty bad at memorizing strong passwords, as a result I've been using an unique moderated strong \"master\" password and I've derived others by using..."
 ---
 
 ## {{ page.title }}

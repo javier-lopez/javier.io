@@ -2,6 +2,7 @@
 layout: post
 title: "on the nature of daylight, una composición de max richter"
 tags: [music]
+description: "Agradecimiento a aquellos que son capaces a través de las artes de expresar nuestros sentimientos."
 ---
 
 ## {{ page.title }}

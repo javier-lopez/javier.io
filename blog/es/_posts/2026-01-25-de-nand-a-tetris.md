@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "de nand a tetris"
+description: "Llevo mucho tiempo trabajando en el area de tecnologia (15 años al momento de escribir esto), como muchos colegas no tuve entrenamiento formal, The Elements of Computing Systems: Building a..."
 tags: [personal]
 ---
 

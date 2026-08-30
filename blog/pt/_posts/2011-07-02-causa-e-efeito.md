@@ -2,6 +2,7 @@
 layout: post
 title: "causa e efeito"
 tags: [music, personal]
+description: "Gosto muito das cancoes de luta social"
 ---
 
 ## {{ page.title }}

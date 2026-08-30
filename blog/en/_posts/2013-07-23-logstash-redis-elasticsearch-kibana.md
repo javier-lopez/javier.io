@@ -2,6 +2,7 @@
 layout: post
 title: "logstash + redis + elasticsearch + kibana3"
 tags: [tools, shell]
+description: "- logstash - redis - elasticsearch - kibana3 - sendemail Composition applied to logging has been a great sucess lately, this week I've verified how easy is to use logstash..."
 ---
 
 ## {{ page.title }}

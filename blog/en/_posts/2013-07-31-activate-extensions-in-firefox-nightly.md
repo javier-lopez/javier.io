@@ -2,6 +2,7 @@
 layout: post
 title: "active extensions in firefox nightly"
 tags: [tools]
+description: "Firefox nightly is the firefox version who is compiled every night. By default it will avoid loading any extension, however this behaviour can be override, to do so add the..."
 ---
 
 ## {{ page.title }}

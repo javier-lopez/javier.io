@@ -2,6 +2,7 @@
 layout: post
 title: "dmenu for everything"
 tags: [tools, shell]
+description: "I love minimalism systems and programs who focus in doing a single task very well, dmenu is one of them, it reads input from user, matches patterns and returns results,..."
 ---
 
 ## {{ page.title }}

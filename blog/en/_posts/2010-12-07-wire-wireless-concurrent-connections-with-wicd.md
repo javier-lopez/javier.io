@@ -2,6 +2,7 @@
 layout: post
 title: "wire and wireless concurrent connections with wicd"
 tags: [networking, linux]
+description: "Even when it's not possible to configure two concurrent connections from within wicd it can be tricked to do so. To do this the /etc/network/interfaces file must be edited with..."
 ---
 
 ## {{ page.title }}

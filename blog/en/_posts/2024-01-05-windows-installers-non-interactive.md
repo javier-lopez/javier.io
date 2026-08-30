@@ -2,6 +2,7 @@
 layout: post
 title: "windows installers non interactive"
 tags: [tools]
+description: "pshell> import-module servermanager pshell> add-windowsfeature Web-Server, Web-WebServer, Web-Security, Web-Filtering, Web-Cert-Auth, Web-IP-Security, Web-Url-Auth, Web-Windows-Auth, Web-Basic-Auth, Web-Client-Auth, Web-Digest-Auth, Web-CertProvider, Web-Common-Http, Web-Http-Errors, Web-Dir-Browsing, Web-Static-Content, Web-Default-Doc, Web-Http-Redirect, Web-DAV-Publishing, Web-Performance, Web-Stat-Compression, Web-Dyn-Compression, Web-Health, Web-Http-Logging, Web-ODBC-Logging,..."
 ---
 
 ## {{ page.title }}

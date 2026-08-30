@@ -2,6 +2,7 @@
 layout: post
 title: "x509: certificate signed by unknown authority docker error"
 tags: [docker, security]
+description: "At work we use internal docker registers and from to time I encounter this error when trying to pull/push to https registers, so I'm leaving the procedure to add autosigned..."
 ---
 
 ## {{ page.title }}

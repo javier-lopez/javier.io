@@ -2,6 +2,7 @@
 layout: post
 title: "staticus, a poor man status page generator"
 tags: [shell, tools]
+description: "I'm not sure what excuse to use to back this entry, I guess I'm just a lazy and irresponsible person, last week I got myself in need for a basic..."
 ---
 
 ## {{ page.title }}
@@ -12,7 +13,7 @@ I'm not sure what excuse to use to back this entry, I guess I'm just a lazy and 
 
 [Staticus](https://github.com/javier-lopez/learn/blob/master/sh/tools/staticus) is the result.
 
-**[![](/assets/img/staticus-1.png)](/assets/img/staticus-1.png)**
+**[![staticus 1](/assets/img/staticus-1.png)](/assets/img/staticus-1.png)**
 
 The tools itself is pretty simple, to generate the above picture I ran:
 

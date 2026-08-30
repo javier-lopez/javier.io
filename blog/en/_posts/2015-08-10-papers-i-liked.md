@@ -2,6 +2,7 @@
 layout: post
 title: "papers I liked"
 tags: [security, personal]
+description: "From time to time I read papers about any subject, mostly about computer science, and then forgot which or where it's available for future reference. So I'm creating this list..."
 ---
 
 ## {{ page.title }}

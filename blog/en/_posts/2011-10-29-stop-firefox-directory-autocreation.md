@@ -2,6 +2,7 @@
 layout: post
 title: "stop firefox directory autocreation"
 tags: [linux, tools]
+description: "By default Firefox creates a Desktop and Download directories in $HOME accordying to freedesktop policies. This feature can be annoying for some persons (including me). IMO nobody should force you..."
 ---
 
 ## {{ page.title }}

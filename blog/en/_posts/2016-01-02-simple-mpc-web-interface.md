@@ -2,6 +2,7 @@
 layout: post
 title: "a simple mpc web interface"
 tags: [music, python]
+description: "Sometimes while listening music at my desk my niece (~8y/o) shows up and asks me to skip the current song, most of the times I do it instantly, however when..."
 ---
 
 ## {{ page.title }}
@@ -18,7 +19,7 @@ $ python simple-mpc-remote -p 8080
 Started httpserver on port 8080
 </pre>
 
-**[![](/assets/img/simple-mpc-remote.png)](/assets/img/simple-mpc-remote.png)**
+**[![simple mpc remote](/assets/img/simple-mpc-remote.png)](/assets/img/simple-mpc-remote.png)**
 
 `simple-mpc-remote` has no dependencies, other than python +2.7, mpc and mpd and it's really simple to install/use. Since it does little effort to sanitize input it could be dangerous, however since I trust my local network I'll leave it like that for now.
 
