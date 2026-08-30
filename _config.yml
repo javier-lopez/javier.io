@@ -27,5 +27,12 @@ future:      true
 # Off since related entries moved to tag-overlap (_includes/related.html);
 # nothing reads site.related_posts anymore and LSI dominated build time.
 lsi:         false
-highlighter: rouge
+# Client-side highlight.js owns ALL code coloring (vendored, Tokyo Night
+# theme). Rouge used to also process ```lang fences at build time: its
+# unstyled spans made hljs re-highlight nested HTML and log an "unescaped
+# HTML" security warning on every post with a tagged fence. One highlighter.
+highlighter: none
 markdown:    kramdown
+kramdown:
+  syntax_highlighter_opts:
+    disable: true
