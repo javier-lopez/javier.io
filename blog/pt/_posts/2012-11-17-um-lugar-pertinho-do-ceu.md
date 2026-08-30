@@ -17,6 +17,7 @@ Em um lugar pertinho do céu, Pedro Infante atua no papel de Pedro Gonzáles, um
 
 Um excelente filme, em caso você não seja sensível demais
 
-<div id="youtube">
-<object width="560" height="315"><param name="movie" value="http://www.youtube.com/v/LtpCUf_Spu0?version=3&amp;hl=en_US"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/LtpCUf_Spu0?version=3&amp;hl=en_US" type="application/x-shockwave-flash" width="560" height="315" allowscriptaccess="always" allowfullscreen="true"></embed></object>
+<div class="youtube">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/JDohULcljxM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
+\[+\] [Filme completo no YouTube](https://www.youtube.com/watch?v=qPPafnPdI0Y)

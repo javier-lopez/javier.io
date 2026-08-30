@@ -341,7 +341,7 @@ h2 + img + p:first-letter {
   margin-right: auto;
 }
 
-#youtube { text-align: center; margin-bottom: 2%; }
+.youtube { text-align: center; margin-bottom: 2%; }
 
 #related {
   border-top: 2px groove white;
@@ -641,6 +641,28 @@ body.blog-page::before {
 
 }
 
+/* Mobile companion to the header grid above — below 720px the header
+   stacks in flow order and content spans the full viewport width. */
+@media (max-width: 719px) {
+  /* Six nav entries must survive a 390px phone: trim the tap-target
+     minimum and side padding so they fit one row, and wrap as a safety
+     net for even narrower screens instead of clipping "rss" offscreen. */
+  .blog-langs { flex-wrap: wrap; }
+  .blog-langs a { min-width: 40px; padding: 0.55em 0.3em; }
+  /* The fixed corner icons float over full-width content on phones —
+     let them flow after the page instead. Scoped to blog pages so the
+     homepage keeps its floating corner. */
+  body.blog-page #footer.indexFooter {
+    position: static;
+    text-align: center;
+    margin-top: 2rem;
+  }
+  /* Post rows may wrap: short titles keep their compact single line,
+     long ones flow the reading time / date down to a metadata line
+     (date keeps its right anchor via its margin-left: auto). */
+  .post-list .post-item { flex-wrap: wrap; row-gap: 0.2rem; }
+}
+
 /* Search box. The wrap fills its grid cell — that cell auto-sizes to the
    width of .blog-langs (in the row below) so search and langs end up
    sharing the exact same horizontal extent: from "all" to "rss". */
@@ -795,6 +817,15 @@ body.blog-page::before {
 .post-list .post-item a:hover {
   color: #CD0D1D;
   text-decoration: none;
+}
+/* Curated star for posts with `featured: true` — lets the chronological
+   archive signal weight without reordering it. Soft white keeps the site's
+   two-color discipline (black/white + brand red) and echoes the warp-bg
+   starfield; sized down so it trails the title as a marker, not a glyph. */
+.post-list .post-star {
+  color: #e8e8ee;
+  font-size: 0.72em;
+  vertical-align: 0.15em;
 }
 /* Reading-time badge next to each post title — answers "how much does
    this cost me?" before the visitor has to click through. Dim tabular

@@ -4,6 +4,11 @@ title: "pensando con flechas"
 image: /assets/img/pensando-con-flechas.png
 tags: [ai]
 description: "Ultimamente se ha popularizado la IA, pero tenemos idea de cómo funciona por dentro?, A menudo parece magia, pero en realidad, el motor principal de la IA es una rama..."
+featured: true
+related:
+  - /blog/es/2026/01/25/de-nand-a-tetris.html
+  - /blog/es/2026/03/27/la-brecha-invisible-herramientas-para-dirigir-la-ia.html
+  - /blog/es/2026/02/17/la-falsa-democratizacion-de-la-tecnologia.html
 ---
 
 ## {{ page.title }}

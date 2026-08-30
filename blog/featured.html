@@ -1,0 +1,20 @@
+---
+layout: blog
+title: "javier.io | featured posts"
+---
+
+{%- comment -%}
+  Curated index — every post carrying `featured: true`, newest first, all
+  languages mixed. Reached from the ★ entry in the language nav. One flat
+  list instead of year groups: a hand-picked set spanning 2014-2026 would
+  splinter into one-item groups, so dates carry the year instead.
+{%- endcomment -%}
+{% assign featured = site.posts | where: "featured", true %}
+<section class="year-group" aria-label="Featured posts">
+  <h3 class="year-heading" aria-hidden="true">★</h3>
+  <ul class="post-list">
+    {% for post in featured %}
+      {% include post-list-item.html post=post date_format="%b %-d, %Y" %}
+    {% endfor %}
+  </ul>
+</section>

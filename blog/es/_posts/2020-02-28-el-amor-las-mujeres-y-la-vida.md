@@ -2,6 +2,7 @@
 layout: post
 title: "el amor, las mujeres y la vida"
 tags: [poetry, personal]
+featured: true
 description: "A través de la poesía nos reconocemos humanos y que mejor que el desamor para saborear estos versos. Hijos, nietos, vuelvan a estos versos cuando les haga sentido. Si tienen..."
 ---
 

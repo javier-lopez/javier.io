@@ -12,7 +12,7 @@
 {%- assign rt = include.post.content | number_of_words | divided_by: 250 | plus: 1 -%}
 {%- assign date_fmt = include.date_format | default: "%b %-d" -%}
 <li class="post-item">
-  <a href="{{ include.post.url }}">{{ include.post.title }}</a>
+  <a href="{{ include.post.url }}">{{ include.post.title }}{% if include.post.featured %} <span class="post-star" aria-hidden="true">★</span>{% endif %}</a>
   <span class="post-readtime-badge" aria-label="Reading time">~{{ rt }} min</span>
   <time datetime="{{ include.post.date | date: '%Y-%m-%d' }}">{{ include.post.date | date: date_fmt }}</time>
 </li>

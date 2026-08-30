@@ -14,12 +14,12 @@ A alguns meses assisti a um filme chamado tropa de elite. É a historia de um ho
 O filme também faz um retrato interessante da sociedade do estado do Rio de Janeiro, acredito que como no México, lá a profissão precisa ser mais valorizada e os policiais melhor treinados. Da segunda parte quase não gostei, tem tintes políticos e o capitão Nascimento já não é um homem normal, mas é como um superman. Quais são os seus filmes favoritos?
 
 ### Tropa de elite 1
-<div id="youtube">
-<object width="560" height="315"><param name="movie" value="http://www.youtube.com/v/Jz2DadDoRjg?hl=en_US&amp;version=3"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/Jz2DadDoRjg?hl=en_US&amp;version=3" type="application/x-shockwave-flash" width="560" height="315" allowscriptaccess="always" allowfullscreen="true"></embed></object>
+<div class="youtube">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/i7Nm_RZvvxs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 
 ### Tropa de elite 2
 
-<div id="youtube">
-<object width="560" height="315"><param name="movie" value="http://www.youtube.com/v/XL3ybRR1oE0?version=3&amp;hl=en_US"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/XL3ybRR1oE0?version=3&amp;hl=en_US" type="application/x-shockwave-flash" width="560" height="315" allowscriptaccess="always" allowfullscreen="true"></embed></object>
+<div class="youtube">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/oaebu33ZBpc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>

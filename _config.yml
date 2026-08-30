@@ -24,6 +24,8 @@ plugins:
 exclude:      [deploy, setup]
 safe:        false
 future:      true
-lsi:         true
+# Off since related entries moved to tag-overlap (_includes/related.html);
+# nothing reads site.related_posts anymore and LSI dominated build time.
+lsi:         false
 highlighter: rouge
 markdown:    kramdown

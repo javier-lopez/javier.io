@@ -7,8 +7,12 @@
     <link href='//fonts.googleapis.com/css?family=Exo+2:200|PT+Sans|Vollkorn:400,700|' rel='stylesheet' type='text/css'>
     <!--<link href='//fonts.googleapis.com/css?family=Megrim|Ruluko|Exo+2:200|PT+Sans|Strait|Vollkorn|' rel='stylesheet' type='text/css'>-->
     <link rel="alternate" type="application/atom+xml" href="/atom.xml">
-    <link rel="stylesheet" type="text/css" href="/assets/css/default_black.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/responsive.css">
+    {%- comment -%} ?v= busts browser caches on deploy — stale CSS kept
+        shipping old styles to returning visitors (site HTML regenerates,
+        stylesheets linger in cache). Vendored fontawesome stays bare so
+        the preload in blog.html keeps matching its URL. {%- endcomment -%}
+    <link rel="stylesheet" type="text/css" href="/assets/css/default_black.css?v={{ site.time | date: '%s' }}">
+    <link rel="stylesheet" type="text/css" href="/assets/css/responsive.css?v={{ site.time | date: '%s' }}">
     <link rel="stylesheet" type="text/css" href="/assets/css/fontawesome.min.css">
 
     <!-- syntax highlighting — highlight.js 11 with Tokyo Night Dark theme -->

@@ -1,8 +1,49 @@
+{%- comment -%}
+  A post may pin its own related list with a `related:` front-matter array
+  of post URLs — curation wins on essays. A URL that matches no post leaves
+  an HTML comment in the output instead of failing silently.
+
+  Everything else gets tag-overlap related: the 3 newest posts sharing at
+  least one tag, falling back to the newest posts in the same language.
+  Deliberately NOT site.related_posts — with lsi off it degrades to "the
+  10 newest posts" (every page shows the same list), and with lsi on this
+  corpus it pairs essays with old weekly-notes posts.
+{%- endcomment -%}
 <div id="related" aria-label="Related entries">
   <h5>Related Entries:</h5>
   <ul class="post-list">
-    {% for post in site.related_posts limit:3 %}
-      {% include post-list-item.html post=post date_format="%b %-d, %Y" %}
-    {% endfor %}
+    {% if page.related %}
+      {% for rel_url in page.related %}
+        {% assign rel = site.posts | where: "url", rel_url | first %}
+        {% if rel %}
+          {% include post-list-item.html post=rel date_format="%b %-d, %Y" %}
+        {% else %}
+          <!-- related: no post matches {{ rel_url }} -->
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      {%- assign shown = 0 -%}
+      {%- for other in site.posts -%}
+        {%- if shown >= 3 %}{% break %}{% endif -%}
+        {%- if other.url == page.url %}{% continue %}{% endif -%}
+        {%- assign shares_tag = false -%}
+        {%- for t in other.tags -%}
+          {%- if page.tags contains t %}{% assign shares_tag = true %}{% break %}{% endif -%}
+        {%- endfor -%}
+        {%- if shares_tag %}
+          {% include post-list-item.html post=other date_format="%b %-d, %Y" %}
+          {%- assign shown = shown | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if shown == 0 -%}
+        {%- assign lang = page.categories | last -%}
+        {%- for other in site.categories[lang] -%}
+          {%- if shown >= 3 %}{% break %}{% endif -%}
+          {%- if other.url == page.url %}{% continue %}{% endif %}
+          {% include post-list-item.html post=other date_format="%b %-d, %Y" %}
+          {%- assign shown = shown | plus: 1 -%}
+        {%- endfor -%}
+      {%- endif -%}
+    {% endif %}
   </ul>
 </div>
