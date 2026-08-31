@@ -2,6 +2,7 @@
 layout: post
 title: "hints for writing unix tools with shell scripting"
 tags: [shell]
+featured: true
 description: "Yesterday I started my day reading Hints for writing Unix tools. And since I agree to a great extend I though in giving more details about how to build such..."
 ---
 

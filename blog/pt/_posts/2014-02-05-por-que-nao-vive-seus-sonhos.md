@@ -2,7 +2,6 @@
 layout: post
 title: "por que não está vivendo seus sonhos?"
 tags: [personal]
-featured: true
 description: "É uma pergunta interessante, pois poucas pessoas os tornam realidade. Todos nós gostamos de sonhar, o fazemos na ducha, durante o trajeto no ônibus, enquanto esperamos na fila do supermercado,..."
 ---
 

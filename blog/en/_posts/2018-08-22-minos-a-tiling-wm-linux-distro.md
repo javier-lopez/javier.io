@@ -2,6 +2,7 @@
 layout: post
 title: "minos, a tiling wm linux distribution"
 tags: [linux, tools]
+featured: true
 description: "I've been working in my spare time in a yet another Linux respin for the last 7-8 years and I thought I better write something about it so my co-workers..."
 ---
 
