@@ -2,6 +2,7 @@
 layout: post
 title: "tundle, a tmux plugin manager"
 tags: [tools, shell]
+featured: true
 description: "In the past I've been a regular byobu user, a distribution for common terminal multiplexers (tmux, screen). A terminal multiplexer is a utility who allows you to manage several sessions..."
 ---
 
