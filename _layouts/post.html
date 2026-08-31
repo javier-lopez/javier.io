@@ -2,7 +2,7 @@
 layout: blog
 ---
 {% assign read_time = content | number_of_words | divided_by: 250 | plus: 1 %}
-<div id="post" data-readtime="{{ read_time }}">
+<div id="post" data-readtime="{{ read_time }}"{% if page.featured %} data-featured{% endif %}>
   {{ content }}
 </div>
 

@@ -203,8 +203,21 @@
           btn.textContent = 'copy';
           btn.setAttribute('aria-label', 'Copy code to clipboard');
           btn.addEventListener('click', function () {
-            var code = pre.querySelector('code');
-            var text = (code || pre).innerText;
+            // Copy the content, not the chrome: drop the button's own label
+            // (present when the <pre> has no <code> child) and strip shell
+            // prompts so pasted commands run as-is. "$ " always strips (the
+            // rule requires whitespace after the $, so $VAR keeps its sigil).
+            // "# " strips ONLY when every non-blank line is a prompt line —
+            // a root-prompt command block; in mixed blocks (scripts) "# " is
+            // a comment and stripping it would uncomment pasted code.
+            var clone = (pre.querySelector('code') || pre).cloneNode(true);
+            var cloneBtn = clone.querySelector('.post-copy-btn');
+            if (cloneBtn) cloneBtn.remove();
+            var text = clone.textContent;
+            var allPrompts = text.split('\n').every(function (l) {
+              return !l.trim() || /^[$#]\s+/.test(l);
+            });
+            text = text.replace(allPrompts ? /^[$#]\s+/gm : /^\$\s+/gm, '');
             if (!navigator.clipboard) return;
             navigator.clipboard.writeText(text).then(function () {
               btn.textContent = 'copied';

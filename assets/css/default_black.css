@@ -827,6 +827,17 @@ body.blog-page::before {
   font-size: 0.72em;
   vertical-align: 0.15em;
 }
+/* Same star on the article page itself — the flag is otherwise invisible
+   once the reader leaves the lists. Rendered via CSS so featured-ness
+   stays single-sourced in the front matter (post.html only stamps
+   data-featured). */
+.is-post #post[data-featured] > h2:first-of-type::after {
+  content: "★";
+  color: #e8e8ee;
+  font-size: 0.72em;
+  vertical-align: 0.15em;
+  margin-left: 0.45em;
+}
 /* Reading-time badge next to each post title — answers "how much does
    this cost me?" before the visitor has to click through. Dim tabular
    numbers so it reads as metadata, not as part of the title. */
@@ -856,6 +867,16 @@ body.blog-page::before {
    so the animation doesn't compete with reading. */
 body.blog-page.is-post { background: transparent; }
 .is-post .blog-content { padding-top: 0; }
+
+/* Readability scrim (TEST) — dims the starfield behind the index/list
+   column; post pages carry no canvas so they are unaffected. The matching
+   outer box-shadow feathers the edges so it reads as a soft vignette
+   instead of a hard box. */
+.blog-page:not(.is-post) main.blog-content {
+  background: rgba(0, 0, 0, 0.55);
+  box-shadow: 0 0 2.5rem 2rem rgba(0, 0, 0, 0.55);
+  border-radius: 12px;
+}
 /* Tighter gap between lang nav and post title — reading-focused pages
    benefit from the title being visible without scrolling. */
 .is-post #post {
