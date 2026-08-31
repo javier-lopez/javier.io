@@ -12,7 +12,7 @@ description: "A través de la poesía nos reconocemos humanos y que mejor que el
 
 A través de la poesía nos reconocemos humanos y que mejor que el desamor para saborear estos versos.
 
-Todos son de [Mario Benedetti](https://es.wikipedia.org/wiki/Mario_Benedetti), seleccionados de su antología homónima, *El amor, las mujeres y la vida* — de ahí el título de esta entrada.
+Todos son de [Mario Benedetti](https://es.wikipedia.org/wiki/Mario_Benedetti), seleccionados de su antología homónima.
 
 ### Es tan poco
 <pre class="lyric">
