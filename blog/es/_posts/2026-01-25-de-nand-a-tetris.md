@@ -3,7 +3,6 @@ layout: post
 title: "de nand a tetris"
 description: "Llevo mucho tiempo trabajando en el area de tecnologia (15 años al momento de escribir esto), como muchos colegas no tuve entrenamiento formal, The Elements of Computing Systems: Building a..."
 tags: [personal]
-featured: true
 related:
   - /blog/es/2025/12/29/pensando-con-flechas.html
   - /blog/es/2026/02/17/la-falsa-democratizacion-de-la-tecnologia.html
