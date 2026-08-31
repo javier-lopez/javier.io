@@ -36,18 +36,31 @@ jobs:
   archive:
     needs: deploy
     runs-on: ubuntu-latest
+    # Hard cap: SPN throttles shared runner IPs (429) and a retry storm
+    # here must never hang the pipeline for minutes.
+    timeout-minutes: 3
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6
         with:
           fetch-depth: 2
 
       - name: Snapshot fresh pages in the Wayback Machine
+        env:
+          ARCHIVE_ORG_ACCESS_KEY: ${{ secrets.ARCHIVE_ORG_ACCESS_KEY }}
+          ARCHIVE_ORG_SECRET_KEY: ${{ secrets.ARCHIVE_ORG_SECRET_KEY }}
         run: |
-          # Save Page Now does not index synchronously: each GET to
-          # web.archive.org/save/URL enqueues a capture job the Archive
-          # crawls within minutes. Anonymous captures are enough at this
-          # scale (~6 concurrent, 10/day per URL); S3 keys from
-          # archive.org/account/s3.php raise the limits if this ever 429s.
+          # Authenticated Save Page Now (SPN2). The anonymous GET endpoint
+          # 429s shared runner IPs; an authenticated account gets 12
+          # concurrent captures and 100k/day.
+          #
+          # Key setup (one-time): log in at archive.org, generate the
+          # S3-style key pair at https://archive.org/account/s3.php, and
+          # store it as the ARCHIVE_ORG_ACCESS_KEY / ARCHIVE_ORG_SECRET_KEY
+          # repository secrets (Settings > Secrets and variables > Actions).
+          #
+          # Captures are async: each POST enqueues a job (the JSON reply
+          # carries a job_id) and the Archive crawls within minutes —
+          # nothing indexes synchronously.
           #
           # deploy-pages only returns once the deployment is live. The
           # Pages CDN (max-age=600) may still hand the crawler a stale
@@ -63,6 +76,11 @@ jobs:
 
           for url in $urls; do
             echo "queueing capture: $url"
-            curl -fsS --retry 3 --retry-delay 60 --retry-all-errors \
-              "https://web.archive.org/save/$url" -o /dev/null
+            curl -fsS --retry 1 --retry-delay 10 --retry-all-errors \
+              -X POST "https://web.archive.org/save" \
+              -H "Accept: application/json" \
+              -H "Authorization: LOW ${ARCHIVE_ORG_ACCESS_KEY}:${ARCHIVE_ORG_SECRET_KEY}" \
+              --data-urlencode "url=$url" \
+              --data-urlencode "skip_first_archive=1"
+            echo
           done
