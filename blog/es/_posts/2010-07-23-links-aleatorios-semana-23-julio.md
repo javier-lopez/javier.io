@@ -2,8 +2,15 @@
 layout: post
 title: "links aleatorios, semana ?-23/julio - motu"
 tags: [ubuntu, motu]
-description: "No he podido leer mucho ultimamente asi que esta vez añadire lecturas que aun no
-haya concluido.
+description: "No he podido leer mucho ultimamente asi que esta vez añadire lecturas que aun no haya concluido. He terminado de leer las platicas que me habia perdido. Aun sigo pensando que la de..."
+---
+
+## {{ page.title }}
+
+###### {{ page.date | date_to_string }}
+
+No he podido leer mucho ultimamente asi que esta vez añadire lecturas que aun
+no haya concluido.
 
   * <https://wiki.ubuntu.com/UbuntuDeveloperWeek>
 

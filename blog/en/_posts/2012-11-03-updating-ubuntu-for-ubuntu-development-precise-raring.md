@@ -29,15 +29,15 @@ Once the directories are created I upgrade the pbuilder configuration, I edit
 UBUNTU_SUITES=("raring" "quantal" "precise")
 </pre>
 
-And then I edit the file [**/etc/bash_completion.d/pbuilder**][206]to add the
+And then I edit the file [**/etc/bash_completion.d/pbuilder**][206] to add the
 line:
 
 <pre class="sh_sh">
-[
-</pre>“$have” ] && complete -F _pbuilder -o filenames pbuilder
-> pbuilder.precise.amd64 pbuilder.precise.i386 pbuilder.quantal.amd64
-> pbuilder.quantal.i386 pbuilder.raring.i386 pbuilder.raring.amd64
-> pbuilder.sid.amd64 pbuilder.sid.i386
+[ "$have" ] && complete -F _pbuilder -o filenames pbuilder \
+    pbuilder.precise.amd64 pbuilder.precise.i386 pbuilder.quantal.amd64 \
+    pbuilder.quantal.i386 pbuilder.raring.i386 pbuilder.raring.amd64 \
+    pbuilder.sid.amd64 pbuilder.sid.i386
+</pre>
 
 When done I create the new raring setup.., however before been able to do it,
 I create a link in **/usr/share/debootstrap/scripts** from raring -> gutsy (LP
