@@ -2,16 +2,18 @@
 layout: post
 title: "tundle, a tmux plugin manager"
 tags: [tools, shell]
+featured: true
+description: "In the past I've been a regular byobu user, a distribution for common terminal multiplexers (tmux, screen). A terminal multiplexer is a utility who allows you to manage several sessions..."
 ---
 
 ## {{ page.title }}
 
 ###### {{ page.date | date_to_string }}
 
-In the past I've been a regular [byobu](http://byobu.co/) user, a distribution for common terminal multiplexers ([tmux](http://tmux.github.io/), [screen](https://www.gnu.org/software/screen/)). A terminal multiplexer is a utility who allows you to manage several sessions and windows within the same program, kind of a window manager for the console. In my case I mostly use it to improve the robustness of remote ssh connections. In default ssh sessions if you lose the connection you lose your work, with terminal multiplexers you can 'dettach/attach' eternal living sessions which is quite useful to keep movility.
+In the past I've been a regular [byobu](http://byobu.co/) user, a distribution for common terminal multiplexers ([tmux](http://tmux.github.io/), [screen](https://web.archive.org/web/20260826085126/http://www.gnu.org/software/screen/)). A terminal multiplexer is a utility who allows you to manage several sessions and windows within the same program, kind of a window manager for the console. In my case I mostly use it to improve the robustness of remote ssh connections. In default ssh sessions if you lose the connection you lose your work, with terminal multiplexers you can 'dettach/attach' eternal living sessions which is quite useful to keep movility.
 
 <br>
-**![](/assets/img/tundle.gif)**
+**![tundle](/assets/img/tundle.gif)**
 
 Unfortunately, like vi/emacs, the default screen/tmux settings are quite bad, so many people either personalize heavily its own settings or use a distribution/plugin system.
 

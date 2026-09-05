@@ -1,0 +1,33 @@
+{%- comment -%}
+  Comments — giscus, backed by GitHub Discussions on this repo. Replaced
+  Disqus on 2026-09-05 when its free tier started wrapping every thread in
+  Taboola ads (two iframes, ~1.3k px of clickbait around 460 px of comments).
+
+  Threads map to the post's pathname: URLs here are permanent, so a rebuild
+  or a title edit never orphans a discussion. The UI language follows the
+  post — posts live under blog/<lang>/ and Jekyll exposes that directory as
+  the last category, the same lookup related.html relies on. The theme is
+  our own stylesheet (assets/css/giscus.css), served from the site so the
+  iframe inherits the palette instead of looking like a bolt-on widget.
+  Lazy loading defers the client until the reader scrolls down to it.
+{%- endcomment -%}
+{%- assign lang = page.categories | last -%}
+<div id="comments">
+  <script src="https://giscus.app/client.js"
+          data-repo="{{ site.giscus.repo }}"
+          data-repo-id="{{ site.giscus.repo_id }}"
+          data-category="{{ site.giscus.category }}"
+          data-category-id="{{ site.giscus.category_id }}"
+          data-mapping="pathname"
+          data-strict="1"
+          data-reactions-enabled="0"
+          data-emit-metadata="0"
+          data-input-position="top"
+          data-theme="{{ '/assets/css/giscus.css' | absolute_url }}"
+          data-lang="{{ lang }}"
+          data-loading="lazy"
+          crossorigin="anonymous"
+          async>
+  </script>
+  <noscript>Enable JavaScript to see/create comments</noscript>
+</div>

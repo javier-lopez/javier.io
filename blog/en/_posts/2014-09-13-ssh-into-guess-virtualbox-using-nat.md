@@ -2,6 +2,7 @@
 layout: post
 title: "ssh into a guest vbox machine on NAT mode"
 tags: [networking]
+description: "This is a quick reminder to myself, for this to work a ssh server must be running in the guest machine. In the VM network panel, click in advanced and..."
 ---
 
 ## {{ page.title }}

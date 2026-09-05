@@ -2,6 +2,7 @@
 layout: post
 title: "setting up jekyll locally"
 tags: [tools]
+description: "I &#x2661; github, it has never been easier to start working in open source projects =). One of their rock star services is github pages, which allows people to setup..."
 ---
 
 ## {{ page.title }}

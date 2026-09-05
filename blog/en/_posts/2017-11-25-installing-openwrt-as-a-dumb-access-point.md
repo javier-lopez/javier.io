@@ -2,6 +2,7 @@
 layout: post
 title: "installing openwrt as a dumb access point"
 tags: [networking]
+description: "In a previous post I wrote about how to use openwrt as an independent access point, this time however I'll mention how to configure it to extend a network that..."
 ---
 
 ## {{ page.title }}
@@ -36,23 +37,23 @@ Unplug all but your own computer to the device and wait for a valid ip, by defau
 
 Edit with a valid static IP within the range of your main router, eg, (if your router has IP 192.168.1.1, enter 192.168.1.2). Set DNS and gateway to point into your main router to enable internet access for the dumb AP itself.
 
-**[![](/assets/img/openwrt-dumb-ap-lan.png)](/assets/img/openwrt-dumb-ap-lan.png)**
+**[![openwrt dumb ap lan](/assets/img/openwrt-dumb-ap-lan.png)](/assets/img/openwrt-dumb-ap-lan.png)**
 
 Then scroll down and select the checkbox **Ignore interface: Disable DHCP for this interface.**
 
-**[![](/assets/img/openwrt-dumb-ap-disable-dhcp.png)](/assets/img/openwrt-dumb-ap-disable-dhcp.png)**
+**[![openwrt dumb ap disable dhcp](/assets/img/openwrt-dumb-ap-disable-dhcp.png)](/assets/img/openwrt-dumb-ap-disable-dhcp.png)**
 
 Before applying the change prepare the ethernet wire, you'll have 30 seconds to connect it, request a new IP address and access the router web interface, otherwise it'll revert the change and you'll have to redo the configuration. Use a LAN/switch from your main router to a LAN/switch of your dumb AP, **avoid the WAN/Internet ports**, click **Save & Apply**.
 
 Access the dumb AP (on this example) through the [http://10.9.8.7](http://10.9.8.7) IP, and go to the **Network &#x25B7; Interfaces** page for disabling the **WAN** interfaces.
 
-**[![](/assets/img/openwrt-dumb-ap-disable-wan-interfaces.png)](/assets/img/openwrt-dumb-ap-disable-wan-interfaces.png)**
+**[![openwrt dumb ap disable wan interfaces](/assets/img/openwrt-dumb-ap-disable-wan-interfaces.png)](/assets/img/openwrt-dumb-ap-disable-wan-interfaces.png)**
 
 We're almost done, as a final step, setup the wireless APs, go to **Network &#x25B7; Wireless** section and configure as many as desired Access Points and link them to the **LAN** **Network**
 
-**[![](/assets/img/openwrt-dumb-ap-wireless-details.png)](/assets/img/openwrt-dumb-ap-wireless-details.png)**
+**[![openwrt dumb ap wireless details](/assets/img/openwrt-dumb-ap-wireless-details.png)](/assets/img/openwrt-dumb-ap-wireless-details.png)**
 
-**[![](/assets/img/openwrt-dumb-ap-wireless-general.png)](/assets/img/openwrt-dumb-ap-wireless-general.png)**
+**[![openwrt dumb ap wireless general](/assets/img/openwrt-dumb-ap-wireless-general.png)](/assets/img/openwrt-dumb-ap-wireless-general.png)**
 
 That's it!, enjoy your extended network &#9996;
 

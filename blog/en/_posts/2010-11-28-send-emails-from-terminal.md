@@ -2,6 +2,7 @@
 layout: post
 title: "send emails from terminal"
 tags: [shell, tools]
+description: "In some systems the command mail is installed by default and as its name suggests it's used to send/read emails (usually between users of the same system), for this to..."
 ---
 
 ## {{ page.title }}

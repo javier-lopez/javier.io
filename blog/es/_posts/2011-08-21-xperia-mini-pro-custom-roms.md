@@ -2,6 +2,7 @@
 layout: post
 title: "xperia mini pro - custom roms"
 tags: [linux, tools]
+description: "Nada, hace poco me he hecho de un xperia mini pro (por $2800), después de haber perdido un xperia mini =(, y este fin de semana he experimentado hasta dejarlo..."
 ---
 
 ## {{ page.title }}

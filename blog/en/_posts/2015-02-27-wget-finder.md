@@ -2,6 +2,7 @@
 layout: post
 title: "wget-finder for packagers"
 tags: [shell, linux]
+description: "Since some days ago I've been playing with bifrost-build, a github repository with recipes for building static linux binaries. The recipes are no different from other linux distributions where an..."
 ---
 
 ## {{ page.title }}

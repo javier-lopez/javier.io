@@ -2,6 +2,7 @@
 layout: post
 title: "bash autocompletion"
 tags: [shell, tools]
+description: "Update: It's highly recommended to upgrade bash-completion to version &gt;= 2.0 for an improved performance. I really like minimalism systems (and cli apps), they are faster, more stable and easier..."
 ---
 
 ## {{ page.title }}
@@ -10,7 +11,7 @@ tags: [shell, tools]
 
 <!--**[![](/assets/img/54.jpg)](/assets/img/54.jpg)**-->
 
-**Update:** It's highly recommended to upgrade [bash-completion](https://viajemotu.wordpress.com/2013/10/16/upgrade-to-bash-completion-2-0/) to version &gt;= 2.0 for an improved performance.
+**Update:** It's highly recommended to upgrade [bash-completion](/blog/en/2013/10/16/upgrade-to-bash-completion-2-0.html) to version &gt;= 2.0 for an improved performance.
 
 I really like minimalism systems (and cli apps), they are faster, more stable and easier to control. I think it's pretty cool to be able to write a command and get without hesitation a result (I'm aware I'm probably already deprecated, in a world where touch and gui applications are the norm, who would still prefer text based systems?). Sadly many of these commands are not especially user friendly, they contain tons of options and sometimes these options are quite hard to write correctly, when you download scripts from Internet it gets worse, all options must be written by hand because the lack autocompletion.
 
@@ -43,7 +44,7 @@ $ source file_where_pump_function_is_defined
 $ complete -F \_pump pump
 </pre>
 
-Now whenever pump is typed followed by &lt;Tab&gt;&lt;Tab&gt; **\_primp()** will be called and will require to fill the [COMPREPLY](http://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html) array.
+Now whenever pump is typed followed by &lt;Tab&gt;&lt;Tab&gt; **\_primp()** will be called and will require to fill the [COMPREPLY](https://web.archive.org/web/20260728065230/https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html) array.
 
 Most of the files who contain these functions live in **/etc/bash_completion.d/** and in recent years in **/usr/share/bash-completion/completions/** (in Debian/Ubuntu systems), let's suppose we've the following hand made script:
 

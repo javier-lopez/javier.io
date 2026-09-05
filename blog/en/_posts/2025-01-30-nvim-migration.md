@@ -2,6 +2,7 @@
 layout: post
 title: "nvim migration"
 tags: [tools]
+description: "I avoided Neovim for a long time because of backwards compatibility fear, even from Vim 7x to 8x compatibility is an issue, however this was unfunded, NeoVim could be more..."
 ---
 
 ## {{ page.title }}
@@ -61,7 +62,7 @@ Fonts, go to [Nerd Fonts](https://www.nerdfonts.com/font-downloads) and
      have emojics in the terminal, once downloaded the archive unzip it and
      install the OTF files to **“all users”**
 
-**[![](/assets/img/nerd-fonts-caskaydia.png)](/assets/img/nerd-fonts-caskaydia.png)**
+**[![nerd fonts caskaydia](/assets/img/nerd-fonts-caskaydia.png)](/assets/img/nerd-fonts-caskaydia.png)**
 
 Install `gcc` , `git` and `make` to compile plugins and supercharge Nvim (optional):
 
@@ -79,10 +80,10 @@ Install `nvm` and `nodejs` to setup Github Copilot integration (optional):
 
 Configure the new `Terminal` to use the latest `Powershell` and the downloaded fonts:
 
-**[![](/assets/img/terminal-powershell-nerd-fonts-startup.png)](/assets/img/terminal-powershell-nerd-fonts-startup.png)**
-**[![](/assets/img/terminal-powershell-nerd-fonts-powershell.png)](/assets/img/terminal-powershell-nerd-fonts-powershell.png)**
-**[![](/assets/img/terminal-powershell-nerd-fonts-text.png)](/assets/img/terminal-powershell-nerd-fonts-text.png)**
-**[![](/assets/img/terminal-powershell-nerd-fonts-caskaydia.png)](/assets/img/terminal-powershell-nerd-fonts-caskaydia.png)**
+**[![terminal powershell nerd fonts startup](/assets/img/terminal-powershell-nerd-fonts-startup.png)](/assets/img/terminal-powershell-nerd-fonts-startup.png)**
+**[![terminal powershell nerd fonts powershell](/assets/img/terminal-powershell-nerd-fonts-powershell.png)](/assets/img/terminal-powershell-nerd-fonts-powershell.png)**
+**[![terminal powershell nerd fonts text](/assets/img/terminal-powershell-nerd-fonts-text.png)](/assets/img/terminal-powershell-nerd-fonts-text.png)**
+**[![terminal powershell nerd fonts caskaydia](/assets/img/terminal-powershell-nerd-fonts-caskaydia.png)](/assets/img/terminal-powershell-nerd-fonts-caskaydia.png)**
 
 **Installation**
 

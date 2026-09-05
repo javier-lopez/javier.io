@@ -2,6 +2,7 @@
 layout: post
 title: "pbuilder tips"
 tags: [linux]
+description: "I'll write down some tips useful when dealting with pbuilder in Ubuntu, pbuilder is a builder for testing the creation of .deb packages from .dsc sources, however I often use..."
 ---
 
 ## {{ page.title }}

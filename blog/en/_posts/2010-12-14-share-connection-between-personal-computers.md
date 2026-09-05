@@ -2,6 +2,7 @@
 layout: post
 title: "share connection between personal computers"
 tags: [networking, shell]
+description: "- eth0: wired link to other machine - eth1: wireless link to internet - eth0: wired link to internet - eth1: wireless interface as access point in ad-hoc mode After..."
 ---
 
 ## {{ page.title }}

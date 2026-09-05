@@ -2,6 +2,7 @@
 layout: post
 title: "genpass, yet another stateless password generator"
 tags: [security, tools]
+description: "Since some time I've realized I'm pretty bad at memorizing strong passwords, as a result I've been using an unique moderated strong \"master\" password and I've derived others by using..."
 ---
 
 ## {{ page.title }}
@@ -66,7 +67,7 @@ References
 - [genpass](https://github.com/javier-lopez/genpass)
 - [bcrypt](https://en.wikipedia.org/wiki/Bcrypt), slow key derivation function
 - [scrypt](https://en.wikipedia.org/wiki/Scrypt), slow key derivation function
-- [pwdhash](https://www.pwdhash.com/), md5 based password generator, js
+- [pwdhash](https://web.archive.org/web/20170127011156/https://www.pwdhash.com/), md5 based password generator, js
 - [supergenpass](http://www.supergenpass.com/), md5 iteration based password generator, js
 - [passwordmaker](http://passwordmaker.org), md5, sha1, sha256, [etc](http://passwordmaker.org/FAQ#Which_hash_algorithms_are_supported.3F) based password generator, several implementations
 - [masterpassword](http://masterpasswordapp.com/), hard-coded scrypt based password generator, several implementations

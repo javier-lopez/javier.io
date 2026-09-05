@@ -2,6 +2,7 @@
 layout: post
 title: "compile software in pristine environments with pbuilder"
 tags: [linux, tools]
+description: "I'm a paranoid of the order (at least in my system), every time I have to install software which is not included in the Ubuntu repositories I create .deb packages..."
 ---
 
 ## {{ page.title }}

@@ -2,6 +2,7 @@
 layout: post
 title: "clipboard synchronization between X11 and gnome apps"
 tags: [linux, tools]
+description: "By default X11 powered systems have at least two different clipboards which may cause confusion sometimes &#128534; There is no way to disable/delete them, so the next best solution is..."
 ---
 
 ## {{ page.title }}

@@ -2,6 +2,7 @@
 layout: post
 title: "install 7zip with choco without admin permissions"
 tags: [tools]
+description: "Install choco, from a powershell: $ notepad choco-non-admin.ps1 Then paste the following instructions: # Set directory for installation - Chocolatey does not lock # down the directory if not the..."
 ---
 
 ## {{ page.title }}

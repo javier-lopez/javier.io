@@ -1,7 +1,8 @@
 ---
 layout: post
-title: "how to keep your Git-Fork up to date"
+title: "how to keep your git fork up to date"
 tags: [tools]
+description: "When it comes to the situation that you fork a repository and you contribute to it, then it could happen that your fork and the upstream are not in sync..."
 ---
 
 ## {{ page.title }}
@@ -21,7 +22,7 @@ account](https://help.github.com/articles/fork-a-repo/), which can be an
 independent development project, This tutorial is for GitHub but works for any
 other git hosted platform, like Bitbucket or GitLab.
 
-**[![](/assets/img/fork_button.jpg)](/assets/img/fork_button.jpg)**
+**[![fork button](/assets/img/fork_button.jpg)](/assets/img/fork_button.jpg)**
 
 ### 2. Clone the fork
 

@@ -2,6 +2,7 @@
 layout: post
 title: "terminfo variable"
 tags: [shell, tools]
+description: "This is a quick reminder to my future self about how to fix some annoying TERM errors ./bin/atop Error opening terminal: rxvt-unicode-256color. On these cases it could help to define..."
 ---
 
 ## {{ page.title }}

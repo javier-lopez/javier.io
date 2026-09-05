@@ -2,6 +2,7 @@
 layout: post
 title: "hack the planet"
 tags: [security, shell]
+description: "Try n credential attemps in single nc connections: for i in $(seq -s \" \" -f %04g 0 10000);do echo password attempt $i; done | nc localhost 30002 Escape more..."
 ---
 
 ## {{ page.title }}

@@ -2,6 +2,7 @@
 layout: post
 title: "using vim objects in bash"
 tags: [tools, shell]
+description: "I've been using vi-mode in bash for a couple of years now, more than once I've tried to edit something with ci\", ca(, or any other popular vim object. This..."
 ---
 
 ## {{ page.title }}
@@ -20,7 +21,7 @@ This week decided to go further and see how to do it, and it turned out to be po
 
 If you're not interested in installing the whole enchilada or aren't running an apt-get powered OS, you can get the raw inputrc file at:
 
- - [https://github.com/minos-org/bash-minos-settings/blob/master/etc.inputrc](https://github.com/minos-org/bash-minos-settings/blob/master/etc.inputrc)
+ - [https://github.com/minos-org/bash-minos-settings/blob/master/etc%23%23inputrc](https://github.com/minos-org/bash-minos-settings/blob/master/etc%23%23inputrc)
 
 In the later case, the inputrc file should be placed at **~/.inputr** or **/etc/inputrc**
 

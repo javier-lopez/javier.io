@@ -2,6 +2,7 @@
 layout: post
 title: "configure WPA/WEP in openbsd"
 tags: [networking, linux]
+description: "Since openbsd 4.4 (4.5 for ath0) it's possible to connect to wpa networks, it doesn't work with all drivers but eventually it should be viable with most of them. It..."
 ---
 
 ## {{ page.title }}

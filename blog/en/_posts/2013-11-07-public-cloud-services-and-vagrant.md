@@ -2,6 +2,7 @@
 layout: post
 title: "public cloud services (digitalocean, aws) and vagrant"
 tags: [aws, tools]
+description: "I like to keep a fast, ordered and stable computer, that's why I use virtual machines, containers, public cloud services and other means to keep it that way, all my..."
 ---
 
 ## {{ page.title }}
@@ -28,7 +29,7 @@ It's not perfect, vagrant takes ages just to print a help screen, but I think I 
 
 Vagrant installation process is a breeze, it supports OSX, Windows and Linux, in some Linux distributions it's even included in official repositories, but such versions are commonly out of date, that's the case with Ubuntu, so it's better to download Vagrant from its site.
 
-- [http://downloads.vagrantup.com/](http://downloads.vagrantup.com/)
+- [https://web.archive.org/web/20150204130848/http://downloads.vagrantup.com/](https://web.archive.org/web/20150204130848/http://downloads.vagrantup.com/)
 
 <pre class="sh_sh">
 $ sudo dpkg -i vagrant_version.deb

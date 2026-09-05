@@ -2,6 +2,7 @@
 layout: post
 title: "sentry, an alternative to fail2ban and other bruteforce blocking daemons"
 tags: [security, linux]
+description: "I've just migrated my servers from using fail2ban to sentry, and it feels quite efficient =), so I'm doing this post as a way to increase sentry awareness. Sentry is..."
 ---
 
 ## {{ page.title }}

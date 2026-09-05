@@ -2,6 +2,7 @@
 layout: post
 title: "host several sites in a single box with docker and traefik v2, https"
 tags: [docker, networking, security]
+description: "Last time I wrote about how simple is to host several sites with docker + traefik on a single node, on this article I'll complement such information with https and..."
 ---
 
 ## {{ page.title }}
@@ -18,7 +19,7 @@ post, since I'm building upon it. OK, ready?, let's recapitulate:
 
 ## Diagram and Folder Structure
 
-**[![](/assets/img/traefik-docker-compose.png)](/assets/img/traefik-docker-compose.png)**
+**[![traefik docker compose](/assets/img/traefik-docker-compose.png)](/assets/img/traefik-docker-compose.png)**
 
 Traefik will receive all requests and will send them to different containers
 depending the domain/subdomains, in the process it'll provide ssl termination

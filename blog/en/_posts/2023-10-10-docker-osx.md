@@ -2,6 +2,7 @@
 layout: post
 title: "using colima to run docker on a mac"
 tags: [docker]
+description: "$ brew install docker $ brew install docker-compose $ docker run hello-world docker: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running? $ brew install colima..."
 ---
 
 ## {{ page.title }}

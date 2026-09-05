@@ -2,6 +2,7 @@
 layout: post
 title: "block youtube by IP in openwrt routers"
 tags: [networking, security]
+description: "In previous posts I wrote about how to install openwrt as an access point or as a wireless repeater, this time I'll show how to block youtube and other third..."
 ---
 
 ## {{ page.title }}
@@ -21,24 +22,6 @@ OpenWRT uses [UCI](https://wiki.openwrt.org/doc/uci) to centralize configuration
 In order to block sites by IP you'll need to modify such file appending the desired rules, eg. for blocking YouTube:
 
 <pre>
-config rule
-	option name		Block-YouTube-187.189.89.77/16
-	option src		lan
-	option family		ipv4
-	option proto		all
-	option dest		wan
-	option dest_ip		187.189.89.77/16
-	option target		REJECT
-
-config rule
-	option name		Block-YouTube-189.203.0.0/16
-	option src		lan
-	option family		ipv4
-	option proto		all
-	option dest		wan
-	option dest_ip		189.203.0.0/16
-	option target		REJECT
-
 config rule
 	option name		Block-YouTube-64.18.0.0/20
 	option src		lan
@@ -138,6 +121,12 @@ config rule
 	option dest_ip		216.239.32.0/19
 	option target		REJECT
 </pre>
+
+Update: the original version of this post listed two extra ranges captured from
+live traffic, 187.189.0.0/16 and 189.203.0.0/16. Those blocks belong to the
+local ISP (Uninet/Telmex) — YouTube often serves video from Google Global Cache
+nodes hosted inside ISP networks — so rejecting them would have blocked far more
+than YouTube. They were removed.
 
 Ensure to reboot the firewall service to apply the changes:
 

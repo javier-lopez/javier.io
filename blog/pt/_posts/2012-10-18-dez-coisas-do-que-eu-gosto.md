@@ -2,6 +2,7 @@
 layout: post
 title: "dez coisas do que eu gosto"
 tags: [personal]
+description: "Uma lista nao extensiva: - Dormir o dia todo - Comer pepinos - Jogar com minhas orelhas - Tomar banho até que os meus dedos fiquem enrugados - Ler um..."
 ---
 
 ## {{ page.title }}

@@ -2,6 +2,7 @@
 layout: post
 title: "youtube videos from terminal"
 tags: [shell, tools]
+description: "There are multiple ways to see youtube videos from a linux terminal, one of the simplest (and more unix ways) is with mplayer+youtube-dl. Mplayer for playing and youtube-dl for fetching..."
 ---
 
 ## {{ page.title }}

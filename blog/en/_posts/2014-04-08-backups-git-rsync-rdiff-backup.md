@@ -2,6 +2,7 @@
 layout: post
 title: "backups with rsync and rdiff-backup"
 tags: [shell, tools]
+description: "I don't remember the last time I lost information, that's been mostly luck since I'm not really careful with my data. However with internet providers increasing bandwidth, efficient compression algorithms..."
 ---
 
 ## {{ page.title }}

@@ -12,7 +12,7 @@
 
                                         [+] http://got-ravings.blogspot.com
 
-                                        [+] https://github.com/chilicuil/dotfiles/tree/master/.vim
+                                        [+] https://github.com/javier-lopez/dotfiles/blob/master/.vimrc
 
                                         [+] http://cream.sourceforge.net
 

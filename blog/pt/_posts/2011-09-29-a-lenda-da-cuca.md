@@ -2,6 +2,7 @@
 layout: post
 title: "a lenda da cuca"
 tags: [personal]
+description: "A gente fala de uma mulher muito feia com a forma de jacaré, ela rouba as crianças que não obedecem a seus pias. A cuca não pode dormir e é..."
 ---
 
 ## {{ page.title }}

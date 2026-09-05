@@ -2,6 +2,7 @@
 layout: post
 title: "transfer files to ec2 instances via SSM and netcat"
 tags: [aws, networking]
+description: "$ aws ssm start-session --target $INSTANCE_ID --document-name ssm $ nc -l -p 9999 > $FILE_NAME $ aws ssm start-session --target $INSTANCE_ID --document-name AWS-StartPortForwardingSession --parameters '{\"portNumber\":[\"9999\"],\"localPortNumber\":[\"9999\"]}' $ nc -w 3 127.0.0.1..."
 ---
 
 ## {{ page.title }}

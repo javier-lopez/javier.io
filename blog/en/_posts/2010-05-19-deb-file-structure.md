@@ -2,6 +2,7 @@
 layout: post
 title: "deb file structure"
 tags: [linux]
+description: "Deb packages are nothing but ar containers, what set them apart (besides the sufix) are the 3 blobs they always contain. - debian-binary: package version, normally 2.0 - control.tar.gz: compressed..."
 ---
 
 ## {{ page.title }}
@@ -11,7 +12,7 @@ tags: [linux]
 Deb packages are nothing but [ar containers](http://en.wikipedia.org/wiki/Ar_%28Unix%29), what set them apart (besides the sufix) are the 3 blobs they always contain.
 
 - debian-binary: package version, normally 2.0
-- control.tar.gz: compressed package files containing [checksums](http://en.wikipedia.org/wiki/Cryptographic_hash_function), scripts (http://www.debian.org/doc/FAQ/ch-pkg_basics.html), metadata, etc.
+- control.tar.gz: compressed package files containing [checksums](http://en.wikipedia.org/wiki/Cryptographic_hash_function), scripts (https://web.archive.org/web/20100926195126/http://www.debian.org:80/doc/FAQ/ch-pkg_basics.html), metadata, etc.
 - data.tar.gz: compressed package files containing the program itself (commonly in binary format)
 
 NOTE: Modifying .deb packages directly is not the right way to do it. The formal procedure is described at the Debian packaging guide:

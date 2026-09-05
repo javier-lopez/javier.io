@@ -2,6 +2,7 @@
 layout: post
 title: "access localhost with pagekite"
 tags: [networking, tools]
+description: "I &#x2661; pagekite, it allows me to connect to my laptop from anywhere, literally, it doesn't matter if my computer is behind a nat router or if my input traffic..."
 ---
 
 ## {{ page.title }}

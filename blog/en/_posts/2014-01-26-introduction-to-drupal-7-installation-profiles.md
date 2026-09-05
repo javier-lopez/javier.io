@@ -2,6 +2,7 @@
 layout: post
 title: "introduction to drupal 7 installation profiles"
 tags: [tools]
+description: "Last weekend I worked on a Drupal site and it was not fun =( mostly due to incomplete and inaccurate documentation. My goal was to create a distributable bundle for..."
 ---
 
 ## {{ page.title }}
@@ -303,6 +304,6 @@ I had to adjust mostly the **weight** parameter and add missing links. Not diffi
 
 If you had problems with the above description, a probably better and more up-to-date approach to profile Drupal installation is described at:
 
-- [http://salsadigital.com.au/news/drupal-installation-profile-and-distributions](http://salsadigital.com.au/news/drupal-installation-profile-and-distributions)
+- [https://web.archive.org/web/20200331105719/https://salsadigital.com.au/news/drupal-installation-profile-and-distributions](https://web.archive.org/web/20200331105719/https://salsadigital.com.au/news/drupal-installation-profile-and-distributions)
 
 That's it, I hope this information can save some time to someone, have fun!

@@ -9,12 +9,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6
 
-      - name: Install Numo/LSI backend dependencies
-        run: sudo apt-get update && sudo apt-get install -y liblapacke-dev libopenblas-dev
-
-      - uses: ruby/setup-ruby@v1
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b  # v1.321.0
         with:
           ruby-version: '3.2'
           bundler-cache: true
@@ -22,7 +19,7 @@ jobs:
       - name: Build Jekyll site
         run: bundle exec jekyll build
 
-      - uses: actions/upload-pages-artifact@v4
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9  # v5.0.0
         with:
           path: ./_site
 
@@ -34,4 +31,56 @@ jobs:
       pages: write
       id-token: write
     steps:
-      - uses: actions/deploy-pages@v4
+      - uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128  # v5.0.0
+
+  archive:
+    needs: deploy
+    runs-on: ubuntu-latest
+    # Hard cap: SPN throttles shared runner IPs (429) and a retry storm
+    # here must never hang the pipeline for minutes.
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6
+        with:
+          fetch-depth: 2
+
+      - name: Snapshot fresh pages in the Wayback Machine
+        env:
+          ARCHIVE_ORG_ACCESS_KEY: ${{ secrets.ARCHIVE_ORG_ACCESS_KEY }}
+          ARCHIVE_ORG_SECRET_KEY: ${{ secrets.ARCHIVE_ORG_SECRET_KEY }}
+        run: |
+          # Authenticated Save Page Now (SPN2). The anonymous GET endpoint
+          # 429s shared runner IPs; an authenticated account gets 12
+          # concurrent captures and 100k/day.
+          #
+          # Key setup (one-time): log in at archive.org, generate the
+          # S3-style key pair at https://archive.org/account/s3.php, and
+          # store it as the ARCHIVE_ORG_ACCESS_KEY / ARCHIVE_ORG_SECRET_KEY
+          # repository secrets (Settings > Secrets and variables > Actions).
+          #
+          # Captures are async: each POST enqueues a job (the JSON reply
+          # carries a job_id) and the Archive crawls within minutes —
+          # nothing indexes synchronously.
+          #
+          # deploy-pages only returns once the deployment is live. The
+          # Pages CDN (max-age=600) may still hand the crawler a stale
+          # index page for a few minutes — accepted tradeoff to keep this
+          # job fast; changed-post URLs are new and never cached.
+          urls="https://javier.io/ https://javier.io/blog"
+          # Map post files touched by the last commit to their rendered
+          # URLs (deletions excluded — no point archiving a fresh 404).
+          for f in $(git diff --name-only --diff-filter=d HEAD^ HEAD -- 'blog/*/_posts/*.md' || true); do
+            urls="$urls https://javier.io/$(echo "$f" \
+              | sed -E 's#^(blog/[a-z]+)/_posts/([0-9]{4})-([0-9]{2})-([0-9]{2})-(.+)\.md$#\1/\2/\3/\4/\5.html#')"
+          done
+
+          for url in $urls; do
+            echo "queueing capture: $url"
+            curl -fsS --retry 1 --retry-delay 10 --retry-all-errors \
+              -X POST "https://web.archive.org/save" \
+              -H "Accept: application/json" \
+              -H "Authorization: LOW ${ARCHIVE_ORG_ACCESS_KEY}:${ARCHIVE_ORG_SECRET_KEY}" \
+              --data-urlencode "url=$url" \
+              --data-urlencode "skip_first_archive=1"
+            echo
+          done

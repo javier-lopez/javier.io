@@ -21,9 +21,29 @@ plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
 
-exclude:      [deploy, setup]
+exclude:      [deploy, setup, TODO.md]
 safe:        false
 future:      true
-lsi:         true
-highlighter: rouge
+# Off since related entries moved to tag-overlap (_includes/related.html);
+# nothing reads site.related_posts anymore and LSI dominated build time.
+lsi:         false
+# Client-side highlight.js owns ALL code coloring (vendored, Tokyo Night
+# theme). Rouge used to also process ```lang fences at build time: its
+# unstyled spans made hljs re-highlight nested HTML and log an "unescaped
+# HTML" security warning on every post with a tagged fence. One highlighter.
+highlighter: none
 markdown:    kramdown
+kramdown:
+  syntax_highlighter_opts:
+    disable: true
+
+# Comments — giscus (GitHub Discussions on this very repo). Disqus was
+# dropped on 2026-09-05 when its free tier began injecting Taboola ads.
+# Both ids come from the GitHub GraphQL API (repository.id and
+# discussionCategories); the category is the announcement-type one, so only
+# maintainers and the giscus bot can open threads — readers reply to them.
+giscus:
+  repo:        javier-lopez/javier.io
+  repo_id:     MDEwOlJlcG9zaXRvcnk2Nzc2NDE=
+  category:    Announcements
+  category_id: DIC_kwDOAApXCc4DE9Vx

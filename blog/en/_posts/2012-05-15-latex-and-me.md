@@ -2,6 +2,7 @@
 layout: post
 title: "latex and me"
 tags: [tools]
+description: "I maintain my CV in latex because it can easily generate different outputs, it's easy to modify and I think it gives extra geeky points. In the other hand not..."
 ---
 
 ## {{ page.title }}

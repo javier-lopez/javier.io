@@ -2,6 +2,7 @@
 layout: post
 title: "python: sobrecarga de funciones, multimethod"
 tags: [python]
+description: "Uno de los \"defectos\" más molestos de python para mi es su falta de soporte para sobrecargar funciones, es estos días con motivo de un nuevo proyecto me tocó volver..."
 ---
 
 ## {{ page.title }}
@@ -17,8 +18,8 @@ para zanjar el tema, lo comparto por si alguien trae el mismo hormigueo:
 
 - [https://pypi.org/project/multimethod/](https://pypi.org/project/multimethod/)
 
-**[![](/assets/img/python-sobrecarga-de-funciones-multimethod-example.png)](/assets/img/python-sobrecarga-de-funciones-multimethod-example.png)**
+**[![python sobrecarga de funciones multimethod example](/assets/img/python-sobrecarga-de-funciones-multimethod-example.png)](/assets/img/python-sobrecarga-de-funciones-multimethod-example.png)**
 
 Listo, feliz multipass &#128523;
 
-**[![](/assets/img/python-sobrecarga-de-funciones-multimethod.png)](/assets/img/python-sobrecarga-de-funciones-multimethod.png)**
+**[![python sobrecarga de funciones multimethod](/assets/img/python-sobrecarga-de-funciones-multimethod.png)](/assets/img/python-sobrecarga-de-funciones-multimethod.png)**

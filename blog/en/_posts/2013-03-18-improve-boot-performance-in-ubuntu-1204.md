@@ -1,7 +1,8 @@
 ---
 layout: post
-title: "improve boot performance in Ubuntu Precise and above"
+title: "improve boot performance in ubuntu precise and above"
 tags: [linux]
+description: "The project e4rat develops tools who improve the boot process in Linux, to do so, it takes advantage of the reassignment of files in ext4 if you're not using ext4..."
 ---
 
 ## {{ page.title }}
@@ -12,7 +13,7 @@ The project [e4rat](http://e4rat.sourceforge.net/) develops tools who improve th
 
 ### Introduction
 
-A lot of the time who is allocated at the boot process is wasted booting and initializing hard drives (it doesn't happen in ssds) you can see it by yourself with [bootchart](http://www.bootchart.org/).
+A lot of the time who is allocated at the boot process is wasted booting and initializing hard drives (it doesn't happen in ssds) you can see it by yourself with [bootchart](https://web.archive.org/web/20211001205432/http://www.bootchart.org/).
 
 **[![](/assets/img/66.png)](/assets/img/66.png)**
 

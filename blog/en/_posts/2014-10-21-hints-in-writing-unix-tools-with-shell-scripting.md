@@ -2,6 +2,8 @@
 layout: post
 title: "hints for writing unix tools with shell scripting"
 tags: [shell]
+featured: true
+description: "Yesterday I started my day reading Hints for writing Unix tools. And since I agree to a great extend I though in giving more details about how to build such..."
 ---
 
 ## {{ page.title }}
@@ -12,7 +14,7 @@ Yesterday I started my day reading [Hints for writing Unix tools](http://monkey.
 
 ## Consume input from stdin, produce output to stdout
 
-In Unix you can usually refer to stdin and stdout using file descriptors 1 and 2, we do it all the time, for example to send all errors in the `find` command to /dev/null you can type:
+In Unix you can usually refer to stdin, stdout and stderr using file descriptors 0, 1 and 2, we do it all the time, for example to send all errors in the `find` command to /dev/null you can type:
 
     $ find / -name "*pattern*" 2>/dev/null
 

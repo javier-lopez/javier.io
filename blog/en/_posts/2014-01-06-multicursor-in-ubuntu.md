@@ -2,6 +2,7 @@
 layout: post
 title: "multicursor in ubuntu"
 tags: [linux, tools]
+description: "During my last holidays I found myself into a position where I had to share my laptop with other persons. I knew it was possible to use different keyboards/mice with..."
 ---
 
 ## {{ page.title }}

@@ -2,6 +2,7 @@
 layout: post
 title: "virtualbox and kvm sideways"
 tags: [linux]
+description: "The above image contain a common error persons have whenever they try to use VirtualBox and KVM at the same time. Some forum posts suggest uninstalling kvm, however it's quite..."
 ---
 
 ## {{ page.title }}

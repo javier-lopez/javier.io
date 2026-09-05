@@ -2,6 +2,8 @@
 layout: post
 title: "el amor, las mujeres y la vida"
 tags: [poetry, personal]
+featured: true
+description: "A través de la poesía nos reconocemos humanos y que mejor que el desamor para saborear estos versos de Mario Benedetti. Hijos, nietos, vuelvan a ellos cuando les haga sentido. Si tienen..."
 ---
 
 ## {{ page.title }}
@@ -9,6 +11,8 @@ tags: [poetry, personal]
 ###### {{ page.date | date_to_string }}
 
 A través de la poesía nos reconocemos humanos y que mejor que el desamor para saborear estos versos.
+
+Todos son de [Mario Benedetti](https://es.wikipedia.org/wiki/Mario_Benedetti), seleccionados de su antología homónima.
 
 ### Es tan poco
 <pre class="lyric">

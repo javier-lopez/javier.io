@@ -2,6 +2,7 @@
 layout: post
 title: "compartiendo archivos cifrados x internet"
 tags: [security]
+description: "Un archivo cifrado es aquel que ha sido ofuscado mediante algoritmos públicos, sólo las personas con la llave secreta pueden acceder a ellos. $ gpg -v --cipher-algo AES256 --symmetric IMAGEN.PNG..."
 ---
 
 ## {{ page.title }}

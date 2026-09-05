@@ -2,6 +2,7 @@
 layout: post
 title: "launch and suscribe RHEL 8/9 instances in AWS"
 tags: [aws, linux]
+description: "Go to EC2 and launch either RHEL8 or RHEL9 instances: RHEL8: AWS Marketplace: Red Hat Enterprise Linux 8 Ami Id: ami-0b324207d4bcaec61 RHEL9: AWS Marketplace: Red Hat Enterprise Linux 9 Ami..."
 ---
 
 ## {{ page.title }}

@@ -2,6 +2,7 @@
 layout: post
 title: "madre terra"
 tags: [poetry]
+description: "{{ page.title }} {{ page.date | datetostring }} Aqui está meu incenso perfumado meu cacau cobiçado minha fresca medicina aqui está minha pena que se lev..."
 ---
 
 ## {{ page.title }}

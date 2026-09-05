@@ -2,6 +2,7 @@
 layout: post
 title: "proxy ssh + socks"
 tags: [networking, security]
+description: "- Facebook, Twitter, Youtube, etc are blocked. - Route traffic through ssh tunnels. - Unix account in an external host, eg; cjb.net, vps, etc - Ssh client - Traffic allowed..."
 ---
 
 ## {{ page.title }}
@@ -18,7 +19,7 @@ tags: [networking, security]
 
 ### Ingredients
 
-- Unix account in an external host, eg; [cjb.net](http://cjb.net), vps, etc
+- Unix account in an external host, eg; [cjb.net](https://web.archive.org/web/20230820225840/http://cjb.net/), vps, etc
 - Ssh client
 - Traffic allowed through the 22 port (or any other port)
 

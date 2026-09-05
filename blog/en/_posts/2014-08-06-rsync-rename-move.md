@@ -2,6 +2,7 @@
 layout: post
 title: "detect file moves and renames with rsync"
 tags: [tools, linux]
+description: "I use rsync to backup my $HOME directory everyday with something like this: Most of the times it takes me less than 10 minutes at 2MB/s to re-sync everything, however..."
 ---
 
 ## {{ page.title }}

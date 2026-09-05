@@ -2,6 +2,7 @@
 layout: post
 title: "say hi to react through docker integration"
 tags: [docker]
+description: "I've started learning react and there is no way I install npm/yarn/create-react-app or any non sense just to develop single pages. Therefore here are some instructions to encapsulate everything within..."
 ---
 
 ## {{ page.title }}
@@ -86,7 +87,7 @@ That's it!, now it can be launched and accessed through
     app_1  |   Local:            http://localhost:3000/
     app_1  |   On Your Network:  http://172.18.0.2:3000/
 
-**[![](/assets/img/react.png)](/assets/img/react.png)**
+**[![react](/assets/img/react.png)](/assets/img/react.png)**
 
 Sweet!, the autoreloading is working, so we can start modifying
 files and the changes will show up instantly.
@@ -94,7 +95,7 @@ files and the changes will show up instantly.
     $ vim src/App.js
     #some changes later ...
 
-**[![](/assets/img/react-hello-world.png)](/assets/img/react-hello-world.png)**
+**[![react hello world](/assets/img/react-hello-world.png)](/assets/img/react-hello-world.png)**
 
 If you enjoyed the process but still don't want to go thought all the steps,
 feel free to grab the [docker-react-hello-world](https://github.com/javier-lopez/docker-react-hello-world)

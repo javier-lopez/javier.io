@@ -2,6 +2,7 @@
 layout: post
 title: "install apt packages from deb postinst"
 tags: [linux, shell]
+description: "During the last couple of years I've been building yet another Linux distribution, mostly to have my favorite software nicely packaged, but also to experiment and have fun =) One..."
 ---
 
 ## {{ page.title }}

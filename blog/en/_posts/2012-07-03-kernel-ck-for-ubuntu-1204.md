@@ -2,6 +2,7 @@
 layout: post
 title: "kernel -ck for ubuntu precise"
 tags: [linux]
+description: "UPDATE: 16/Jul/2014, the script was updated to compile the 3.15.5 kernel version ck is the name for the Con Kolivas patchet which main purpose is to increment the performance for..."
 ---
 
 ## {{ page.title }}

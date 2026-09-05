@@ -2,6 +2,7 @@
 layout: post
 title: "don't let cd slow you down, cd wrappers: wcd, commacd"
 tags: [shell, tools]
+description: "Using a console interface to manage a computer has its disadvantages, some of them are especially visible when dealing with multiple files at the same time (moving/renaming/copying), typing long and..."
 ---
 
 ## {{ page.title }}

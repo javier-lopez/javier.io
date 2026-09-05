@@ -2,7 +2,7 @@
 <html>
   <head>
     {% include meta.html %}
-    <title>{{ page.title }}</title>
+    <title>{{ page.title | smartify }} | {{ site.title }}</title>
   </head>
 
   <body>

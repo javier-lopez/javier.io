@@ -2,6 +2,7 @@
 layout: post
 title: "disable broken touchpad device"
 tags: [linux]
+description: "From time to time I accidentally drop liquids into my thinkpad laptop and the touchpad start behaving funny, when it happens I prefer to disable it completely for some hours/days..."
 ---
 
 ## {{ page.title }}

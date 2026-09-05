@@ -1,15 +1,24 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="keywords" content="{{ site.description }}">
-    {% seo %}
+    {%- comment -%} title=false: every layout writes its own <title>; seo-tag was
+        emitting a second one that won by coming first in <head>. {%- endcomment -%}
+    {% seo title=false %}
 
     <link rel="shortcut icon" href="/favicon.ico">
-    <link href='//fonts.googleapis.com/css?family=Exo+2:200|PT+Sans|Vollkorn:400,700|' rel='stylesheet' type='text/css'>
-    <!--<link href='//fonts.googleapis.com/css?family=Megrim|Ruluko|Exo+2:200|PT+Sans|Strait|Vollkorn|' rel='stylesheet' type='text/css'>-->
+    {%- comment -%} Self-hosted fonts (Exo 2 200, PT Sans, Vollkorn 400/700)
+        — vendored from Google Fonts so the site has no third-party
+        dependencies. Regenerate assets/css/fonts.css + assets/font/ if the
+        family set ever changes. {%- endcomment -%}
+    <link rel="stylesheet" type="text/css" href="/assets/css/fonts.css">
     <link rel="alternate" type="application/atom+xml" href="/atom.xml">
-    <link rel="stylesheet" type="text/css" href="/assets/css/default_black.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/responsive.css">
+    {%- comment -%} ?v= busts browser caches on deploy — stale CSS kept
+        shipping old styles to returning visitors (site HTML regenerates,
+        stylesheets linger in cache). Vendored fontawesome stays bare so
+        the preload in blog.html keeps matching its URL. {%- endcomment -%}
+    <link rel="stylesheet" type="text/css" href="/assets/css/default_black.css?v={{ site.time | date: '%s' }}">
+    <link rel="stylesheet" type="text/css" href="/assets/css/responsive.css?v={{ site.time | date: '%s' }}">
     <link rel="stylesheet" type="text/css" href="/assets/css/fontawesome.min.css">
 
-    <!-- syntax highlighting — highlight.js 11 with Tokyo Night Dark theme -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/styles/tokyo-night-dark.min.css">
+    <!-- syntax highlighting — vendored highlight.js 11.11.1, Tokyo Night Dark theme -->
+    <link rel="stylesheet" href="/assets/css/tokyo-night-dark.min.css">

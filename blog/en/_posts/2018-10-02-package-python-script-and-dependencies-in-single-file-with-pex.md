@@ -2,6 +2,7 @@
 layout: post
 title: "package python scripts and dependencies in single files with pex"
 tags: [python, docker]
+description: "So you want to create a pex that packages your script and its dependencies? Ok, first to make our script! call it my-script.py: import requests if __name__ == '__main__': req..."
 ---
 
 ## {{ page.title }}

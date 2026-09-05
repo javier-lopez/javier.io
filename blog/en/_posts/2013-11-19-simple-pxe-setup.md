@@ -2,6 +2,7 @@
 layout: post
 title: "simple pxe setup"
 tags: [networking, linux]
+description: "There are several ways to setup a pxe (which are useful mostly for massive installations), this is my personal method. A preboot execution environment in 68KB with batteries included, pxelinux,..."
 ---
 
 ## {{ page.title }}

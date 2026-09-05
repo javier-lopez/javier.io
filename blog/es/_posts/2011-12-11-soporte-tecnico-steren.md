@@ -2,6 +2,7 @@
 layout: post
 title: "soporte técnico de steren"
 tags: [personal]
+description: "Nada, hace tiempo que leo el blog de Manuel Micheline (La morsa) un catedrático de la facultad de ciencias de la UNAM / maestro FIDE en ajedrez y programador amateur,..."
 ---
 
 ## {{ page.title }}
