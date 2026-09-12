@@ -90,6 +90,7 @@ Unas diez horas útiles en total. El examen no es tan fácil, no hay que confiar
 
 ### Referencias
 
+- [Artefacto de Claude](https://claude.ai/code/artifact/fec43380-76e5-488e-9bbb-2ab0b9856b8c)
 - AWS (2026). *[AWS Certified AI Practitioner (AIF-C01) Exam Guide v1.1](https://docs.aws.amazon.com/aws-certification/latest/ai-practitioner-01/ai-practitioner-01.html)* y su [historial de revisiones](https://docs.aws.amazon.com/aws-certification/latest/ai-practitioner-01/aif-01-revisions.html): la fuente de verdad sobre qué entra.
 - AWS Skill Builder. *[Official Practice Question Set: AIF-C01](https://skillbuilder.aws/learn/4URFGY63KV/official-practice-question-set-aws-certified-ai-practitioner--aifc01--english/FVG43Y1PAX)*: 20 preguntas gratis con el estilo real.
 - Santonastaso, A. *[CloudCertPrep, AIF-C01](https://www.cloudcertprep.io/aws/aif-c01)*: banco abierto alineado con la v1.1.
