@@ -1064,8 +1064,17 @@ body.blog-page.is-post { background: transparent; }
   font-size: clamp(1.15rem, 1.85vw, 1.4rem);
   line-height: 1.65;
   padding-bottom: 0.4em;
-  list-style: disc outside;
 }
+/* El marcador se decide por tipo de lista, no en la regla general de li.
+   Cuando `list-style: disc` vivia arriba, las listas ordenadas heredaban
+   la vineta y perdian el numero — y en una lista ordenada el numero ES
+   el contenido (pasos, secuencias, setlists), ademas de que anulaba
+   cualquier `start=` de kramdown. */
+.is-post #post ul > li { list-style: disc outside; }
+.is-post #post ol > li { list-style: decimal outside; }
+/* El TOC numera con su propio counter (.post-toc li::before), asi que su
+   ol no lleva marcador nativo. */
+.is-post #post .post-toc li { list-style: none; }
 .is-post #post li::before { content: none !important; }
 /* Inline code — monospace + dim brand-red accent, no chip box. Flows with
    prose instead of fragmenting it. */
