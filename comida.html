@@ -1,279 +1,2622 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="es">
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>¿Qué hay de comer?</title>
-    <link rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="color-scheme" content="light dark">
+    <title>¿Qué se cocina?</title>
+
+    <!-- Vollkorn y PT Sans, servidas por el propio sitio desde /assets/font.
+         Una hoja del mismo origen: la página sigue sin depender de un CDN. -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/fonts.css">
 
     <style>
-      html, body {
-        overflow-x: hidden;
-        overflow-y: hidden;
-        height: 100%;
-        width: 100%;
-        position: absolute;
-        background-color: black;
-        background-image: url('//lh5.ggpht.com/_at8HbBABDrw/S7A7NervBaI/AAAAAAABU9o/3CmSP8xqJ3k/s1600/IMG_3635.jpg');
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: top;
+      /* ------------------------------------------------------------------
+         EL CONTRATO DE COLOR
+         Ningún componente de abajo menciona un color literal: todos hablan de
+         var(--algo). Los quince temas viven en la tabla TEMAS del script y se
+         aplican escribiendo estas mismas variables, así que agregar un tema es
+         una fila de datos y no un bloque de CSS más.
+
+         Estos valores son solo el RESPALDO. El script del <head> escribe
+         encima la paleta de la semana antes del primer pintado, de modo que
+         esto únicamente se ve si el JavaScript no corre.
+
+         Por eso el respaldo es una copia del tema «café» y no una paleta
+         propia: aquí vivía el rojo de marca del blog, que tenía sentido
+         cuando la página era una más del sitio, pero con quince temas pasó a
+         ser un decimosexto juego de colores que ningún tema usaba y que nadie
+         había medido. Ahora el respaldo es uno de los quince que sí pasaron
+         el contraste.
+
+         --sombra es lo único que vive solo aquí: no cambia con el tema.
+         ------------------------------------------------------------------ */
+      :root {
+        --fondo:      #f7f3ee;
+        --tarjeta:    #ffffff;
+        --tinta:      #20180f;
+        --suave:      #7a6a58;
+        --linea:      #e8ded1;
+        --acento:     #8a4b2a;
+        --acento-sfc: #f6e9e0;
+        --alerta:     #b3352f;
+        --alerta-sfc: #fbeae9;
+        --frio:       #2a5f7d;
+        --frio-sfc:   #e8f0f4;
+        --aviso:      #8a5a0c;
+        --aviso-sfc:  #fbf2df;
+        --sombra:     0 1px 2px rgba(16,16,22,.05), 0 10px 30px rgba(16,16,22,.06);
+        --boton-tinta: #ffffff;
+        --tema:       "";
+
+        --luz-x:      25%;
+        --luz-y:      10%;
+        --luz-tono:   28;
+        --luz-alfa:   .12;
+      }
+
+      /* Resplandor de fondo. Cada tema fija su posición y su tono, y ahí se
+         queda toda la semana: nada se mueve mientras Jessi cocina. */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
         z-index: -2;
+        pointer-events: none;
+        background: radial-gradient(
+          110vmax 80vmax at var(--luz-x) var(--luz-y),
+          hsl(var(--luz-tono) 90% 60% / var(--luz-alfa)) 0%,
+          transparent 68%);
+        transition: background 1.2s ease;
       }
 
-      #display {
-        color: white;
-        font-size: 2.9em;
-        top: 10px;
-        border-bottom: thin solid;
-        padding-bottom: 20px;
-        opacity: 0.80;
-        filter: alpha(opacity=80); /* For IE8 and earlier */
-      }
-
-      #title {
-        max-width: 30em;
-        color: white;
-        font-family: "Adobe Caslon Pro", "Hoefler Text", Georgia, Garamond, Times, serif;
-        letter-spacing: 0.1em;
-        text-align: center;
-        margin: auto;
-        text-transform: lowercase;
-        line-height: 145%;
-        font-size: 2em;
-        font-variant: small-caps;
-      }
-
-      #date {
-        color: white;
-        font-size: 1.3em;
-        font-family: Georgia, "Times New Roman", Times, serif;
-        font-weight: normal;
-        letter-spacing: 0.2em;
-        opacity: 0.6;
-        filter: alpha(opacity=60); /* For IE8 and earlier */
-      }
-
-      #footer {
-        width: 100%;
-        height: 40px;
+      /* Lienzo del efecto ambiental. Vive detrás de todo el contenido y es
+         sordo a los toques: nada de la página depende de que se pueda tocar. */
+      #ambiente {
         position: fixed;
-        bottom: -1px;
-        background-color: white;
-        text-align: center;
-        opacity: 0.5;
-        filter: alpha(opacity=50); /* For IE8 and earlier */
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
       }
 
-      #line {
-        width: 100%;
-        bottom: 4em;
-        position: fixed;
-        border-bottom: solid white;
-        padding: 15px;
-        opacity: 0.5;
-        filter: alpha(opacity=50); /* For IE8 and earlier */
-      }
+      * { box-sizing: border-box; }
 
-      .navbar {
-        position: fixed;
-        width: 100%;
-        opacity: 0.6;
-        filter: alpha(opacity=60); /* For IE8 and earlier */
-      }
 
-      .wrapper {
-        background-color: red;
-      }
-
-      span {
-        border-radius: 100px;
-        opacity: 0.75;
-        filter: alpha(opacity=75); /* For IE8 and earlier */
-      }
-
-      #content {
-        height: 45em;
-      } p {
-        max-width: 30em;
-        color: white;
-        font-family: "Adobe Caslon Pro", "Hoefler Text", Georgia, Garamond, Times, serif;
-        letter-spacing:0.1em;
-        text-align:center;
-        margin: 40px auto;
-        text-transform: lowercase;
-        line-height: 145%;
-        font-size: 2em;
-        font-variant: small-caps;
-      }
-
-      p :hover {
-        text-decoration: none;
-      }
-
-      .container {
-        padding-top: 6em;
-        text-align: center;
-      }
-
-      #b-nav {
-        padding-bottom: 5em;
-        position: fixed;
-        width: 100%;
-        bottom: 2em;
-      }
-
-      #b-nav ul {
+      body {
         margin: 0;
-        padding: 0.5em;
-        list-style-type: none;
-        text-align: center;
+        padding: 0 16px 64px;
+        background: var(--fondo);
+        color: var(--tinta);
+        font: 17px/1.55 'PT Sans', system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        -webkit-text-size-adjust: 100%;
+        transition: background-color .6s ease, color .6s ease;
       }
 
-      #b-nav ul li {
-        display: inline;
+      /* Vollkorn es la voz del blog. Aquí la llevan los nombres de los
+         platillos, que es lo único de la página que se lee como prosa. */
+      h1, .topper .nombre, .dia-fila .plato {
+        font-family: 'Vollkorn', Georgia, 'Times New Roman', serif;
       }
 
-      #b-nav ul li a {
-        text-decoration: none;
-        padding: .2em 1em;
-        background-color: black;
-        opacity: 0.4;
-        filter: alpha(opacity=40); /* For IE8 and earlier */
+      /* Las cantidades se leen en columna: alinean mejor con cifras de ancho fijo. */
+      .cuanto, .item-compra .cant { font-variant-numeric: tabular-nums; }
+
+      /* Sin foco visible, la página es inusable con teclado. */
+      :where(a, button, summary):focus-visible {
+        outline: 2.5px solid var(--acento);
+        outline-offset: 3px;
+        border-radius: 4px;
       }
 
-      .hold {
+      @media (prefers-reduced-motion: reduce) {
+        *, body::before { transition: none !important; animation: none !important; }
+      }
+
+      .envoltura { max-width: 640px; margin: 0 auto; }
+
+      /* ---------- cabecera ---------- */
+      header { padding: 24px 0 8px; }
+
+      .fecha {
+        font-size: 13px;
+        letter-spacing: .14em;
+        text-transform: uppercase;
+        color: var(--suave);
+        margin: 0 0 4px;
+      }
+
+      .fecha::after {
+        content: " · " var(--tema);
+        color: var(--acento);
+      }
+
+      h1 {
+        font-size: 15px;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        color: var(--suave);
+        font-weight: 600;
+        margin: 0;
+      }
+
+      /* ---------- tarjetas ---------- */
+      section {
+        background: var(--tarjeta);
+        border: 1px solid var(--linea);
+        border-radius: 14px;
+        padding: 20px;
+        margin: 16px 0;
+        box-shadow: var(--sombra);
+        transition: background-color .6s ease, border-color .6s ease;
+      }
+
+      h2 {
+        font-size: 12px;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+        color: var(--suave);
+        font-weight: 700;
+        margin: 0 0 14px;
+      }
+
+      h3 {
+        font-size: 15px;
+        margin: 20px 0 8px;
+        color: var(--tinta);
+      }
+
+      /* El único control primario de la página, y el único bloque que lleva
+         el rojo de marca de fondo. Todo lo demás queda quieto alrededor. */
+      .ir-compras {
+        display: flex;
+        align-items: center;
+        gap: 14px;
         width: 100%;
+        margin: 16px 0 4px;
+        padding: 18px 20px;
+        font: inherit;
         text-align: left;
+        border: none;
+        border-radius: 14px;
+        background: var(--acento);
+        color: var(--boton-tinta);
+        cursor: pointer;
+        box-shadow: var(--sombra);
       }
 
-      #gen {
-        outline: none;
-        padding-top: 5px;
-        text-decoration: none;
-        opacity: 0.6;
-        background-color: black;
-        color: white;
-        border: thin solid white;
+
+      .ir-compras-icono {
+        font-size: 22px;
+        line-height: 1;
+        opacity: .75;
+      }
+
+      .ir-compras-txt { display: block; font-size: 19px; font-weight: 700; }
+      .ir-compras-sub { display: block; font-size: 13px; opacity: .8; margin-top: 2px; }
+
+      .ir-compras:active { filter: brightness(.93); }
+
+      .pregunta { font-size: 18px; font-weight: 600; margin: 0 0 12px; }
+
+      .etiquetas { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+
+      .etiqueta {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: .03em;
+        padding: 5px 11px;
+        border-radius: 999px;
+        background: var(--acento-sfc);
+        color: var(--acento);
+        white-space: nowrap;
+      }
+
+      .etiqueta.congelar { background: var(--frio-sfc); color: var(--frio); }
+
+      .dias-botones { display: flex; gap: 8px; margin-bottom: 4px; }
+
+      .dias-botones button {
+        flex: 1;
+        padding: 14px 6px;
+        font: inherit;
+        font-weight: 600;
+        color: var(--tinta);
+        background: var(--fondo);
+        border: 1.5px solid var(--linea);
+        border-radius: 10px;
+        cursor: pointer;
+      }
+
+      .dias-botones button[aria-pressed="true"] {
+        background: var(--acento);
+        border-color: var(--acento);
+        color: var(--tarjeta);
+      }
+
+      .pista { font-size: 13px; color: var(--suave); margin: 10px 0 0; }
+
+      /* La despensa fija no es compra de la semana, es revisión de alacena:
+         se separa con aire y baja el tono, sin salirse de la lista. */
+      .grupo-compra.fija {
+        margin-top: 26px;
+        padding-top: 18px;
+        border-top: 2px solid var(--linea);
+      }
+
+      /* Lo de la temporada se separa del recorrido del mercado: son cuatro
+         renglones que no se compran todas las semanas, y mezclarlos con la
+         verdulería haría dudar de si ya estaban en la lista. */
+      .grupo-compra.giro {
+        margin-top: 22px;
+        padding: 14px;
+        background: var(--acento-sfc);
+        border-radius: 10px;
+      }
+
+      .grupo-compra.giro h3 { color: var(--acento); border-color: transparent; }
+
+      .grupo-compra.fija .cant { color: var(--suave); }
+      .item-compra .nota-fija {
+        display: block;
+        margin-top: 2px;
+        font-size: 12px;
+        font-weight: 400;
+        color: var(--suave);
+      }
+
+      /* ---------- diálogo ---------- */
+      dialog {
+        width: min(600px, calc(100vw - 32px));
+        max-height: min(80vh, 720px);
+        padding: 0;
+        border: none;
+        border-radius: 16px;
+        background: var(--tarjeta);
+        color: var(--tinta);
+        box-shadow: var(--sombra);
+        overflow: hidden;
+      }
+
+      dialog::backdrop { background: rgba(0, 0, 0, .55); }
+
+      .dlg-cabeza {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 18px 20px;
+        border-bottom: 1px solid var(--linea);
+      }
+
+      .dlg-cabeza h2 { margin: 0; }
+
+      .dlg-cerrar {
+        flex: 0 0 auto;
+        width: 40px;
         height: 40px;
-        width: 100px;
-        border-radius: 2px;
-        transition: 0.5s;
-        padding-bottom: 5px;
+        font: inherit;
+        font-size: 17px;
+        color: var(--tinta);
+        background: var(--fondo);
+        border: 1px solid var(--linea);
+        border-radius: 50%;
+        cursor: pointer;
       }
 
-      #gen:hover {
-        background-color: white;
-        color: black;
-        border: thin solid black;
-        opacity: 0.8;
+      /* El cuerpo es lo único que rueda: la cabecera se queda con el cerrar
+         siempre a mano, que en un teléfono es la mitad del problema. */
+      .dlg-cuerpo {
+        padding: 4px 20px 20px;
+        overflow-y: auto;
+        max-height: calc(min(80vh, 720px) - 77px);
+        overscroll-behavior: contain;
       }
 
-      #gen a {
-        text-decoration: none;
+      .aviso-cruce {
+        background: var(--aviso-sfc);
+        color: var(--aviso);
+        border-left: 3px solid var(--aviso);
+        border-radius: 0 8px 8px 0;
+        padding: 12px 14px;
+        font-size: 14px;
+        font-weight: 600;
+        margin: 16px 0 0;
       }
 
-      #date {
-        color: white;
+      /* La banda de temporada. Mismo tono que la sazón porque son lo mismo:
+         una sola idea contada en dos escalas, la semana y el ingrediente. */
+      .giro-banda {
+        background: var(--acento-sfc);
+        color: var(--acento);
+        border-radius: 10px;
+        padding: 12px 14px;
+        font-size: 14px;
+        line-height: 1.5;
+        margin: 16px 0 0;
       }
 
-      @media screen
-       and (max-device-width: 800px)
-        and (max-device-height: 640px)
-        and (-webkit-device-pixel-ratio: 2)
-        and (orientation: portrait) {
-          p {
-            font-size: 1em;
-          }
+      .giro-banda strong { display: block; margin-bottom: 2px; }
+
+      /* ---------- semana ---------- */
+      .dia-fila {
+        display: flex;
+        gap: 12px;
+        padding: 11px 0;
+        border-bottom: 1px solid var(--linea);
+        align-items: baseline;
       }
 
-      .fa-twitter {
-        font-size: 30px !important;
-        margin-left: 20px;
+      .dia-fila:last-child { border-bottom: none; }
+
+      .dia-fila .dia {
+        flex: 0 0 42px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        color: var(--suave);
+      }
+
+      .dia-fila.hoy .dia,
+      .dia-fila.hoy .plato { color: var(--acento); font-weight: 700; }
+
+      .dia-fila .plato { flex: 1; }
+
+      /* ---------- carriles de la tanda ---------- */
+      .carril { margin-bottom: 18px; }
+
+      .carril-cabeza {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+
+      .carril-num {
+        flex: 0 0 24px;
+        height: 24px;
+        line-height: 24px;
+        text-align: center;
+        border-radius: 50%;
+        background: var(--acento);
+        color: var(--tarjeta);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .carril-nombre { font-weight: 700; font-size: 15px; }
+      .carril-tiempo { font-size: 12px; color: var(--suave); margin-left: auto; }
+
+      .componente { padding: 8px 0 8px 32px; border-bottom: 1px dashed var(--linea); }
+      .componente:last-child { border-bottom: none; }
+      .componente .que { font-weight: 600; }
+      .componente .cuanto { color: var(--acento); font-weight: 600; }
+      .componente .como { font-size: 14px; color: var(--suave); margin-top: 2px; }
+
+      /* La sazón de la temporada. Va en el acento y con barra al margen para
+         que se distinga del texto base del componente: lo de siempre en gris,
+         lo que cambia esta semana marcado. */
+      .componente .sazon {
+        font-size: 14px;
+        color: var(--acento);
+        background: var(--acento-sfc);
+        border-left: 3px solid var(--acento);
+        border-radius: 0 6px 6px 0;
+        padding: 7px 10px;
+        margin-top: 6px;
+      }
+
+      /* ---------- toppers ---------- */
+      .topper {
+        border: 1.5px solid var(--linea);
+        border-radius: 10px;
+        padding: 12px 14px;
+        margin-bottom: 10px;
+      }
+
+      .topper.congelar { border-color: var(--frio); background: var(--frio-sfc); }
+
+      .topper-cabeza {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 4px;
+        flex-wrap: wrap;
+      }
+
+      .topper-rotulo {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: .12em;
+        padding: 3px 8px;
+        border-radius: 4px;
+        background: var(--tinta);
+        color: var(--tarjeta);
+      }
+
+      .topper.congelar .topper-rotulo { background: var(--frio); }
+      .topper .nombre { font-weight: 600; }
+      .topper .nota { font-size: 14px; color: var(--suave); margin-top: 4px; }
+
+      .topper .etiqueta-topper {
+        border-top: 1px dashed var(--linea);
+        margin-top: 8px;
+        padding-top: 8px;
+        color: var(--tinta);
+      }
+
+      /* ---------- compras ---------- */
+      .grupo-compra { margin-bottom: 18px; }
+
+      .grupo-compra h3 {
+        font-size: 12px;
+        letter-spacing: .14em;
+        text-transform: uppercase;
+        color: var(--suave);
+        margin: 0 0 6px;
+      }
+
+      .item-compra {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 9px 0;
+        border-bottom: 1px solid var(--linea);
+      }
+
+      .item-compra:last-child { border-bottom: none; }
+      .item-compra .cant { color: var(--acento); font-weight: 600; white-space: nowrap; }
+      .item-compra .marca { font-size: 11px; color: var(--frio); font-weight: 700; display: block; }
+      .item-compra .marca.hoja { color: var(--aviso); }
+
+      /* ---------- listas ---------- */
+      ul.limpia { list-style: none; padding: 0; margin: 0; }
+      ul.limpia li { padding: 8px 0; border-bottom: 1px solid var(--linea); }
+      ul.limpia li:last-child { border-bottom: none; }
+
+      .prohibiciones li::before { content: "✕ "; color: var(--alerta); font-weight: 700; }
+      .permisos li::before      { content: "✓ "; color: var(--acento); font-weight: 700; }
+
+      details { margin-top: 10px; }
+
+      details summary {
+        cursor: pointer;
+        font-weight: 600;
+        padding: 12px 0;
+        list-style: none;
+        color: var(--acento);
+      }
+
+      details summary::-webkit-details-marker { display: none; }
+      details summary::after { content: " ▾"; }
+      details[open] summary::after { content: " ▴"; }
+
+      @media (min-width: 480px) {
+        body { font-size: 18px; }
       }
     </style>
+    <script>
+      /* ================================================================
+         CALENDARIO Y TEMA — se resuelven ANTES de que el cuerpo pinte.
+
+         Esto vivía al final del <body> junto con el resto y producía un
+         parpadeo: el navegador pintaba la cabecera con la paleta por defecto
+         del CSS —el rojo del blog— y un instante después el JS la cambiaba a
+         la del tema de la semana. En septiembre eso era rojo y luego verde, y
+         parecía un error de la página.
+
+         La causa no era el color sino el ORDEN: un tema que se aplica después
+         del primer pintado siempre se ve como un salto. Aquí arriba el
+         navegador ya conoce los tokens cuando pinta el primer píxel, así que
+         no hay nada que corregir después.
+
+         Solo sube lo imprescindible —fecha, tema y colores—; el menú, las
+         compras y todo lo que toca el DOM siguen al final del cuerpo, donde
+         los elementos ya existen.
+         ================================================================ */
+      var CALENDARIO = (function () {
+        "use strict";
+
+        function semanaISO(d) {
+          var t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+          var numDia = t.getUTCDay() || 7;          // domingo = 7, no 0
+          t.setUTCDate(t.getUTCDate() + 4 - numDia); // al jueves de esa semana
+          var añoInicio = new Date(Date.UTC(t.getUTCFullYear(), 0, 1));
+          return Math.ceil(((t - añoInicio) / 86400000 + 1) / 7);
+        }
+
+        /* La Pascua se mueve cada año, así que la Semana Santa se calcula en vez
+           de aproximarse. Antes eran dos anclas fijas —24 de marzo al 10 de
+           abril— que cubrían dónde PODÍA caer la Pascua, no cuánto dura la
+           costumbre. Como esta temporada además fija la despensa, aquello se
+           traducía en diecinueve días seguidos de pescado. Ahora son ocho: de
+           Domingo de Ramos a Domingo de Pascua, que es lo que dura de verdad.
+
+           Algoritmo de Meeus/Jones/Butcher para el calendario gregoriano. */
+        function pascua(anio) {
+          var a = anio % 19,
+              b = Math.floor(anio / 100), c = anio % 100,
+              d = Math.floor(b / 4), e = b % 4,
+              f = Math.floor((b + 8) / 25),
+              g = Math.floor((b - f + 1) / 3),
+              h = (19 * a + b - d - g + 15) % 30,
+              i = Math.floor(c / 4), k = c % 4,
+              l = (32 + 2 * e + 2 * i - h - k) % 7,
+              m = Math.floor((a + 11 * h + 22 * l) / 451),
+              mes = Math.floor((h + l - 7 * m + 114) / 31),
+              dia = ((h + l - 7 * m + 114) % 31) + 1;
+          return new Date(anio, mes - 1, dia);
+        }
+
+        function enSemanaSanta(f) {
+          var dom = pascua(f.getFullYear());
+          var ramos = new Date(dom.getFullYear(), dom.getMonth(), dom.getDate() - 7);
+          return f >= ramos && f <= dom;
+        }
+
+        /* Fechas señaladas: [mes, díaDesde, díaHasta, tema]. Se revisan en orden
+           y gana la primera que abarque el día; si ninguna lo hace, entra la
+           rotación de abajo por número de semana. */
+        var ANCLAS = [
+          [1,   1,  7, "anonuevo"],
+          [2,   1, 28, "carnaval"],
+          [5,   1, 31, "lluvias"],
+          [7,   1, 12, "independencia"],
+          [8,   1, 31, "mango"],
+          [9,   1, 30, "patrio"],
+          [10, 25, 31, "brujas"],
+          [11,  1,  4, "muertos"],
+          [12,  1, 31, "navidad"]
+        ];
+
+        var ROTACION = ["cafe", "mar", "selva", "tinta", "barro"];
+
+        // El tema cuelga de la fecha: primero las fechas señaladas, y si el día
+        // no cae en ninguna, la rotación por semana ISO — la misma que mueve la
+        // despensa. Aspecto y comida cambian juntos el lunes.
+        function temaDe(fecha) {
+          if (enSemanaSanta(fecha)) return "semanasanta";
+          var mes = fecha.getMonth() + 1, dia = fecha.getDate();
+          for (var i = 0; i < ANCLAS.length; i++) {
+            var a = ANCLAS[i];
+            if (mes === a[0] && dia >= a[1] && dia <= a[2]) return a[3];
+          }
+          return ROTACION[semanaISO(fecha) % ROTACION.length];
+        }
+
+        /* ================================================================
+           TEMAS
+           Uno por semana, colgado de la misma semana ISO que rota la despensa:
+           el aspecto y la comida cambian juntos el lunes y no se mueven hasta
+           el siguiente. Los colores viven aquí y no en el CSS, así que agregar
+           un tema es una fila y el motor de partículas lee de la misma fila sus
+           colores en vez de que yo los duplique.
+
+           La única regla dura: el contenido se lee. Cada paleta mantiene tinta
+           y fondo bien separados, y los temas oscuros aclaran el acento.
+           ================================================================ */
+
+        var TEMAS = {
+          patrio: {
+            nombre: "mes patrio",
+            t: { fondo:"#f6f8f4", tarjeta:"#ffffff", tinta:"#14261a", suave:"#5f7166",
+                 linea:"#dbe6dd", acento:"#00722f", "acento-sfc":"#e3f2e7",
+                 alerta:"#b81c26", "alerta-sfc":"#fceaec", aviso:"#8a5a0c", "aviso-sfc":"#fbf2df",
+                 frio:"#1e5a7a", "frio-sfc":"#e9f1f5", "boton-tinta":"#ffffff",
+                 "luz-x":"50%", "luz-y":"6%", "luz-tono":"110", "luz-alfa":".10" },
+            efecto: { tipo:"cae", forma:"cinta", colores:["#00722f","#ffffff","#c8102e"], n:26, vel:.5 }
+          },
+          muertos: {
+            nombre: "día de muertos",
+            t: { fondo:"#1b1220", tarjeta:"#261a2d", tinta:"#f6ecdc", suave:"#b3a1b8",
+                 linea:"#3b2b42", acento:"#ff8a2b", "acento-sfc":"#3a2413",
+                 alerta:"#ff6f7d", "alerta-sfc":"#3a1620", aviso:"#f0b429", "aviso-sfc":"#33260d",
+                 frio:"#7fc6e8", "frio-sfc":"#152b36", "boton-tinta":"#2a1408",
+                 "luz-x":"50%", "luz-y":"10%", "luz-tono":"30", "luz-alfa":".22" },
+            efecto: { tipo:"cae", forma:"petalo", colores:["#ff8a2b","#f0b429","#c66bd6"], n:22, vel:.35 }
+          },
+          navidad: {
+            nombre: "navidad",
+            t: { fondo:"#0f1c17", tarjeta:"#16261f", tinta:"#eef5ef", suave:"#9bb0a4",
+                 linea:"#24382e", acento:"#e8b84b", "acento-sfc":"#2d2413",
+                 alerta:"#ff7b86", "alerta-sfc":"#331519", aviso:"#e8b84b", "aviso-sfc":"#2d2413",
+                 frio:"#8ecae6", "frio-sfc":"#132630", "boton-tinta":"#1a1406",
+                 "luz-x":"50%", "luz-y":"4%", "luz-tono":"45", "luz-alfa":".16" },
+            efecto: { tipo:"cae", forma:"copo", colores:["#ffffff","#cfe8f5","#e8b84b"], n:40, vel:.25 }
+          },
+          anonuevo: {
+            nombre: "año nuevo",
+            t: { fondo:"#faf7ef", tarjeta:"#ffffff", tinta:"#1c1a12", suave:"#767061",
+                 linea:"#eae3d2", acento:"#7d5c0c", "acento-sfc":"#f8f0d9",
+                 alerta:"#b8442b", "alerta-sfc":"#fbeae4", aviso:"#8a5a0c", "aviso-sfc":"#fbf2df",
+                 frio:"#1e5a7a", "frio-sfc":"#e9f1f5", "boton-tinta":"#ffffff",
+                 "luz-x":"50%", "luz-y":"4%", "luz-tono":"48", "luz-alfa":".18" },
+            efecto: { tipo:"brilla", forma:"chispa", colores:["#e8c65b","#ffffff","#d8a13a"], n:34, vel:.3 }
+          },
+          carnaval: {
+            nombre: "carnaval",
+            t: { fondo:"#fdf4fa", tarjeta:"#ffffff", tinta:"#231428", suave:"#7d6684",
+                 linea:"#f0dbea", acento:"#c2158c", "acento-sfc":"#fbe4f3",
+                 alerta:"#a81f1f", "alerta-sfc":"#fce9e9", aviso:"#7d4f00", "aviso-sfc":"#fdf1da",
+                 frio:"#0a6376", "frio-sfc":"#e2f4f8", "boton-tinta":"#ffffff",
+                 "luz-x":"70%", "luz-y":"8%", "luz-tono":"320", "luz-alfa":".14" },
+            efecto: { tipo:"cae", forma:"cinta", colores:["#c2158c","#0f8ea8","#f2b705","#63c132"], n:32, vel:.6 }
+          },
+          semanasanta: {
+            nombre: "semana santa",
+            t: { fondo:"#f6f3f7", tarjeta:"#ffffff", tinta:"#231c2b", suave:"#6f6577",
+                 linea:"#e4dce8", acento:"#5b3a7e", "acento-sfc":"#eee6f4",
+                 alerta:"#8c3040", "alerta-sfc":"#f7e8ea", aviso:"#7a5a12", "aviso-sfc":"#f8f1dd",
+                 frio:"#2a5f7d", "frio-sfc":"#e8f0f4", "boton-tinta":"#ffffff",
+                 "luz-x":"50%", "luz-y":"12%", "luz-tono":"280", "luz-alfa":".08" },
+            efecto: null
+          },
+          independencia: {
+            nombre: "5 de julio",
+            t: { fondo:"#fbf8ef", tarjeta:"#ffffff", tinta:"#16203a", suave:"#6b7186",
+                 linea:"#e6e3d5", acento:"#123a8a", "acento-sfc":"#e4eaf7",
+                 alerta:"#c0202c", "alerta-sfc":"#fbe9ea", aviso:"#7a5200", "aviso-sfc":"#fcf3dc",
+                 frio:"#1e5a7a", "frio-sfc":"#e9f1f5", "boton-tinta":"#ffffff",
+                 "luz-x":"50%", "luz-y":"6%", "luz-tono":"50", "luz-alfa":".16" },
+            efecto: { tipo:"cae", forma:"cinta", colores:["#f2c200","#123a8a","#c0202c"], n:24, vel:.5 }
+          },
+          lluvias: {
+            nombre: "aguacero",
+            t: { fondo:"#eef3f6", tarjeta:"#ffffff", tinta:"#14202a", suave:"#60707a",
+                 linea:"#dbe5eb", acento:"#0f5f7a", "acento-sfc":"#e0eef3",
+                 alerta:"#b43a44", "alerta-sfc":"#f9eaec", aviso:"#8a5a0c", "aviso-sfc":"#fbf2df",
+                 frio:"#0f5f7a", "frio-sfc":"#e0eef3", "boton-tinta":"#ffffff",
+                 "luz-x":"30%", "luz-y":"6%", "luz-tono":"200", "luz-alfa":".14" },
+            efecto: { tipo:"cae", forma:"gota", colores:["#9fc4d6","#c3dbe6"], n:60, vel:2.4 }
+          },
+          mango: {
+            nombre: "cosecha de mango",
+            t: { fondo:"#fff8ea", tarjeta:"#ffffff", tinta:"#2a1d08", suave:"#7e6c4d",
+                 linea:"#f0e3c8", acento:"#9c4a00", "acento-sfc":"#fdeedd",
+                 alerta:"#bc2f2f", "alerta-sfc":"#fbeaea", aviso:"#8a5a0c", "aviso-sfc":"#fbf2df",
+                 frio:"#1e6f6a", "frio-sfc":"#e3f2f0", "boton-tinta":"#ffffff",
+                 "luz-x":"75%", "luz-y":"8%", "luz-tono":"35", "luz-alfa":".20" },
+            efecto: { tipo:"cae", forma:"petalo", colores:["#f5a623","#e2691a","#7cb342"], n:18, vel:.4 }
+          },
+          brujas: {
+            nombre: "noche de brujas",
+            t: { fondo:"#15121c", tarjeta:"#1f1a29", tinta:"#f0eaf6", suave:"#a99cb8",
+                 linea:"#2f2740", acento:"#ff7a18", "acento-sfc":"#33200f",
+                 alerta:"#ff6b8a", "alerta-sfc":"#331520", aviso:"#e8c24a", "aviso-sfc":"#2d2612",
+                 frio:"#8ab6e8", "frio-sfc":"#15222f", "boton-tinta":"#241004",
+                 "luz-x":"50%", "luz-y":"8%", "luz-tono":"28", "luz-alfa":".20" },
+            efecto: { tipo:"cae", forma:"petalo", colores:["#ff7a18","#8e4ec6","#e8c24a"], n:20, vel:.45 }
+          },
+
+          /* Rotación para las semanas sin fecha señalada. */
+          cafe: {
+            nombre: "café",
+            t: { fondo:"#f7f3ee", tarjeta:"#ffffff", tinta:"#20180f", suave:"#7a6a58",
+                 linea:"#e8ded1", acento:"#8a4b2a", "acento-sfc":"#f6e9e0",
+                 alerta:"#b3352f", "alerta-sfc":"#fbeae9", aviso:"#8a5a0c", "aviso-sfc":"#fbf2df",
+                 frio:"#2a5f7d", "frio-sfc":"#e8f0f4", "boton-tinta":"#ffffff",
+                 "luz-x":"25%", "luz-y":"10%", "luz-tono":"28", "luz-alfa":".12" },
+            efecto: null
+          },
+          mar: {
+            nombre: "mar",
+            t: { fondo:"#f0f6f8", tarjeta:"#ffffff", tinta:"#0f2027", suave:"#5a747d",
+                 linea:"#d8e7ec", acento:"#0b6b7d", "acento-sfc":"#def0f3",
+                 alerta:"#b83b3b", "alerta-sfc":"#fbeaea", aviso:"#8a5a0c", "aviso-sfc":"#fbf2df",
+                 frio:"#0b6b7d", "frio-sfc":"#def0f3", "boton-tinta":"#ffffff",
+                 "luz-x":"60%", "luz-y":"8%", "luz-tono":"190", "luz-alfa":".14" },
+            efecto: null
+          },
+          selva: {
+            nombre: "selva",
+            t: { fondo:"#f2f7f0", tarjeta:"#ffffff", tinta:"#122016", suave:"#607367",
+                 linea:"#dde9dc", acento:"#2f6b3a", "acento-sfc":"#e5f1e6",
+                 alerta:"#b3352f", "alerta-sfc":"#fbeae9", aviso:"#7a6010", "aviso-sfc":"#f9f2da",
+                 frio:"#1e5a7a", "frio-sfc":"#e9f1f5", "boton-tinta":"#ffffff",
+                 "luz-x":"35%", "luz-y":"10%", "luz-tono":"95", "luz-alfa":".12" },
+            efecto: null
+          },
+          tinta: {
+            nombre: "tinta",
+            t: { fondo:"#11141c", tarjeta:"#1a1e28", tinta:"#e9ecf2", suave:"#97a0b0",
+                 linea:"#282d3a", acento:"#78a9ff", "acento-sfc":"#16213a",
+                 alerta:"#ff8a94", "alerta-sfc":"#2e161a", aviso:"#e0b050", "aviso-sfc":"#2b2312",
+                 frio:"#7fbcd8", "frio-sfc":"#14232c", "boton-tinta":"#0b1020",
+                 "luz-x":"70%", "luz-y":"6%", "luz-tono":"225", "luz-alfa":".18" },
+            efecto: null
+          },
+          barro: {
+            nombre: "barro",
+            t: { fondo:"#f8f4f0", tarjeta:"#ffffff", tinta:"#241a15", suave:"#7d6a5f",
+                 linea:"#e9ded6", acento:"#a3512f", "acento-sfc":"#f8e8e0",
+                 alerta:"#b03030", "alerta-sfc":"#fbeaea", aviso:"#8a5a0c", "aviso-sfc":"#fbf2df",
+                 frio:"#2a5f7d", "frio-sfc":"#e8f0f4", "boton-tinta":"#ffffff",
+                 "luz-x":"50%", "luz-y":"12%", "luz-tono":"22", "luz-alfa":".12" },
+            efecto: null
+          }
+        };
+
+        // ?fecha=AAAA-MM-DD adelanta la página a otro día, para revisar el menú
+        // y la compra de la semana que viene sin esperar a que llegue.
+        function fechaPedida() {
+          var m = /[?&]fecha=(\d{4})-(\d{2})-(\d{2})/.exec(location.search);
+          if (!m) return null;
+          var d = new Date(+m[1], +m[2] - 1, +m[3]);
+          return isNaN(d) ? null : d;
+        }
+
+        var simulada = fechaPedida();
+        var hoy = simulada || new Date();
+
+        /* Escribe la paleta del tema como variables CSS en <html>. Es lo único
+           que hace falta antes de tiempo: el resto de la página lee de estas
+           variables y nunca menciona un color literal. */
+        function pintarTokens(id) {
+          var tema = TEMAS[id], raiz = document.documentElement.style;
+          for (var k in tema.t) {
+            if (Object.prototype.hasOwnProperty.call(tema.t, k)) {
+              raiz.setProperty("--" + k, tema.t[k]);
+            }
+          }
+          raiz.setProperty("--tema", '"' + tema.nombre + '"');
+        }
+
+        pintarTokens(temaDe(hoy));
+
+        return {
+          TEMAS: TEMAS, temaDe: temaDe, semanaISO: semanaISO,
+          pascua: pascua, enSemanaSanta: enSemanaSanta,
+          pintarTokens: pintarTokens, hoy: hoy, simulada: simulada
+        };
+      })();
+    </script>
   </head>
 
   <body>
-    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <canvas id="ambiente" aria-hidden="true"></canvas>
 
-    <body onload="startTime(); startDate(); genLunch();">
-      <div class="container">
-        <div id="title">¿Qué comemos?</div>
-        <div id="date"></div>
-        <div id="display"></div>
-        <div id="content">
-          <p id="lunch">- Frijoles con arroz</p>
-          <p id="date">¡Buen provecho!</p>
+    <div class="envoltura">
+      <header>
+        <p class="fecha" id="fecha"></p>
+        <h1 id="rotulo-despensa"></h1>
+      </header>
+
+      <!-- Atajo a las compras. Va antes que todo lo demás porque quien lo usa
+           está parado en la calle: un toque, sin leer nada, sin desplazarse. -->
+      <button class="ir-compras" type="button" id="btn-compras">
+        <span class="ir-compras-icono" aria-hidden="true">→</span>
+        <span>
+          <span class="ir-compras-txt">Lista de compras</span>
+          <span class="ir-compras-sub" id="ir-compras-sub"></span>
+        </span>
+      </button>
+
+      <!-- COCINAR — es la razón de ser de la página, va primero y va abierta -->
+      <section id="tanda">
+        <h2>Cocinar hoy</h2>
+        <p class="pregunta">¿Para cuántos días cocinas?</p>
+        <div class="dias-botones" id="dias-botones">
+          <button type="button" data-dias="3" aria-pressed="false">3 días</button>
+          <button type="button" data-dias="4" aria-pressed="true">4 días</button>
+          <button type="button" data-dias="5" aria-pressed="false">5 días</button>
         </div>
-      </div>
+        <p class="pista">Del cuarto día en adelante el topper va al congelador: comida cocida aguanta 3 días en nevera, no más.</p>
 
-      <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-      <script src='//cdnjs.cloudflare.com/ajax/libs/seedrandom/2.4.4/seedrandom.min.js'></script>
-      <script>
-        function startTime() {
-            var today=new Date();
-            var h=today.getHours();
-            var m=today.getMinutes();
-            var s=today.getSeconds();
-            var ampm = "";
-            m = checkTime(m);
+        <div id="plan-tanda"></div>
+      </section>
 
-            if (h > 12) {
-              h = h - 12;
-              ampm = " PM";
-            } else if (h == 12){
-                h = 12;
-              ampm = " AM";
-            } else if (h < 12){
-                ampm = " AM";
-            } else {
-                ampm = "PM";
-            };
+      <!-- REGLAS — las consulta quien cocina, así que van a la vista. -->
+      <section>
+        <h2>Reglas que no cambian</h2>
 
-          if(h==0) {
-            h=12;
+        <h3>Nunca</h3>
+        <ul class="limpia prohibiciones" id="nunca"></ul>
+
+        <h3>Siempre</h3>
+        <ul class="limpia permisos" id="siempre"></ul>
+
+        <h3>La olla express</h3>
+        <ul class="limpia" id="olla-reglas"></ul>
+
+        <h3>Cómo se mide sin báscula</h3>
+        <ul class="limpia" id="medidas"></ul>
+
+        <h3>Para picar entre comidas</h3>
+        <ul class="limpia" id="picar-reglas"></ul>
+      </section>
+
+      <!-- COMPRAS — no son de quien cocina. Viven fuera del flujo de la página
+           y se abren encima, sin mover a nadie del punto donde iba leyendo. -->
+      <dialog id="dlg-compras" aria-labelledby="titulo-compras">
+        <div class="dlg-cabeza">
+          <h2 id="titulo-compras">Compras</h2>
+          <button type="button" class="dlg-cerrar" id="btn-cerrar-compras" aria-label="Cerrar">✕</button>
+        </div>
+
+        <div class="dlg-cuerpo">
+          <div class="dias-botones" id="compra-botones">
+            <button type="button" data-semanas="1" aria-pressed="true">1 semana</button>
+            <button type="button" data-semanas="2" aria-pressed="false">2 semanas</button>
+          </div>
+          <p class="pista" id="pista-compra" style="margin:12px 0 16px"></p>
+
+          <div id="lista-compras"></div>
+
+          <details>
+            <summary>El menú de estas compras</summary>
+            <p class="pista" style="margin-top:0">Para qué alcanza lo de arriba, día por día.</p>
+            <div id="semana"></div>
+          </details>
+        </div>
+      </dialog>
+    </div>
+
+    <script>
+    (function () {
+      "use strict";
+
+      /* La fecha y el tema ya están resueltos desde el <head>. Se toman con
+         los mismos nombres que tenían aquí, así que ninguna llamada de abajo
+         cambia: lo único que se movió es CUÁNDO se calculan. */
+      var TEMAS         = CALENDARIO.TEMAS,
+          temaDe        = CALENDARIO.temaDe,
+          semanaISO     = CALENDARIO.semanaISO,
+          pintarTokens  = CALENDARIO.pintarTokens,
+          simulada      = CALENDARIO.simulada;
+      var hoy           = CALENDARIO.hoy;
+
+      /* ================================================================
+         MODELO
+         Cada platillo declara sus componentes. Todo lo demás —el plan de
+         tanda y la lista de compras— se calcula a partir de ahí, así que
+         el menú y la compra no pueden desincronizarse: son el mismo dato.
+
+           eq    carril de cocina: olla | estufa | freidora | crudo | fresco
+           zona  pasillo del mercado: proteina | grano | verdura | fruta | abarrote
+
+         `zona` describe DÓNDE SE COMPRA, no qué aporta: las caraotas son
+         proteína en el plato pero se buscan en el abasto, no en la carnicería.
+         ================================================================ */
+
+      /* La preparación es propiedad del COMPONENTE, no del platillo que lo usa.
+         Centralizarla aquí tiene dos efectos que importan: la tanda agrupa por
+         item + preparación, así que un mismo texto funde los cuatro pollos de
+         la semana en UNA bandeja; y cada instrucción queda autosuficiente, sin
+         depender de que otro platillo del rango ya haya puesto la olla. El
+         texto por platillo sigue sirviendo de respaldo para los componentes
+         que aparecen una sola vez. */
+      var PREP = {
+        /* ---- OLLA EXPRESS ----------------------------------------------
+           Paralela en cantidad: 200 g o 800 g de grano tardan lo mismo y
+           además trabaja sola. El grano nunca es el problema del turno.
+
+           SIN REMOJO, ninguno. La receta de siempre dice "desde la noche
+           anterior" y aquí eso no existe: ella viene dos veces por semana y
+           no en días seguidos, así que la noche anterior no hay nadie en esta
+           cocina. Una instrucción que depende de algo que no va a pasar no es
+           una instrucción, es una forma de que el plato no se haga.
+
+           Los tiempos están medidos para la olla express eléctrica de la
+           casa —una Instant Pot Duo; lo anoto porque de ahí salen los
+           números— y no para una de hornilla. La diferencia va en contra de
+           lo que uno supondría: esta trabaja a 10,2-11,6 psi y una de
+           hornilla a unos 15. MENOS presión es MENOS temperatura y por tanto
+           MÁS tiempo, no menos. Encima hay que sumarle lo que tarda en subir
+           (5-12 min) y lo que tarda en bajar sola (15 min), que en una de
+           hornilla uno controla a mano.
+
+           Lo que sí gana, y es lo que importa aquí: no hay que vigilarla. Se
+           programa, se va sola a Keep Warm y ella se dedica a limpiar. Una
+           olla de hornilla habría que estarle bajando el fuego.
+
+           Todos los granos van con el botón Pressure Cook y presión alta: un
+           solo botón que aprender en vez de cuatro presets distintos. */
+        "olla|Caraotas negras": "Enjuagar, tapar con agua tres dedos por encima, cebolla, ajo y ají dulce. Válvula en SEALING, botón Pressure Cook, presión alta, 35 min. Sin cochino y sin papelón. Al terminar NO abrir la válvula: se deja bajar sola 15 min. Si al abrir no se aplastan con el tenedor, otros 10 min: un grano duro ya no se arregla después.",
+        "olla|Lentejas":        "Enjuagar, agua dos dedos por encima, cebolla, ajo, ají dulce y zanahoria. Válvula en SEALING, Pressure Cook, presión alta, 12 min. Sin hueso de cochino ni chorizo. Bajada natural 10 min.",
+        "olla|Arvejas secas":   "Enjuagar, agua tres dedos por encima, cebolla, ajo, ají dulce y zanahoria. Válvula en SEALING, Pressure Cook, presión alta, 20 min. Bajada natural 15 min. Si al abrir no se aplastan con el tenedor, otros 10 min.",
+        "olla|Garbanzos":       "Enjuagar, agua cuatro dedos por encima, cebolla, ajo y ají dulce. Válvula en SEALING, Pressure Cook, presión alta, 45 min. Son los que más tardan: van a la olla antes de sacar cualquier otra cosa. Bajada natural 15 min, sin abrir la válvula. Si al abrir no se aplastan con el tenedor, otros 10 min.",
+
+        /* ---- FREIDORA DE AIRE -----------------------------------------
+           El único carril SERIAL de la cocina: la cesta rinde una capa
+           (~400 g) por vuelta, así que el doble de comida es el doble de
+           tiempo. Por eso queda reservada para lo que de verdad necesita
+           costra —víveres y croquetas— y como mucho aparece dos días por
+           despensa. Todo lo demás se fue al sartén y a la olla, donde la
+           cantidad sale gratis. */
+        "freidora|Yuca":          "Hervida 15 min y bien escurrida, cortada en palitos gruesos. Spray de aguacate y freidora 200 °C 15 min — a esa temperatura el spray de oliva humea, el de aguacate no.",
+        "freidora|Ocumo":         "Pelado y en trozos, hervido 10 min, escurrido y con un toque de spray de aguacate. Freidora 200 °C 15 min para que dore.",
+        "freidora|Batata":        "En cubos con un toque de spray de aguacate, freidora 190 °C 20 min, sacudiendo la cesta a la mitad.",
+        "freidora|Plátano verde": "Hervido 10 min, aplastado, spray de aguacate por ambas caras. Freidora 200 °C 12 min. Quedan como tostones con una fracción de la grasa de un sartén.",
+
+        /* ---- ESTUFA ---------------------------------------------------
+           Paralela en cantidad igual que la olla: un sartén grande tapado
+           cocina 300 g o 900 g en el mismo tiempo. Esto NO es freír —freír
+           es sumergir en aceite—: es plancha, salteado y guiso con spray.
+           Cada proteína se cocina UNA vez por tanda y de ahí sale para
+           todos los platillos de la despensa; lo que cambia es la salsa y
+           el acompañante, no el trabajo. */
+        "estufa|Pechuga de pollo":        "En filetes gruesos con ajo, orégano y limón. Sartén caliente con un toque de spray de oliva: 4 min por lado y 6 min más tapado a fuego bajo. Todo el pollo de la tanda sale en dos vueltas de sartén. Lo que vaya a plato frío o a sopa se desmenuza ya frío.",
+        "estufa|Muslo de pollo sin piel": "Sin piel, siempre: ahí está casi toda la grasa. Sofrito de cebolla, ajo, ají dulce y tomate con spray de oliva; entra el muslo, se tapa y 30 min a fuego bajo. Todo junto en una sola olla.",
+        "estufa|Carite en ruedas":        "Limón, ajo y perejil. Sartén tapado con un toque de spray de oliva, 4 min por lado a fuego medio y ni uno más, o queda seco. Lo de las croquetas se desmenuza frío.",
+        "estufa|Sardinas frescas":        "Limpias, con limón, ajo y perejil. A la plancha con un toque de spray de oliva, 3 min por lado. El pescado más barato del mercado y el más alto en omega-3.",
+        "estufa|Huevos":                  "Batidos, en sartén antiadherente con un toque de spray, tapado y a fuego bajo: 6 min y cuajan sin dorarse.",
+        "huevera|Huevos":                 "En la huevera eléctrica: agua hasta la marca de duros, tapa, y se apaga sola. No hay que vigilarla ni pararse al lado.",
+        "crudo|Huevos":                   "Crudos y batidos, solo para ligar croquetas y hamburguesas.",
+
+        "estufa|Arroz integral": "2 medidas de agua por 1 de arroz, 25 min tapado. Se hace todo de una vez para la tanda completa.",
+
+        // Verduras al sartén o al vapor. Ninguna necesita costra, así que
+        // ninguna tiene por qué ocupar la cesta.
+        "estufa|Auyama":     "En cubos, salteada con un toque de spray y tapada 12 min, hasta que ceda al tenedor sin deshacerse.",
+        "estufa|Calabacín":  "En rodajas gruesas, al sartén sin spray: el calabacín suelta agua de sobra. 8 min tapado.",
+        "estufa|Chayota":    "En cubos, al vapor o salteada tapada 12 min.",
+        "estufa|Vainitas":   "Enteras, al vapor 8 min. Que queden verdes y firmes, no mustias.",
+        "estufa|Zanahoria":  "En cubos o en palitos, al vapor 10 min, o hervida junto con el grano cuando va en sopa.",
+        "estufa|Berenjena":  "Partida a lo largo, sal encima y 10 min de reposo para que suelte el amargo. A la plancha tapada, 8 min por cara. Luego se saca la pulpa.",
+        "estufa|Espinaca":   "Se agrega al final, 3 min y ya. Más tiempo y se deshace.",
+        "estufa|Pimentón":   "En juliana con cebolla y tomate y un toque de spray de oliva, 10 min tapado. Esto es la salsa: el pollo ya cocido se le suma al recalentar, no se vuelve a cocinar.",
+        "estufa|Brócoli":    "Floretes en agua hirviendo 50 segundos, ni uno más, y de una vez a un bol con agua y hielo. Así queda crujiente y verde brillante; sin el choque de frío sigue cocinándose solo y a los tres minutos está mustio y gris.",
+
+        /* ---- CRUDO ---------------------------------------------------- */
+        "crudo|Repollo":     "Rallado fino, lavado y BIEN SECO antes de guardar. El limón y la sal van al servir, nunca al guardar: la sal le saca el agua y se pudre en un día.",
+        "crudo|Zanahoria":   "Rallada o en cubos, según vaya a ensalada o a sofrito. La de ensalada se guarda seca y sin aliñar.",
+        "crudo|Remolacha":   "Hervida, rallada y bien escurrida. El limón al servir.",
+        "crudo|Lechuga":     "Lavada y seca, guardada aparte. Nunca dentro del topper caliente.",
+        "crudo|Tomate":      "Picado para sofrito o en rodajas para ensalada. El de ensalada, en envase aparte y sin sal, que suelta mucha agua.",
+        "crudo|Pepino":      "En rodajas finas, sin aliñar y bien escurrido. El limón al servir.",
+        "crudo|Espinaca":    "Cruda, en hojas, lavada y bien seca. Una hoja mojada pudre el envase entero.",
+
+        /* ---- PARA PICAR ------------------------------------------------
+           Van en su propio envase y en palitos, no en rodajas: el palito se
+           agarra con la mano y se come de pie, que es como se pica de verdad.
+           En rodajas hay que servirlo en un plato y entonces ya no se pica,
+           se busca otra cosa. */
+        "picar|Pepino":       "Cortado a lo largo en palitos, sin pelar —la concha es casi toda la fibra— y BIEN SECOS antes de tapar. Sin sal y sin limón adentro: la sal les saca el agua y en un día están blandos.",
+        "picar|Zanahoria":    "En palitos. Aguantan toda la tanda sin ablandarse, son las que mejor resisten.",
+        "picar|Apio España":  "En palitos, quitándole las hebras del lomo con el pelador. Es apio España, el de tallos verdes, no el apio criollo de sopa.",
+        "picar|Huevos":       "En la huevera, junto con los del plan. Se guardan CON la concha: pelados se resecan y agarran olor a nevera."
+      };
+
+      /* Cuánto OCUPA en la cesta, cuando no es lo mismo que cuánto se compra.
+         Una croqueta se compra como 30 g de avena pero ocupa el volumen del
+         pescado, el huevo y la avena juntos; medio plátano pesa bastante más
+         que los 100 g que el cálculo le supone a una unidad. Sin esta tabla la
+         página subestima las vueltas de freidora justo donde más importa.
+
+         Va en gramos POR PERSONA, la misma base que `qty`, porque quien la lee
+         la multiplica por los comensales igual que a la cantidad. */
+      var CESTA = {
+        "freidora|Avena en hojuelas": 190,   // pescado o garbanzo + huevo + avena
+        "freidora|Plátano verde":     125    // media unidad
+      };
+
+      /* Minutos que cada paso OCUPA su carril. La olla y el sartén son
+         paralelos en cantidad, así que su número es fijo; la freidora se
+         calcula aparte porque depende de cuántas vueltas salgan. */
+      var MINUTOS = {
+        /* Ocupación real de la olla express: programa + subida + bajada natural.
+            Los tres tramos cuentan porque la máquina está tomada todo ese rato
+            y el grano no sale hasta el final; pero ninguno de los tres pide
+            atención, que es la diferencia con una hornilla.
+
+            Sin remojo. Remojar ahorraría unos 15 min de programa a cambio de
+            una noche de anticipación que nadie en esta casa puede dar. */
+        "olla|Caraotas negras": 62,   // 12 subir + 35 programa + 15 bajar
+        "olla|Lentejas":        32,   // 10 + 12 + 10
+        "olla|Arvejas secas":   47,   // 12 + 20 + 15
+        "olla|Garbanzos":       72,   // 12 + 45 + 15
+        "estufa|Arroz integral":          25,
+        "estufa|Muslo de pollo sin piel": 30,
+        "estufa|Pechuga de pollo":        15,
+        "estufa|Carite en ruedas":        10,
+        "estufa|Sardinas frescas":         8,
+        "estufa|Huevos":                   8,
+        "estufa|Berenjena":               18,
+        "estufa|Ñame":                    20,
+        "estufa|Batata":                  15,
+        "estufa|Ocumo":                   15
+      };
+      var MIN_ESTUFA = 12;   // verdura al sartén o al vapor, si no está en la tabla
+      var MIN_HUEVERA = 12;
+
+      function c(eq, item, qty, unit, zona, como) {
+        var clave = eq + "|" + item;
+        return {
+          eq: eq, item: item, qty: qty, unit: unit, zona: zona,
+          // La tabla es el valor por defecto y el texto del platillo manda
+          // cuando existe: hay componentes con dos versiones legítimas —la
+          // auyama salteada y la auyama de crema— que una sola clave no puede
+          // expresar. La contrapartida es que dos textos distintos para el
+          // mismo item parten la bandeja en dos, así que se escribe a mano
+          // solo cuando la variante es de verdad.
+          como: como || PREP[clave] || "",
+          cesta: CESTA[clave] || 0
+        };
+      }
+
+      // El orden es el del turno: primero lo que trabaja solo y tarda más, y
+      // de último lo que necesita manos. Así la olla y el arroz corren mientras
+      // ella hace todo lo demás, y los minutos de cada carril se solapan en vez
+      // de sumarse.
+      var CARRILES = [
+        { id: "olla",     nombre: "Olla express" },
+        { id: "huevera",  nombre: "Huevera eléctrica" },
+        { id: "estufa",   nombre: "Estufa" },
+        { id: "freidora", nombre: "Freidora de aire" },
+        { id: "crudo",    nombre: "Crudo y mezclas" },
+        { id: "picar",    nombre: "Para picar entre comidas" }
+      ];
+
+      var DESPENSAS = [
+        {
+          nombre: "Pollo y caraotas",
+          extras: [
+            c("fresco", "Cilantro", 1, "manojo", "verdura"),
+            c("fresco", "Cebollín", 1, "manojo", "verdura"),
+            c("fresco", "Lechosa", 1, "u", "fruta"),
+            c("fresco", "Cambur", 5, "u", "fruta")
+          ],
+          platillos: [
+            {
+              n: "Pollo a la plancha con auyama y calabacín",
+              reglas: ["a la plancha", "sin freír", "spray, no chorro"],
+              comp: [
+                c("estufa", "Pechuga de pollo", 150, "g", "proteina"),
+                c("estufa", "Auyama", 150, "g", "verdura"),
+                c("estufa", "Calabacín", 100, "g", "verdura")
+              ],
+              calentar: "Microondas 2 min tapado, o sartén tapado 5 min con un chorrito de agua.",
+              servir: "Limón exprimido encima y cilantro picado."
+            },
+            {
+              n: "Caraotas con arroz integral y aguacate",
+              reglas: ["olla express", "sin cochino", "sin papelón"],
+              comp: [
+                c("olla", "Caraotas negras", 80, "g", "grano"),
+                c("estufa", "Arroz integral", 70, "g", "abarrote"),
+                c("fresco", "Aguacate", 0.5, "u", "verdura")
+              ],
+              calentar: "Caraotas y arroz juntos, microondas 3 min.",
+              servir: "Aguacate cortado en el momento, nunca guardado con la comida."
+            },
+            {
+              n: "Pollo desmenuzado con caraotas y ensalada rallada",
+              reglas: ["se arma frío", "sin mayonesa"],
+              comp: [
+                c("estufa", "Pechuga de pollo", 150, "g", "proteina"),
+                c("olla", "Caraotas negras", 60, "g", "grano"),
+                c("crudo", "Repollo", 80, "g", "verdura"),
+                c("crudo", "Zanahoria", 60, "g", "verdura")
+              ],
+              calentar: "Calienta solo el pollo y las caraotas. La ensalada va fría encima, al final.",
+              servir: "Limón exprimido. Sin mayonesa y sin aceite."
+            },
+            {
+              n: "Pollo en salsa de pimentón y cebolla sobre arroz",
+              reglas: ["la salsa aparte", "sin freír", "sin onoto en aceite"],
+              comp: [
+                c("estufa", "Pechuga de pollo", 150, "g", "proteina"),
+                c("estufa", "Pimentón", 80, "g", "verdura"),
+                c("estufa", "Arroz integral", 70, "g", "abarrote"),
+                c("crudo", "Tomate", 80, "g", "verdura", "Picado, va dentro de la salsa."),
+                c("estufa", "Brócoli", 120, "g", "verdura")
+              ],
+              calentar: "Microondas 3 min tapado. El pollo termina de tomar la salsa aquí.",
+              servir: "Cebollín picado encima."
+            },
+            {
+              n: "Yuca a la freidora con pollo al limón y ensalada de repollo",
+              reglas: ["freidora de aire", "sin fritura", "spray, no chorro"],
+              comp: [
+                c("freidora", "Yuca", 180, "g", "verdura"),
+                c("estufa", "Pechuga de pollo", 150, "g", "proteina"),
+                c("crudo", "Repollo", 80, "g", "verdura")
+              ],
+              calentar: "La yuca vuelve a la freidora 5 min a 180 °C y queda como recién hecha. El pollo, microondas 2 min.",
+              servir: "Limón."
+            },
+            {
+              n: "Crema de auyama con pollo desmenuzado",
+              reglas: ["licuada", "sin crema", "sin leche"],
+              comp: [
+                c("estufa", "Auyama", 200, "g", "verdura", "Hervida con cebolla y zanahoria y luego licuada. El punto cremoso lo da la auyama: nada de crema ni leche."),
+                c("estufa", "Zanahoria", 60, "g", "verdura", "Hervida junto con la auyama."),
+                c("estufa", "Pechuga de pollo", 120, "g", "proteina")
+              ],
+              calentar: "Olla a fuego bajo 5 min. Si espesó, agua caliente — nunca leche.",
+              servir: "Cilantro picado, unas gotas de limón y el pollo desmenuzado encima."
+            },
+            {
+              n: "Arroz con caraotas, calabacín dorado y huevo duro",
+              reglas: ["huevo duro", "sin freír"],
+              comp: [
+                c("olla", "Caraotas negras", 60, "g", "grano"),
+                c("estufa", "Arroz integral", 70, "g", "abarrote"),
+                c("estufa", "Calabacín", 120, "g", "verdura"),
+                c("huevera", "Huevos", 2, "u", "proteina"),
+                c("fresco", "Aguacate", 0.5, "u", "verdura")
+              ],
+              calentar: "Todo junto microondas 3 min, menos el aguacate.",
+              servir: "Aguacate y cilantro."
+            }
+          ]
+        },
+
+        {
+          nombre: "Pescado y lentejas",
+          extras: [
+            c("fresco", "Perejil", 1, "manojo", "verdura"),
+            c("fresco", "Cebollín", 1, "manojo", "verdura"),
+            c("fresco", "Patilla", 1, "trozo", "fruta"),
+            c("fresco", "Naranja", 6, "u", "fruta")
+          ],
+          platillos: [
+            {
+              n: "Carite a la plancha con batata dorada",
+              reglas: ["a la plancha", "omega-3", "sin empanizar"],
+              comp: [
+                c("estufa", "Carite en ruedas", 160, "g", "proteina"),
+                c("freidora", "Batata", 150, "g", "verdura"),
+                c("crudo", "Pepino", 80, "g", "verdura")
+              ],
+              calentar: "Sartén tapado 4 min a fuego bajo. El microondas reseca el pescado.",
+              servir: "Perejil y limón."
+            },
+            {
+              n: "Lentejas guisadas con arroz y jojoto",
+              reglas: ["olla express", "lo primero de todo", "alto en fibra"],
+              comp: [
+                c("olla", "Lentejas", 80, "g", "grano"),
+                c("estufa", "Arroz integral", 70, "g", "abarrote"),
+                c("estufa", "Jojoto", 1, "u", "verdura", "Desgranado, se agrega a las lentejas en los últimos 5 min."),
+                c("crudo", "Zanahoria", 60, "g", "verdura", "En cubos, va con las lentejas.")
+              ],
+              calentar: "Microondas 3 min tapado.",
+              servir: "Cebollín picado."
+            },
+            {
+              n: "Croquetas de carite a la freidora con ensalada",
+              reglas: ["freidora de aire", "avena en vez de pan rallado"],
+              comp: [
+                c("estufa", "Carite en ruedas", 150, "g", "proteina"),
+                c("freidora", "Avena en hojuelas", 30, "g", "abarrote", "Van después del pescado: necesitan el carite ya cocido y frío. Se desmenuza y se mezcla con el huevo crudo, cebollín, ajo y la avena. Bolitas aplanadas, un toque de spray por encima, freidora 180 °C 12 min volteando a la mitad. No moverlas antes: se despegan solas cuando se forma la costra. Sustituye al pan rallado y suma fibra."),
+                c("crudo", "Huevos", 1, "u", "proteina"),
+                c("crudo", "Repollo", 80, "g", "verdura"),
+                c("crudo", "Tomate", 80, "g", "verdura")
+              ],
+              calentar: "Freidora 5 min a 180 °C. Vuelven a quedar crujientes.",
+              servir: "Limón sobre la ensalada."
+            },
+            {
+              n: "Berenjena rellena de lentejas",
+              reglas: ["a la plancha", "sin queso gratinado"],
+              comp: [
+                c("estufa", "Berenjena", 1, "u", "verdura"),
+                c("olla", "Lentejas", 70, "g", "grano"),
+                c("crudo", "Tomate", 80, "g", "verdura")
+              ],
+              calentar: "Sartén tapado 6 min, o microondas 2 min.",
+              servir: "Perejil picado. Sin queso gratinado encima."
+            },
+            {
+              n: "Sopa de lentejas con batata",
+              reglas: ["sopa", "sin hueso de cochino"],
+              comp: [
+                c("olla", "Lentejas", 80, "g", "grano"),
+                c("estufa", "Batata", 120, "g", "verdura", "En cubos, hervida con las lentejas los últimos 10 min."),
+                c("estufa", "Zanahoria", 60, "g", "verdura")
+              ],
+              calentar: "Fuego bajo 5 min. Si espesó, agua caliente.",
+              servir: "Cilantro o perejil y unas gotas de limón."
+            },
+            {
+              n: "Carite al limón con arroz y ensalada de pepino",
+              reglas: ["a la plancha", "omega-3"],
+              comp: [
+                c("estufa", "Carite en ruedas", 160, "g", "proteina"),
+                c("estufa", "Arroz integral", 70, "g", "abarrote"),
+                c("crudo", "Pepino", 100, "g", "verdura"),
+                c("estufa", "Brócoli", 120, "g", "verdura")
+              ],
+              calentar: "Sartén tapado 4 min a fuego bajo.",
+              servir: "Limón abundante."
+            },
+            {
+              n: "Tortilla de jojoto con lentejas",
+              reglas: ["sartén tapado", "sin freír"],
+              comp: [
+                c("estufa", "Huevos", 3, "u", "proteina"),
+                c("estufa", "Jojoto", 1, "u", "verdura", "Desgranado, va batido dentro de la mezcla de huevo."),
+                c("olla", "Lentejas", 60, "g", "grano"),
+                c("crudo", "Repollo", 80, "g", "verdura")
+              ],
+              calentar: "Microondas 90 segundos. Se pasa rápido de punto.",
+              servir: "Ensalada fresca al lado."
+            }
+          ]
+        },
+
+        {
+          nombre: "Muslo de pollo, arvejas y víveres",
+          extras: [
+            c("fresco", "Cilantro", 1, "manojo", "verdura"),
+            c("fresco", "Cebollín", 1, "manojo", "verdura"),
+            c("fresco", "Guayaba", 6, "u", "fruta"),
+            c("fresco", "Piña", 1, "u", "fruta")
+          ],
+          platillos: [
+            {
+              n: "Muslo de pollo guisado con ocumo",
+              reglas: ["sin piel", "guisado"],
+              comp: [
+                c("estufa", "Muslo de pollo sin piel", 180, "g", "proteina"),
+                c("estufa", "Ocumo", 180, "g", "verdura", "Pelado y en trozos, hervido 15 min hasta que ceda al tenedor."),
+                c("crudo", "Repollo", 80, "g", "verdura")
+              ],
+              calentar: "Microondas 3 min tapado.",
+              servir: "Limón y cilantro."
+            },
+            {
+              n: "Arvejas guisadas con arroz",
+              reglas: ["olla express", "sin chorizo"],
+              comp: [
+                c("olla", "Arvejas secas", 80, "g", "grano"),
+                c("estufa", "Arroz integral", 70, "g", "abarrote"),
+                c("crudo", "Tomate", 80, "g", "verdura", "Para el sofrito."),
+                c("crudo", "Zanahoria", 60, "g", "verdura")
+              ],
+              calentar: "Microondas 3 min tapado.",
+              servir: "Cilantro picado."
+            },
+            {
+              n: "Tostones a la freidora con pollo y ensalada de remolacha",
+              reglas: ["freidora de aire", "tostones sin sartén"],
+              comp: [
+                c("freidora", "Plátano verde", 0.5, "u", "verdura"),
+                c("estufa", "Muslo de pollo sin piel", 160, "g", "proteina"),
+                c("crudo", "Remolacha", 100, "g", "verdura")
+              ],
+              calentar: "Los tostones vuelven a la freidora 5 min. El pollo, microondas 2 min.",
+              servir: "Limón sobre la remolacha."
+            },
+            {
+              n: "Revoltillo con arvejas y ensalada",
+              reglas: ["sartén tapado", "sin freír"],
+              comp: [
+                c("estufa", "Huevos", 3, "u", "proteina"),
+                c("olla", "Arvejas secas", 60, "g", "grano"),
+                c("crudo", "Repollo", 80, "g", "verdura"),
+                c("crudo", "Zanahoria", 60, "g", "verdura")
+              ],
+              calentar: "Microondas 90 segundos.",
+              servir: "Ensalada rallada al lado, con limón."
+            },
+            {
+              n: "Sopa de arvejas con ñame y pollo",
+              reglas: ["sopa", "sin hueso de cochino"],
+              comp: [
+                c("olla", "Arvejas secas", 80, "g", "grano"),
+                c("estufa", "Ñame", 150, "g", "verdura", "En trozos, hervido con las arvejas los últimos 15 min."),
+                c("estufa", "Muslo de pollo sin piel", 120, "g", "proteina")
+              ],
+              calentar: "Fuego bajo 5 min.",
+              servir: "Cilantro y limón. El pollo desmenuzado se agrega al servir."
+            },
+            {
+              n: "Pollo desmenuzado con brócoli crujiente y arroz",
+              reglas: ["escaldado 50 s", "crujiente"],
+              comp: [
+                c("estufa", "Muslo de pollo sin piel", 160, "g", "proteina"),
+                c("estufa", "Brócoli", 150, "g", "verdura"),
+                c("estufa", "Arroz integral", 70, "g", "abarrote")
+              ],
+              calentar: "Microondas 3 min. El brócoli pierde algo de textura, es lo esperado.",
+              servir: "Limón."
+            },
+            {
+              n: "Ocumo dorado con huevo y ensalada de remolacha",
+              reglas: ["a la freidora", "huevo duro"],
+              comp: [
+                c("freidora", "Ocumo", 180, "g", "verdura"),
+                c("huevera", "Huevos", 2, "u", "proteina"),
+                c("crudo", "Remolacha", 100, "g", "verdura"),
+                c("fresco", "Aguacate", 0.5, "u", "verdura")
+              ],
+              calentar: "Microondas 2 min.",
+              servir: "Aguacate cortado en el momento."
+            }
+          ]
+        },
+
+        {
+          nombre: "Garbanzos, sardina y verduras",
+          extras: [
+            c("fresco", "Perejil", 1, "manojo", "verdura"),
+            c("fresco", "Cilantro", 1, "manojo", "verdura"),
+            c("fresco", "Lechosa", 1, "u", "fruta"),
+            c("fresco", "Mango", 3, "u", "fruta")
+          ],
+          platillos: [
+            {
+              n: "Sardinas a la plancha con auyama",
+              reglas: ["a la plancha", "omega-3 alto", "sin freír"],
+              comp: [
+                c("estufa", "Sardinas frescas", 200, "g", "proteina"),
+                c("estufa", "Auyama", 150, "g", "verdura"),
+                c("crudo", "Repollo", 80, "g", "verdura")
+              ],
+              calentar: "Sartén tapado 4 min a fuego bajo.",
+              servir: "Limón abundante y perejil."
+            },
+            {
+              n: "Garbanzos guisados con espinaca y arroz",
+              reglas: ["olla express", "alto en fibra"],
+              comp: [
+                c("olla", "Garbanzos", 80, "g", "grano"),
+                c("estufa", "Espinaca", 100, "g", "verdura"),
+                c("estufa", "Arroz integral", 70, "g", "abarrote")
+              ],
+              calentar: "Microondas 3 min tapado.",
+              servir: "Limón exprimido."
+            },
+            {
+              n: "Hamburguesa de garbanzo a la freidora con ensalada",
+              reglas: ["freidora de aire", "sin pan"],
+              comp: [
+                c("olla", "Garbanzos", 80, "g", "grano"),
+                c("freidora", "Avena en hojuelas", 30, "g", "abarrote", "LO ÚLTIMO DEL TURNO: necesita los garbanzos ya cocidos y fríos, así que va cuando la olla termine, no antes. Se trituran y se mezclan con el huevo crudo, cebollín, ajo y la avena. Se aplanan, un toque de spray por encima y freidora 180 °C 15 min. No moverlas antes de que se forme la costra."),
+                c("crudo", "Huevos", 1, "u", "proteina"),
+                c("crudo", "Tomate", 80, "g", "verdura"),
+                c("crudo", "Pepino", 80, "g", "verdura")
+              ],
+              calentar: "Freidora 5 min a 180 °C.",
+              servir: "Ensalada al lado, sin pan. Solo limón."
+            },
+            {
+              n: "Pollo a la plancha con vainitas y zanahoria",
+              reglas: ["a la plancha", "verdura al vapor"],
+              comp: [
+                c("estufa", "Pechuga de pollo", 150, "g", "proteina"),
+                c("estufa", "Vainitas", 120, "g", "verdura"),
+                c("estufa", "Zanahoria", 80, "g", "verdura"),
+                c("estufa", "Brócoli", 120, "g", "verdura")
+              ],
+              calentar: "Microondas 2 min tapado.",
+              servir: "Limón."
+            },
+            {
+              n: "Crema de auyama y zanahoria con garbanzos",
+              reglas: ["licuada", "sin crema", "sin leche"],
+              comp: [
+                c("estufa", "Auyama", 180, "g", "verdura", "Hervida y licuada. La cremosidad sale de la auyama, no de un lácteo."),
+                c("estufa", "Zanahoria", 80, "g", "verdura", "Hervida junto con la auyama."),
+                c("olla", "Garbanzos", 60, "g", "grano")
+              ],
+              calentar: "Fuego bajo 5 min. Si espesó, agua caliente.",
+              servir: "Perejil, unas gotas de limón y los garbanzos enteros encima, para que tenga con qué masticar."
+            },
+            {
+              n: "Chayota y calabacín con pollo al limón",
+              reglas: ["a la plancha", "verdura al vapor"],
+              comp: [
+                c("estufa", "Chayota", 150, "g", "verdura"),
+                c("estufa", "Calabacín", 100, "g", "verdura"),
+                c("estufa", "Pechuga de pollo", 150, "g", "proteina")
+              ],
+              calentar: "Microondas 2 min tapado.",
+              servir: "Limón y cilantro."
+            },
+            {
+              n: "Ensalada tibia de garbanzos con huevo y espinaca",
+              reglas: ["se arma frío", "sin mayonesa"],
+              comp: [
+                c("olla", "Garbanzos", 80, "g", "grano"),
+                c("huevera", "Huevos", 2, "u", "proteina"),
+                c("crudo", "Espinaca", 80, "g", "verdura"),
+                c("crudo", "Tomate", 80, "g", "verdura"),
+                c("fresco", "Aguacate", 0.5, "u", "verdura")
+              ],
+              calentar: "Solo los garbanzos, microondas 90 segundos. La espinaca y el tomate van crudos encima.",
+              servir: "Aguacate y limón. La grasa la pone el aguacate, no un chorro de aceite."
+            }
+          ]
+        }
+      ];
+
+      // [nombre, cantidad, nota]. La cantidad va aparte para que estos renglones
+      // se lean igual que los demás de la lista: nombre a la izquierda, número
+      // a la derecha. Es la columna que se escanea en el mercado.
+      /* ================================================================
+         PARA PICAR
+         El hambre entre comidas no se combate con fuerza de voluntad: se
+         combate teniendo algo listo y a la vista. Si hay que pelar y picar en
+         el momento, se pica otra cosa.
+
+         Por eso esto se prepara en la MISMA sesión que los toppers, va en su
+         propio envase y no cuesta ni un minuto de máquina: verdura cruda y
+         huevos que ya estaban en la huevera.
+
+         Las cantidades son por persona y por día; el plan las multiplica por
+         los días de la tanda y la compra por los siete de la semana. Sobrar
+         es lo correcto: un envase vacío a las cuatro de la tarde es lo que
+         manda a alguien a buscar galletas.
+         ================================================================ */
+      var PICAR = [
+        c("picar", "Pepino",      100, "g", "verdura"),
+        c("picar", "Zanahoria",    70, "g", "verdura"),
+        c("picar", "Apio España",  70, "g", "verdura"),
+        c("picar", "Huevos",        1, "u", "proteina")
+      ];
+
+      /* La fruta se trata aparte porque es el único punto donde este menú
+         tiene que decir "menos". No está prohibida —entera trae fibra, y la
+         fibra es justo lo que frena el azúcar— pero sí racionada, y el jugo
+         no entra: exprimir es quitarle la fibra y dejar el azúcar suelto,
+         que llega de golpe al hígado. Es el mismo azúcar y no se comporta
+         igual. */
+      var REGLAS_PICAR = [
+        "Los palitos son pepino, zanahoria y apio España cortados largos y delgados, del grosor de un dedo, para agarrarlos con la mano y comerlos crudos.",
+        "No tienen medida ni límite: es lo que hay que comer cuando da hambre entre comidas.",
+        "Se guardan SECOS y sin aliñar, igual que la ensalada. El limón y la sal al momento de comerlos.",
+        "Un huevo duro al día por persona. Llena más que cualquier otra cosa de este tamaño y no tiene azúcar.",
+        "Fruta: UNA ración al día por persona, y es la de la despensa de esa semana. Una ración es lo que cabe en la mano ahuecada.",
+        "La fruta se come entera y masticada. En jugo no: exprimir le quita la fibra y deja el azúcar suelto, que es lo que hay que evitar.",
+        "Mejor la fruta después de una comida que sola a media tarde.",
+        "El envase de palitos se arma el mismo día que los toppers y aguanta cuatro días. Al quinto ya están blandos: ese día toca fruta o huevo.",
+        "Si sobran garbanzos o caraotas de la olla: tostados en el sartén seco con comino y paprika, 8 minutos. Crujen y no llevan nada de grasa."
+      ];
+
+      var DESPENSA_FIJA = [
+                ["Limón", "1 kg", "Reemplaza la sal en todo. Nunca sobra."],
+        ["Aceite de aguacate en spray", "1 envase", "Para la freidora. Aguanta cerca de 270 °C sin humear; el de oliva empieza a los 200 °C, que es justo donde trabaja la cesta."],
+        ["Aceite de oliva en spray", "1 envase", "Para el sofrito y lo que va a fuego medio. Sobre la ensalada nunca."],
+        ["Ajo", "2 cabezas", ""],
+        ["Cebolla", "1 kg", ""],
+        ["Ají dulce", "¼ kg", "El sabor del sofrito sin una gota de grasa."],
+        ["Aliños secos", "reponer", "Orégano, comino, laurel, pimienta, paprika. El sabor viene de aquí, no del aceite ni de la sal."],
+        ["Vinagre", "1 botella", ""],
+        ["Sal", "con medida", ""],
+        ["Atún en agua", "2 latas", "Respaldo para el día que algo se dañe."]
+      ];
+
+      var NUNCA = [
+        "Freír: sumergir en aceite, empanizar, rebozar. La plancha, el salteado y el guiso con spray sí, eso no es freír.",
+        "Azúcar, papelón, miel ni jugos azucarados.",
+        "Refresco, malta ni bebidas azucaradas.",
+        "Alcohol, ni una copa. Es lo único innegociable de la lista.",
+        "Crema de leche, mantequilla, margarina, manteca ni mayonesa.",
+        "Embutidos: jamón, mortadela, salchichón, chorizo, tocineta.",
+        "Piel de pollo.",
+        "Aceite sobre la ensalada. Nunca. Ahí va limón y punto.",
+        "Harina blanca y pan blanco a diario."
+      ];
+
+      var SIEMPRE = [
+        "Verdura en todos los platos, sin excepción.",
+        "Aceite solo en spray y solo para cocinar: aguacate para la freidora, oliva para el sofrito.",
+        "Limón en vez de sal para levantar el sabor.",
+        "Proteína magra: pollo sin piel, pescado, huevo, granos.",
+        "Granos al menos tres veces por semana — la fibra es lo que más ayuda al hígado.",
+        "Agua. Café sin azúcar está permitido y de hecho ayuda."
+      ];
+
+      /* Las cosas que hacen que la olla express no funcione, en orden
+         de frecuencia. Ninguna es evidente mirando la máquina y las cuatro
+         arruinan el grano entero, así que van escritas y no supuestas. */
+      var REGLAS_OLLA = [
+        "La válvula de arriba tiene que estar en SEALING (cerrada). Si queda en VENTING no sube la presión nunca y el grano sale crudo después de una hora. Es el error número uno.",
+        "Con grano, la olla no se llena más de la MITAD. El grano se hincha y hace espuma, y si llega arriba tapa la válvula.",
+        "Al terminar NO se abre la válvula de golpe. El grano suelta almidón y la espuma se va por el hueco. Se deja bajar sola 15 minutos y después sí se abre.",
+        "Cuando termina se pasa sola a Keep Warm y ahí se queda. No hay que estar pendiente ni volver a tiempo: por eso el grano es lo primero que se pone.",
+        "Siempre agua: nunca se pone a presión sin líquido suficiente para cubrir el grano.",
+        "Botón Pressure Cook y presión alta para los cuatro granos. Los minutos los dice el plan de cada día."
+      ];
+
+      var MEDIDAS_EXPLICADAS = [
+        "Puño: la mano cerrada. Un puño de grano seco es mucho más pesado que uno de repollo rallado, y está bien: cada ingrediente ya trae su medida en el plan.",
+        "Palma: una porción de pollo o pescado del tamaño de un celular. Ese es el pedazo que le toca a una persona.",
+        "Taza: una taza de desayuno rasa, no colmada.",
+        "Cucharada: la cuchara grande de la mesa, rasa.",
+        "El grano se mide tal como sale de la bolsa. Aquí no se remoja nada, así que no hay que descontarle nada.",
+        "Cuando algo se cuenta por piezas —ruedas de carite, muslos, tomates— es porque así se compra y no hay nada que medir."
+      ];
+
+      var REGLAS_TOPPER = [
+        "La ensalada cruda se guarda SECA. Lavar, escurrir y secar con paño antes de tapar: el agua del lavado la pudre en un día.",
+        "Y se guarda sin aliñar. La sal y el limón al servir — si van dentro, sacan el agua de la verdura y la ablandan.",
+        "Se apilan en la nevera en el orden del plan: el nivel 1 arriba, que es el que se come primero.",
+        "No hay que rotular nada. El orden de la pila es la etiqueta, y se avanza de arriba hacia abajo.",
+        "Nevera: 3 niveles, que son 3 días. Del cuarto en adelante, al congelador.",
+        "Cuando la pila de la nevera se vacía, baja uno del congelador. El estante vacío es el recordatorio.",
+        "Dejar enfriar destapado antes de tapar. Tapar caliente genera agua y la comida se daña antes.",
+        "El aguacate, la ensalada cruda y el limón nunca se guardan con la comida: se agregan al servir.",
+        "El grano cocido se congela perfecto. Si hay espacio, haz el doble y congela la mitad: la visita siguiente se ahorra la olla entera, que en garbanzos son 72 minutos.",
+        "El grano congelado se pasa a la nevera el día antes, o se descongela en el microondas si se olvidó."
+      ];
+
+
+
+
+
+
+
+
+
+
+      /* ================================================================
+         GIRO DE TEMPORADA
+         El tema pinta la página; el giro inclina la comida. Van en tablas
+         separadas a propósito: el color es decoración y la sazón es una
+         instrucción de cocina, y conviene poder tocar una sin arriesgar la
+         otra.
+
+         Lo que el giro NO hace es cambiar la despensa. Si en septiembre la
+         compra fuera otra se rompería el ciclo de cuatro semanas y la lista
+         del mercado dejaría de servir. Así que la temporada cambia la SAZÓN
+         de los mismos ingredientes, que además es como se cocina de verdad:
+         nadie compra distinto en diciembre, cocina distinto.
+
+         La única excepción es Semana Santa, donde la costumbre sí cambia el
+         ingrediente —pescado, no carne— y dura ocho días exactos, calculados
+         a partir de la Pascua: fijar la despensa ahí no alcanza a romper el
+         ciclo de cuatro semanas.
+
+         Las semanas sin fecha señalada no llevan giro, y está bien: no todas
+         las semanas del año son una temporada, y un giro inventado cada siete
+         días sería justo el ruido que confunde a quien cocina.
+         ================================================================ */
+      var GIROS = {
+        anonuevo: {
+          nombre: "mesa de año nuevo",
+          sufijo: "de año nuevo",
+          nota: "Primera semana del año: el grano se sirve montado y con las uvas al lado. Es la única semana en que la superstición manda en la cocina.",
+          sazon: {
+            "Caraotas negras": "Un punto más de comino y ají dulce, y se sirven bien montadas: es el plato de la suerte.",
+            "Lentejas":        "Lentejas de año nuevo, servidas generosas. La superstición dice abundancia; en todo caso es fibra.",
+            "Arvejas secas":   "Con bastante cilantro encima, a la manera de fin de año.",
+            "Garbanzos":       "Con laurel y comino, más aromáticos que de costumbre."
+          },
+          compra: [["Uvas", "½ kg", "Doce por cabeza y el resto de merienda. Solo esta semana."]]
+        },
+
+        carnaval: {
+          nombre: "sabor de playa",
+          sufijo: "de carnaval",
+          nota: "Semana de carnaval: todo más fresco y más ácido, como se come en la costa. Nada pesado, que hace calor.",
+          sazon: {
+            "Carite en ruedas":  "A la costeña: mucho limón, ajo y ají dulce picadito encima al servir.",
+            "Sardinas frescas":  "Con cebolla en aros y limón, estilo playa. Se dejan reposar 10 min en el limón antes de guardar.",
+            "Pechuga de pollo":  "Con orégano y bastante limón, más ácido que de costumbre.",
+            "Repollo":           "Ensalada de playa: repollo con zanahoria y cebolla en pluma. Seca, como siempre; el limón al servir.",
+            "Pepino":            "Bien frío, con limón y una pizca de sal al servir.",
+            "Muslo de pollo sin piel":   "Guisado ligero, con más tomate y menos tiempo: en carnaval nada pesado.",
+            "Plátano verde":             "Tostones de playa, bien delgados y con limón encima al salir.",
+            "Arroz integral":            "Suelto y frío, para comerlo casi de ensalada con el calor."
+          },
+          compra: [["Cebolla morada", "½ kg", "Para las ensaladas de la semana. Más dulce y se ve mejor cruda."]]
+        },
+
+        semanasanta: {
+          nombre: "vigilia",
+          sufijo: "de vigilia",
+          despensa: 1,
+          nota: "Semana Santa: la despensa se fija en pescado y granos, sin carne. Es la única temporada del año en que cambia el ingrediente y no solo la sazón.",
+          sazon: {
+            "Carite en ruedas": "De vigilia: limón, ajo y perejil, sin nada más. La semana pide sencillo.",
+            "Lentejas":         "Con más verdura de la habitual —zanahoria, calabacín, lo que haya— para que el plato sostenga solo.",
+            "Huevos":           "El huevo hace de proteína principal esta semana. Dos por persona, no uno."
+          },
+          compra: []
+        },
+
+        lluvias: {
+          nombre: "temporada de lluvias",
+          sufijo: "de aguacero",
+          nota: "Mayo y el agua: todo un punto más caliente y más aromático. Las cremas y las sopas de la despensa mandan esta semana.",
+          sazon: {
+            "Auyama":          "Con jengibre fresco rallado al licuar. Levanta la crema sin una gota de grasa.",
+            "Lentejas":        "Más caldosas de lo normal y con un punto de jengibre: se comen con cuchara.",
+            "Arvejas secas":   "Más caldosas, con cilantro y jengibre.",
+            "Garbanzos":       "Con caldo abundante, que quede de sopa y no de guiso.",
+            "Ñame":            "En trozos grandes, que espese el caldo al deshacerse un poco.",
+            "Caraotas negras":    "Bien caldosas y con un punto de jengibre. Se comen con cuchara.",
+            "Yuca":               "En trozos grandes dentro del caldo en vez de a la freidora, si el día pide sopa.",
+            "Pechuga de pollo":   "Con jengibre y ajo en el adobo: calienta por dentro."
+          },
+          compra: [["Jengibre", "1 trozo", "Rallado, va en las cremas y las sopas de esta temporada."]]
+        },
+
+        independencia: {
+          nombre: "sazón criolla",
+          sufijo: "a la criolla",
+          nota: "Semana del 5 de julio: sofrito criollo completo en todo lo que lleve olla. El color lo pone el onoto, no el aceite.",
+          sazon: {
+            "Caraotas negras":          "Sofrito criollo completo: cebolla, ajo, ají dulce, pimentón y un toque de onoto para el color.",
+            "Arvejas secas":            "Con onoto y ají dulce, bien criollas.",
+            "Lentejas":                 "Con sofrito criollo y cilantro al final.",
+            "Muslo de pollo sin piel":  "Guisado criollo: onoto para el color, mucho ají dulce y cilantro al servir.",
+            "Pechuga de pollo":         "Con adobo criollo —ajo, orégano, onoto y limón— antes de la plancha.",
+            "Plátano verde":            "Tostones bien delgados, como los del 5 de julio.",
+            "Garbanzos":          "Con sofrito criollo y un toque de onoto, como los de un sancocho.",
+            "Sardinas frescas":   "Con cebolla, ají dulce y onoto por encima, a la criolla.",
+            "Arroz integral":     "Con un poco del agua de onoto: arroz amarillo sin una gota de aceite de color."
+          },
+          compra: [["Onoto en grano", "1 paquete", "Color criollo sin freírlo en aceite: se infusiona un minuto en agua caliente y se cuela."],
+            ["Cilantro", "1 manojo", "La despensa de pescado no lo trae y la sazón criolla no funciona sin él."]
+          ]
+        },
+
+        mango: {
+          nombre: "cosecha de mango",
+          sufijo: "con mango",
+          nota: "Agosto y los mangos por el suelo. El mango verde entra en las ensaladas y el maduro acompaña al pescado.",
+          sazon: {
+            "Repollo":          "Ensalada con mango verde en tiras finas. Aporta la acidez que normalmente pone el limón.",
+            "Zanahoria":        "Rallada con mango verde, en partes iguales. Se guarda seca igual que siempre.",
+            "Pepino":           "Con mango verde y una pizca de sal al servir.",
+            "Carite en ruedas": "Con mango maduro en cubos encima al servir, nunca guardado con el pescado.",
+            "Sardinas frescas": "Con mango maduro al lado: la acidez de la fruta corta la grasa del pescado azul."
+          },
+          compra: [["Mango verde", "4 unidades", "Para las ensaladas. Firme y sin ceder al apretarlo."]]
+        },
+
+        patrio: {
+          nombre: "mes patrio mexicano",
+          sufijo: "a la mexicana",
+          nota: "Septiembre es mes patrio en México y la cocina se va para allá: chile seco, comino y cilantro sobre los mismos ingredientes de siempre.",
+          sazon: {
+            "Pechuga de pollo":         "En tinga: se desmenuza ya frío y se mezcla con cebolla, tomate y chipotle. Sin crema.",
+            "Muslo de pollo sin piel":  "Guisado con guajillo remojado y licuado, comino y orégano. El chile seco da color y sabor, no pica tanto.",
+            "Caraotas negras":          "Frijoles de olla: con bastante cebolla, un diente de ajo entero y cilantro al final.",
+            "Garbanzos":                "Con guajillo, comino y laurel.",
+            "Huevos":                   "A la mexicana: con tomate, cebolla y ají dulce picados dentro de la mezcla.",
+            "Tomate":                   "Parte va a salsa: tomate, cebolla, cilantro y limón, picado fino y sin aceite.",
+            "Repollo":                  "Rallado fino como el de taquería: seco, y al servir limón y un poco de orégano seco entre los dedos."
+          },
+          compra: [
+            ["Chile guajillo seco", "50 g", "Se remoja 10 min en agua caliente y se licúa. Da color y sabor, casi no pica."],
+            ["Chile chipotle seco", "25 g", "Para la tinga. Poquito: este sí pica."],
+            ["Orégano seco", "reponer", "Se frota entre los dedos al servir para que suelte el aroma."]
+          ,
+            ["Cilantro", "1 manojo", "Para la salsa y los frijoles. La despensa de pescado no lo trae."]
+          ]
+        },
+
+        brujas: {
+          nombre: "víspera de brujas",
+          sufijo: "de brujas",
+          nota: "Última semana de octubre: la auyama es la protagonista y las especias se tuestan. Semana de olor a cocina.",
+          sazon: {
+            "Auyama":     "Con canela, clavo y un punto de pimienta al licuar. Sabe a postre sin llevar azúcar.",
+            "Batata":     "Con canela y paprika: dulce y ahumada a la vez.",
+            "Garbanzos":  "Tostados aparte en el sartén con comino y paprika, para picar. Crujen.",
+            "Zanahoria":  "Asada con canela, más dulce de lo normal.",
+            "Ocumo":           "Con paprika ahumada: sabe a fogata.",
+            "Ñame":            "Con clavo y pimienta dentro del caldo.",
+            "Arvejas secas":   "Con comino tostado en el sartén antes de echarlo. Cambia todo el plato.",
+            "Remolacha":       "Rallada y con clavo molido, que le va mejor de lo que parece."
+          },
+          compra: [
+            ["Canela en rama", "1 paquete", "Va en la crema de auyama y en la batata."],
+            ["Clavo de olor", "1 paquete", "Dos o tres clavos bastan para toda la olla."]
+          ]
+        },
+
+        muertos: {
+          nombre: "día de muertos",
+          sufijo: "de muertos",
+          nota: "Primeros de noviembre: naranja y canela en todo lo dulce por naturaleza, que son la auyama y el víver.",
+          sazon: {
+            "Auyama":    "Con jugo y ralladura de naranja, y canela. Es el sabor de la calabaza en tacha, sin el papelón.",
+            "Batata":    "Con ralladura de naranja encima al salir de la freidora.",
+            "Ocumo":     "Con canela y un toque de naranja: raro y bueno.",
+            "Lentejas":  "Con naranja: el jugo de media naranja al final le levanta todo el plato.",
+            "Caraotas negras":   "Con una tira de cáscara de naranja dentro de la olla. Se saca al final.",
+            "Garbanzos":         "Con naranja y canela: dulces sin llevar una pizca de azúcar.",
+            "Arvejas secas":     "Con el jugo de media naranja al final.",
+            "Zanahoria":         "Asada con naranja y canela.",
+            "Repollo":           "Ensalada con gajos de naranja. El jugo hace de aliño, así que ni limón hace falta."
+          },
+          compra: [["Naranja", "6 unidades", "Jugo y ralladura. La ralladura va antes de exprimir, no después."],
+            ["Canela en rama", "1 paquete", "Va en la auyama, el víver y la zanahoria de esta semana."]
+          ]
+        },
+
+        navidad: {
+          nombre: "sazón de hallaca",
+          sufijo: "navideño",
+          nota: "Diciembre: el guiso de hallaca sin la masa ni la manteca. Alcaparras, aceitunas y pasas es lo que hace que sepa a navidad.",
+          sazon: {
+            "Muslo de pollo sin piel": "Guiso de hallaca: sofrito con onoto, alcaparras, aceitunas y pasas. Todo el sabor de diciembre sin masa y sin manteca.",
+            "Pechuga de pollo":        "Desmenuzada y mezclada con alcaparras, aceitunas picadas y pasas. Es el guiso, sin la hoja.",
+            "Caraotas negras":         "Con onoto y un puñito de pasas. Suenan raras y son las de siempre en diciembre.",
+            "Arroz integral":          "Con aceitunas y alcaparras picadas: hace de arroz con guiso navideño.",
+            "Repollo":                 "Ensalada navideña: repollo con zanahoria y manzana en cubos. Seca y sin mayonesa; el limón al servir."
+          },
+          compra: [
+            ["Alcaparras", "1 frasco", "Escurridas y enjuagadas: vienen con mucha sal."],
+            ["Aceitunas rellenas", "1 frasco", "Picadas. Poquitas, que son saladas."],
+            ["Pasas", "200 g", "Es la única dulzura permitida del mes y va dentro del guiso, no aparte."],
+            ["Onoto en grano", "1 paquete", "Se infusiona en agua caliente y se cuela. Nada de onoto frito en aceite."]
+          ,
+            ["Manzana verde", "3 unidades", "En cubos, para la ensalada navideña de repollo."]
+          ]
+        }
+      };
+
+      var DIAS_CORTOS = ["LUN", "MAR", "MIÉ", "JUE", "VIE", "SÁB", "DOM"];
+      var DIAS_LARGOS = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"];
+      var MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio",
+                   "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+
+      /* ================================================================
+         CALENDARIO
+         Todo se deriva de la fecha. Nada se guarda: el celular de ella y el
+         tuyo llegan a la misma respuesta sin hablarse, que es justo lo que
+         evita que la página le mienta a alguno de los dos.
+         ================================================================ */
+
+
+
+      function indiceDia(d) { return (d.getDay() + 6) % 7; }       // lunes = 0
+      function giroDe(d) { return GIROS[temaDe(d)] || null; }
+
+      // Semana Santa es la única temporada que fija la despensa; el resto del
+      // año manda el contador de semanas. Compras y menú se derivan los dos de
+      // esta función, así que no hay forma de que digan cosas distintas.
+      function indiceDespensa(d) {
+        var g = giroDe(d);
+        if (g && g.despensa !== undefined) return g.despensa;
+        return semanaISO(d) % DESPENSAS.length;
+      }
+
+      // El nombre del platillo lleva el sufijo de la temporada. Cambia una vez
+      // por temporada y no una vez por día, que es lo que lo hace legible.
+      function nombreDe(fecha, platillo) {
+        var g = giroDe(fecha);
+        return g && g.sufijo ? platillo.n + " · " + g.sufijo : platillo.n;
+      }
+
+      function sumarDias(d, n) {
+        var r = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+        r.setDate(r.getDate() + n);
+        return r;
+      }
+
+      // Resuelve la fecha a un platillo concreto. Al iterar por fechas y no
+      // por índices, una tanda que arranca un viernes cruza al lunes de la
+      // semana siguiente y toma su despensa sin ningún caso especial.
+      function platilloDe(fecha) {
+        var desp = DESPENSAS[indiceDespensa(fecha)];
+        return { despensa: desp, platillo: desp.platillos[indiceDia(fecha)] };
+      }
+
+
+
+      /* ================================================================
+         CANTIDADES
+         ================================================================ */
+
+      // Las cantidades de cada platillo están escritas POR PERSONA POR DÍA y se
+      // multiplican al mostrarlas. Cambiar de 2 a 3 comensales es tocar este
+      // número, no los 99 componentes.
+      var PERSONAS = 2;
+
+      function porcion(q) { return q * PERSONAS; }
+
+      /* ================================================================
+         MEDIDAS DE COCINA
+         En la casa no hay báscula, así que los gramos no sirven de nada: son
+         un número que nadie puede comprobar. Cada ingrediente se mide con lo
+         que sí hay —la mano, una taza, una cuchara— o por piezas.
+
+         La equivalencia tiene que ser POR INGREDIENTE y no una sola para
+         todo: un puño de caraotas secas pesa el doble que un puño de repollo
+         rallado, así que una regla única mentiría en la mitad de los casos.
+
+           [gramos por medida, singular, plural, soloEnteros]
+
+         `soloEnteros` es para lo que no se puede partir sin que deje de ser
+         lo que era: una sardina, un muslo, una rueda de carite. Ahí se
+         redondea hacia ARRIBA, que además es la regla de la casa —mejor que
+         sobre—. Una verdura sí se parte por la mitad, así que va sin la
+         marca.
+
+         Los gramos siguen siendo el dato que se guarda —se suman, se agrupan
+         y se convierten a la compra sin perder precisión— y la medida casera
+         es solo cómo se muestran. Al revés no funcionaría: no se pueden sumar
+         puños de cosas distintas.
+         ================================================================ */
+      var MEDIDA = {
+        // Proteína: la pieza tal como se compra, o la palma de la mano.
+        "Pechuga de pollo":        [150, "palma",     "palmas"],
+        "Muslo de pollo sin piel": [140, "muslo",     "muslos",   true],
+        "Carite en ruedas":        [160, "rueda",     "ruedas",   true],
+        "Sardinas frescas":        [100, "sardina",   "sardinas", true],
+
+        // Grano seco: el puño cerrado, medido tal como sale de la bolsa.
+        "Caraotas negras": [80, "puño", "puños"],
+        "Lentejas":        [80, "puño", "puños"],
+        "Arvejas secas":   [80, "puño", "puños"],
+        "Garbanzos":       [80, "puño", "puños"],
+        "Arroz integral":  [70, "puño", "puños"],
+
+        // Lo que se mide con cuchara.
+        "Avena en hojuelas": [10, "cucharada", "cucharadas"],
+
+        // Verdura de pieza entera: se cuenta, no se pesa.
+        "Tomate":     [130, "tomate",    "tomates"],
+        "Pepino":     [200, "pepino",    "pepinos"],
+        "Pimentón":   [150, "pimentón",  "pimentones"],
+        "Calabacín":  [200, "calabacín", "calabacines"],
+        "Remolacha":  [120, "remolacha", "remolachas"],
+        "Zanahoria":  [80,  "zanahoria", "zanahorias"],
+
+        // Verdura en cubos: la taza.
+        "Auyama":  [150, "taza", "tazas"],
+        "Batata":  [150, "taza", "tazas"],
+        "Ocumo":   [150, "taza", "tazas"],
+        "Ñame":    [150, "taza", "tazas"],
+        "Yuca":    [150, "taza", "tazas"],
+        "Chayota": [150, "taza", "tazas"],
+
+        // Lo que abulta y pesa poco: el puño, que aquí vale mucho menos.
+        "Repollo":  [40,  "puño", "puños"],
+        "Espinaca": [40,  "puño", "puños"],
+        "Lechuga":  [40,  "puño", "puños"],
+        "Brócoli":  [90,  "taza", "tazas"],
+        "Vainitas": [110, "taza", "tazas"],
+        "Apio España": [60, "tallo", "tallos"]
+      };
+
+      // Medios, nunca décimos: "1½ tazas" se sirve, "1,3 tazas" no.
+      function casera(q, m, repartiendo) {
+        // La pieza entera manda al COCINAR —no se pone media sardina cruda en
+        // el sartén— pero no al repartir: la comida ya cocida se divide entre
+        // los toppers como haga falta. Sin esta distinción el carril decía
+        // "5 muslos" y los cuatro toppers sumaban 6, que parece un error de
+        // cuentas y en realidad era el techo aplicado dos veces.
+        var n = (m[3] && !repartiendo)
+          ? Math.max(1, Math.ceil(q / m[0]))
+          : Math.max(0.5, Math.round(q / m[0] * 2) / 2);
+        var entero = Math.floor(n);
+        var mitad = n - entero >= .5;
+        var txt = entero ? entero + (mitad ? "\u00bd" : "") : "\u00bd";
+        // Singular hasta uno inclusive: en español "½ pepino", no "½ pepinos".
+        return txt + " " + (n <= 1 ? m[1] : m[2]);
+      }
+
+      function fmt(q, u, item, repartiendo) {
+        var m = item && MEDIDA[item];
+        if (u === "g") {
+          // Sin medida propia se cae a gramos, que al menos no miente; pero
+          // eso es una tabla incompleta, no un caso legítimo.
+          return m ? casera(q, m, repartiendo) : Math.round(q) + " g";
+        }
+        var r = Math.round(q * 10) / 10;
+        if (u === "u")      return r + (r === 1 ? " unidad" : " unidades");
+        if (u === "manojo") return r + (r === 1 ? " manojo" : " manojos");
+        if (u === "trozo")  return r + (r === 1 ? " trozo"  : " trozos");
+        return r + " " + u;
+      }
+
+      // En el mercado no existe medio limón ni 1.5 aguacates: las unidades se
+      // redondean hacia arriba. Dentro de la cocina sí existe medio aguacate,
+      // por eso el plan de tanda sigue usando fmt() y no esta.
+      // En el mercado no existe medio limón ni 940 g de pollo: las unidades
+      // suben al entero y los gramos al múltiplo de 50. Siempre hacia arriba —
+      // más vale que sobre a quedarse corto a mitad de la tanda.
+      /* La compra es el único sitio donde el peso sí sirve: en el mercado
+         pesa el vendedor. Pero se pide por cuartos de kilo, que es como se
+         pide de verdad —"medio de pollo", "un cuarto de caraotas"—, y siempre
+         hacia arriba: mejor que sobre. */
+      function fmtCompra(q, u, item) {
+        if (u === "u" || u === "manojo" || u === "trozo") return fmt(Math.ceil(q), u, item);
+        var cuartos = Math.max(1, Math.ceil(q / 250));
+        var kilos = Math.floor(cuartos / 4), resto = cuartos % 4;
+        var frac = ["", "\u00bc", "\u00bd", "\u00be"][resto];
+        return (kilos ? kilos + frac : frac) + " kg";
+      }
+
+      // Suma componentes repetidos. La clave incluye la preparación: la misma
+      // pechuga a la freidora y guisada son dos líneas distintas en la cocina pero
+      // una sola en el mercado, así que cada vista agrupa con la clave que le
+      // sirve.
+      function agrupar(componentes, clave) {
+        var mapa = {}, orden = [];
+        componentes.forEach(function (comp) {
+          var k = clave(comp);
+          if (!mapa[k]) { mapa[k] = Object.assign({}, comp); orden.push(k); }
+          else { mapa[k].qty += comp.qty; }
+        });
+        return orden.map(function (k) { return mapa[k]; });
+      }
+
+      /* ================================================================
+         VISTAS
+         ================================================================ */
+
+      function pintarSemana(hoy) {
+        document.getElementById("rotulo-despensa").textContent =
+          "Despensa: " + platilloDe(hoy).despensa.nombre;
+
+        var cont = document.getElementById("semana");
+        cont.innerHTML = "";
+        var lunes = sumarDias(hoy, -indiceDia(hoy));
+
+        for (var i = 0; i < 7; i++) {
+          var fecha = sumarDias(lunes, i);
+          var fila = document.createElement("div");
+          fila.className = "dia-fila" + (i === indiceDia(hoy) ? " hoy" : "");
+
+          var dia = document.createElement("span");
+          dia.className = "dia";
+          dia.textContent = DIAS_CORTOS[i];
+
+          var plato = document.createElement("span");
+          plato.className = "plato";
+          plato.textContent = nombreDe(fecha, platilloDe(fecha).platillo);
+
+          fila.appendChild(dia);
+          fila.appendChild(plato);
+          cont.appendChild(fila);
+        }
+      }
+
+      /* Cuánto ocupa cada carril. La diferencia que gobierna todo el plan:
+         la olla y el sartén son PARALELOS en cantidad —900 g de pollo tardan
+         lo mismo que 300— y la freidora es SERIAL: la cesta rinde una capa
+         (~400 g) por vuelta, así que el doble de comida es el doble de
+         tiempo. Por eso la freidora se cuenta por vueltas y los demás no. */
+      function tiempoCarril(id, comps) {
+        if (id === "crudo") return { min: 0, texto: "mientras lo demás cocina" };
+        if (id === "picar") return { min: 0, texto: "envase aparte · dura 4 días" };
+        if (id === "huevera") return { min: MIN_HUEVERA, texto: "se apaga sola · " + MIN_HUEVERA + " min" };
+
+        if (id === "freidora") {
+          var peso = comps.reduce(function (total, comp) {
+            var gramos = comp.cesta || (comp.unit === "g" ? comp.qty : comp.qty * 100);
+            return total + porcion(gramos);
+          }, 0);
+          var vueltas = Math.max(1, Math.ceil(peso / 400));
+          var min = vueltas * 16;
+          return { min: min, texto: "≈ " + vueltas + (vueltas === 1 ? " vuelta" : " vueltas") +
+                                    " · " + min + " min de máquina" };
+        }
+
+        var minutos = comps.map(function (comp) {
+          return MINUTOS[id + "|" + comp.item] || (id === "olla" ? 30 : MIN_ESTUFA);
+        });
+
+        // La olla es una sola: dos granos distintos se cocinan uno tras otro.
+        // La estufa tiene varias hornillas y corren juntas, así que manda el
+        // paso más largo y no la suma.
+        var total = id === "olla"
+          ? minutos.reduce(function (a, b) { return a + b; }, 0)
+          : Math.max.apply(null, minutos);
+
+        return { min: total, texto: (id === "olla" ? "arranca aquí · " : "en paralelo · ") + total + " min" };
+      }
+
+      function pintarTanda(desde, nDias) {
+        var cont = document.getElementById("plan-tanda");
+        cont.innerHTML = "";
+
+        var dias = [];
+        for (var i = 0; i < nDias; i++) {
+          var fecha = sumarDias(desde, i);
+          dias.push({ fecha: fecha, platillo: platilloDe(fecha).platillo });
+        }
+
+        // Todo lo que hay que cocinar, junto. Agrupado por item + preparación:
+        // dos platillos que piden pechuga a la freidora igual son una sola tanda.
+        var aCocinar = [];
+        dias.forEach(function (d) {
+          d.platillo.comp.forEach(function (comp) {
+            if (comp.eq !== "fresco") aCocinar.push(comp);
+          });
+          // El picoteo es por día igual que el almuerzo: si la tanda es de
+          // cuatro días, se cortan palitos para cuatro. Va por el mismo
+          // camino que todo lo demás, así que la compra ya lo sabe.
+          PICAR.forEach(function (comp) { aCocinar.push(comp); });
+        });
+
+        // Una tanda que arranca tarde en la semana toma platillos de la despensa
+        // siguiente. El menú es correcto —sigue el calendario— pero solo se
+        // puede cocinar si esa compra ya llegó a la casa. Callarlo la manda a
+        // buscar ingredientes que no existen.
+        var despensasEnRango = [];
+        dias.forEach(function (d) {
+          var nombre = platilloDe(d.fecha).despensa.nombre;
+          if (despensasEnRango.indexOf(nombre) === -1) despensasEnRango.push(nombre);
+        });
+
+        if (despensasEnRango.length > 1) {
+          var cruce = document.createElement("p");
+          cruce.className = "aviso-cruce";
+          cruce.textContent =
+            "Esta tanda cruza a la despensa de la semana siguiente (" +
+            despensasEnRango[1] + "). Antes de empezar, revisa que esa compra ya esté en la casa.";
+          cont.appendChild(cruce);
+        }
+
+        var plan = [];
+        CARRILES.forEach(function (carril) {
+          var delCarril = aCocinar.filter(function (comp) { return comp.eq === carril.id; });
+          if (!delCarril.length) return;
+          var agrupados = agrupar(delCarril, function (comp) { return comp.item + "|" + comp.como; });
+          plan.push({ carril: carril, comps: agrupados, t: tiempoCarril(carril.id, agrupados) });
+        });
+
+        // El giro es el de HOY, no el de cada día del rango: es la sazón con
+        // la que se cocina esta sesión, y lo que se cocina hoy se cocina de una
+        // sola manera aunque los toppers se coman a lo largo de la semana.
+        var giro = giroDe(desde);
+        if (giro) {
+          var banda2 = document.createElement("p");
+          banda2.className = "giro-banda";
+          banda2.innerHTML = '<strong></strong> <span></span>';
+          banda2.querySelector("strong").textContent = "Esta semana: " + giro.nombre + ".";
+          banda2.querySelector("span").textContent = giro.nota;
+          cont.appendChild(banda2);
+        }
+
+        var h = document.createElement("h3");
+        h.textContent = "Qué cocinar";
+        cont.appendChild(h);
+
+        var numero = 1;
+        plan.forEach(function (entrada) {
+          var carril = entrada.carril;
+          var agrupados = entrada.comps;
+
+          var bloque = document.createElement("div");
+          bloque.className = "carril";
+
+          var cabeza = document.createElement("div");
+          cabeza.className = "carril-cabeza";
+          cabeza.innerHTML =
+            '<span class="carril-num">' + (numero++) + "</span>" +
+            '<span class="carril-nombre"></span>' +
+            '<span class="carril-tiempo"></span>';
+          cabeza.querySelector(".carril-nombre").textContent = carril.nombre;
+          cabeza.querySelector(".carril-tiempo").textContent = entrada.t.texto;
+          bloque.appendChild(cabeza);
+
+          agrupados.forEach(function (comp) {
+            var fila = document.createElement("div");
+            fila.className = "componente";
+            fila.innerHTML =
+              '<span class="que"></span> — <span class="cuanto"></span>' +
+              '<div class="como"></div>';
+            fila.querySelector(".que").textContent = comp.item;
+            fila.querySelector(".cuanto").textContent = fmt(porcion(comp.qty), comp.unit, comp.item);
+            fila.querySelector(".como").textContent = comp.como;
+
+            // La sazón va PEGADA al componente y no en una nota suelta arriba:
+            // se lee en el momento de tocar ese ingrediente, que es cuando
+            // sirve. Una lista aparte de "cambios de la semana" se olvida.
+            //
+            // Al picoteo NO se le aplica: la clave es solo el nombre del
+            // ingrediente, así que el huevo a la mexicana del revoltillo se
+            // colaba en los huevos duros del envase de picar, donde no hay
+            // nada que sazonar. Los palitos van crudos y sin aliñar todo el
+            // año, que es justo lo que los hace durar.
+            var sazon = giro && comp.eq !== "picar" && giro.sazon[comp.item];
+            if (sazon) {
+              var extra = document.createElement("div");
+              extra.className = "sazon";
+              extra.textContent = sazon;
+              fila.appendChild(extra);
+            }
+
+            bloque.appendChild(fila);
+          });
+
+          cont.appendChild(bloque);
+        });
+
+        // El manejo de los toppers va aquí y no allá abajo con las demás
+        // reglas: se lee en el momento de tener los envases en la mano, que
+        // es cuando decide si tapa caliente o espera, y si aliña o no.
+        var hManejo = document.createElement("h3");
+        hManejo.textContent = "Manejo de toppers";
+        cont.appendChild(hManejo);
+
+        var ulManejo = document.createElement("ul");
+        ulManejo.className = "limpia";
+        REGLAS_TOPPER.forEach(function (texto) {
+          var li = document.createElement("li");
+          li.textContent = texto;
+          ulManejo.appendChild(li);
+        });
+        cont.appendChild(ulManejo);
+
+        // Armado de toppers.
+        var h2 = document.createElement("h3");
+        h2.textContent = "Cómo guardar los toppers";
+        cont.appendChild(h2);
+
+        // Se apilan en la nevera y se come de arriba hacia abajo. El orden es
+        // la etiqueta, así que no hay nada que rotular ni que recordar: cuando
+        // la pila se vacía, baja uno del congelador. Tres es el tope seguro de
+        // la nevera para comida cocida.
+        var EN_NEVERA = 3;
+
+        dias.forEach(function (d, i) {
+          var congelar = i >= EN_NEVERA;
+          var caja = document.createElement("div");
+          caja.className = "topper" + (congelar ? " congelar" : "");
+
+          var cabeza = document.createElement("div");
+          cabeza.className = "topper-cabeza";
+          cabeza.innerHTML = '<span class="topper-rotulo"></span><span class="nombre"></span>';
+          // Una sola secuencia. Los del 4 en adelante son el mismo nivel de la
+          // misma pila; lo único distinto es que esperan en el congelador
+          // porque no aguantan cuatro días en la nevera.
+          cabeza.querySelector(".topper-rotulo").textContent = "NIVEL " + (i + 1);
+          cabeza.querySelector(".nombre").textContent = nombreDe(d.fecha, d.platillo);
+
+          if (congelar) {
+            var donde = document.createElement("span");
+            donde.className = "etiqueta congelar";
+            donde.textContent = "espera en el congelador";
+            cabeza.appendChild(donde);
           }
+          caja.appendChild(cabeza);
 
-            document.getElementById('display').innerHTML = h+":"+m+ampm;
-            var t = setTimeout(function(){startTime()},500);
+          var reglas = document.createElement("div");
+          reglas.className = "etiquetas";
+          d.platillo.reglas.forEach(function (regla) {
+            var el = document.createElement("span");
+            el.className = "etiqueta";
+            el.textContent = regla;
+            reglas.appendChild(el);
+          });
+          caja.appendChild(reglas);
+
+          var contenido = d.platillo.comp
+            .filter(function (comp) { return comp.eq !== "fresco"; })
+            .map(function (comp) { return comp.item + " " + fmt(porcion(comp.qty), comp.unit, comp.item, true); })
+            .join(" · ");
+
+          // Un nivel es un día, pero en la nevera lo que se apila son envases:
+          // con dos comensales son dos toppers iguales, no uno grande que luego
+          // haya que servir y recalentar en plato aparte.
+          var nota = document.createElement("div");
+          nota.className = "nota";
+          nota.textContent = contenido + ". " + d.platillo.servir +
+            (PERSONAS > 1 ? " Se reparte en " + PERSONAS + " toppers iguales." : "");
+          caja.appendChild(nota);
+
+          var recalentar = document.createElement("div");
+          recalentar.className = "nota etiqueta-topper";
+          recalentar.textContent = "Para recalentar: " + d.platillo.calentar;
+          caja.appendChild(recalentar);
+
+          cont.appendChild(caja);
+        });
+
+        var cierre = document.createElement("p");
+        cierre.className = "pista";
+        cierre.textContent =
+          "Los de nevera van apilados en ese orden, el nivel 1 arriba. Se come de " +
+          "arriba hacia abajo y, cuando la pila se vacía, baja uno del congelador. " +
+          "Enfría destapado antes de tapar. Lo fresco —aguacate, ensalada cruda, " +
+          "limón— no se guarda aparte: se agrega al servir.";
+        cont.appendChild(cierre);
+      }
+
+      function pintarCompras(hoy, nSemanas) {
+        var cont = document.getElementById("lista-compras");
+        cont.innerHTML = "";
+
+        /* La compra mira hacia ADELANTE. Todo lo demás en la página se deriva
+           de hoy —y para el plan de cocina eso es correcto— pero la lista se
+           calculaba desde el lunes que ya pasó, y la despensa rota los lunes.
+           En domingo eso significaba mostrar la despensa de la semana que
+           TERMINA: comprar carite cuando mañana toca muslo de pollo.
+
+           Desde el sábado se salta a la semana siguiente. No es un parche por
+           el domingo: la última tanda de la semana arranca jueves o viernes y
+           cubre hasta el domingo, así que para el sábado ya no queda nada por
+           cocinar de esa despensa y lo que se compre solo puede ser para la
+           que viene. */
+        var finDeSemana = indiceDia(hoy) >= 5;                 // sábado o domingo
+        var lunes = sumarDias(hoy, -indiceDia(hoy) + (finDeSemana ? 7 : 0));
+        var todos = [], nombres = [];
+
+        for (var s = 0; s < nSemanas; s++) {
+          var desp = DESPENSAS[indiceDespensa(sumarDias(lunes, s * 7))];
+          nombres.push(desp.nombre);
+          desp.platillos.forEach(function (p) {
+            p.comp.forEach(function (comp) { todos.push(comp); });
+          });
+          desp.extras.forEach(function (comp) { todos.push(comp); });
+          for (var dp = 0; dp < 7; dp++) {
+            PICAR.forEach(function (comp) { todos.push(comp); });
+          }
         }
 
-        function checkTime(i) {
-            if (i<10) {i = "0" + i};  // add zero in front of numbers < 10
-            return i;
-        }
+        /* El rótulo dice SIEMPRE de qué semana es la lista. La regla del sábado
+           es un criterio razonable pero podría fallar en algún caso raro; el
+           rótulo no falla nunca, y es lo que evita descubrir el error frente
+           al puesto en vez de antes de salir. */
+        var cuando = finDeSemana ? "la semana que viene (empieza el lunes)" : "esta semana";
+        document.getElementById("pista-compra").textContent =
+          nSemanas === 1
+            ? "Despensa de " + cuando + ": " + nombres[0] + "."
+            : "Dos despensas en una sola ida, arrancando por " + cuando + ": " +
+              nombres[0] + " y " + nombres[1] +
+              ". Lo marcado se congela al llegar; no aguanta catorce días fresco.";
 
-        function genLunch() {
-          var today  = new Date();
-          Math.seedrandom(today.toLocaleDateString("es-MX"));
+        // Para el mercado se agrupa solo por nombre: da igual si la pechuga va
+        // a la freidora o guisada, se compra una sola vez.
+        var lista = agrupar(todos, function (comp) { return comp.item + "|" + comp.unit; });
 
-          var randNum = Math.floor(Math.random() * lunches.length - 1) + 1;
-          document.getElementById('lunch').innerHTML = lunches[randNum];
-        }
-
-        //lunch array
-        var lunches = [
-          "- Chicharron en salsa verde",
-          "- Caldo de pollo con verduras",
-          "- Tacos de suadero",
-          "- Albondigas con frijoles",
-          "- Lentejas",
-          "- Espaguetti",
-          "- Salchichas a la mexicana",
-          "- Caldo de pescado",
-          "- Mojarra al mojo de ajo",
-          "- Bisteces en chile pasilla",
-          "- Sopa de elote",
-          "- Tacos dorados de papa",
+        // El orden es el recorrido del mercado, no un ranking: lo seco primero
+        // porque no se maltrata, lo fresco de último para que aguante el viaje.
+        var ZONAS = [
+          ["grano",    "Granos secos"],
+          ["abarrote", "Abasto"],
+          ["proteina", "Carnicería y pescadería"],
+          ["verdura",  "Verdulería"],
+          ["fruta",    "Frutas"]
         ];
 
-        //date
-        function startDate() {
-          var d = new Date();
-          var days = ["Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"];
-          document.getElementById("date").innerHTML = days[d.getDay()]+" | "+[d.getMonth()+1]+"/"+d.getDate()+"/"+d.getFullYear();
+        // En compra quincenal hay dos problemas distintos y el consejo es el
+        // contrario en cada uno. La proteína se congela y sale igual de buena.
+        // La hoja no: lechuga congelada no vuelve a ser ensalada, hay que
+        // comprarla aparte. Las fronteras \b importan — sin ellas "Repollo"
+        // contiene "pollo" y termina en el congelador.
+        var CONGELAR = /\b(pollo|carite|sardinas?|pescado)\b/i;
+        var HOJA     = /\b(lechuga|espinaca|cilantro|perejil|cebollín)\b/i;
+
+        ZONAS.forEach(function (zona) {
+          var items = lista.filter(function (comp) { return comp.zona === zona[0]; });
+          if (!items.length) return;
+
+          items.sort(function (a, b) { return a.item.localeCompare(b.item, "es"); });
+
+          var grupo = document.createElement("div");
+          grupo.className = "grupo-compra";
+          var titulo = document.createElement("h3");
+          titulo.textContent = zona[1];
+          grupo.appendChild(titulo);
+
+          items.forEach(function (comp) {
+            var fila = document.createElement("div");
+            fila.className = "item-compra";
+            var izq = document.createElement("span");
+            izq.textContent = comp.item;
+
+            if (nSemanas === 2 && (CONGELAR.test(comp.item) || HOJA.test(comp.item))) {
+              var marca = document.createElement("span");
+              var esHoja = HOJA.test(comp.item);
+              marca.className = "marca" + (esHoja ? " hoja" : "");
+              marca.textContent = esHoja
+                ? "LA MITAD, FRESCA LA 2.ª SEMANA"
+                : "CONGELAR AL LLEGAR";
+              izq.appendChild(marca);
+            }
+
+            var der = document.createElement("span");
+            der.className = "cant";
+            der.textContent = fmtCompra(porcion(comp.qty), comp.unit, comp.item);
+
+            fila.appendChild(izq);
+            fila.appendChild(der);
+            grupo.appendChild(fila);
+          });
+
+          cont.appendChild(grupo);
+        });
+
+        // Lo que agrega la temporada. Se recoge por semana del rango porque una
+        // compra quincenal puede cruzar de una temporada a la siguiente, y va en
+        // su propio grupo: son cantidades por casa, no por comensal, así que no
+        // pueden mezclarse con los renglones de arriba sin mentir en el número.
+        var extrasGiro = [], vistos = {};
+        for (var sg = 0; sg < nSemanas; sg++) {
+          var g = giroDe(sumarDias(lunes, sg * 7));
+          if (!g) continue;
+          g.compra.forEach(function (e) {
+            if (vistos[e[0]]) return;
+            vistos[e[0]] = 1;
+            extrasGiro.push(e);
+          });
         }
-      </script>
-    </body>
+
+        if (extrasGiro.length) {
+          var grupoGiro = document.createElement("div");
+          grupoGiro.className = "grupo-compra giro";
+          var tg = document.createElement("h3");
+          tg.textContent = "De la temporada — " + giroDe(lunes).nombre;
+          grupoGiro.appendChild(tg);
+
+          extrasGiro.forEach(function (e) {
+            var fila = document.createElement("div");
+            fila.className = "item-compra";
+            var izq = document.createElement("span");
+            izq.textContent = e[0];
+            if (e[2]) {
+              var nota = document.createElement("span");
+              nota.className = "nota-fija";
+              nota.textContent = e[2];
+              izq.appendChild(nota);
+            }
+            var der = document.createElement("span");
+            der.className = "cant";
+            der.textContent = e[1];
+            fila.appendChild(izq);
+            fila.appendChild(der);
+            grupoGiro.appendChild(fila);
+          });
+
+          cont.appendChild(grupoGiro);
+        }
+
+        // Se cuenta ANTES de la despensa fija: el número del botón es lo que hay
+        // que comprar esta semana, no lo que hay que revisar en la alacena.
+        var cuantas = cont.querySelectorAll(".item-compra").length;
+
+        // La despensa fija va al final y a la vista. Repetirla cada semana cuesta
+        // nueve renglones; esconderla detrás de un clic cuesta el clic, y esto se
+        // lee de pie en el mercado.
+        var fija = document.createElement("div");
+        fija.className = "grupo-compra fija";
+
+        var tituloFija = document.createElement("h3");
+        tituloFija.textContent = "Despensa fija — revisar, no comprar siempre";
+        fija.appendChild(tituloFija);
+
+        DESPENSA_FIJA.forEach(function (entrada) {
+          var fila = document.createElement("div");
+          fila.className = "item-compra";
+
+          var izq = document.createElement("span");
+          izq.textContent = entrada[0];
+          if (entrada[2]) {
+            var nota = document.createElement("span");
+            nota.className = "nota-fija";
+            nota.textContent = entrada[2];
+            izq.appendChild(nota);
+          }
+
+          var der = document.createElement("span");
+          der.className = "cant";
+          der.textContent = entrada[1];
+
+          fila.appendChild(izq);
+          fila.appendChild(der);
+          fija.appendChild(fila);
+        });
+
+        cont.appendChild(fija);
+
+        // El botón de arriba dice cuánto hay abajo, para decidir si vale la
+        // pena entrar al mercado ahora mismo sin tener que bajar a mirar.
+        document.getElementById("ir-compras-sub").textContent =
+          cuantas + " cosas · " + (nSemanas === 1 ? "1 semana" : "2 semanas");
+      }
+
+      function pintarEstaticos() {
+        [["nunca", NUNCA], ["siempre", SIEMPRE], ["olla-reglas", REGLAS_OLLA],
+         ["medidas", MEDIDAS_EXPLICADAS], ["picar-reglas", REGLAS_PICAR]]
+          .forEach(function (par) {
+            var ul = document.getElementById(par[0]);
+            par[1].forEach(function (texto) {
+              var li = document.createElement("li");
+              li.textContent = texto;
+              ul.appendChild(li);
+            });
+          });
+      }
+
+      /* ================================================================
+         AMBIENTE
+         Un solo motor de partículas para todos los temas. Copo, cinta, gota,
+         pétalo y chispa son la misma partícula dibujada distinto, así que
+         agregar un efecto es un caso en dibujar() y no otra animación entera.
+         Se detiene solo si el sistema pide menos movimiento o si la pestaña
+         queda en segundo plano: nadie quiere un teléfono caliente por una
+         página de recetas abierta.
+         ================================================================ */
+
+      var lienzo = document.getElementById("ambiente");
+      var pincel = lienzo.getContext("2d");
+      var quieto = window.matchMedia("(prefers-reduced-motion: reduce)");
+      var particulas = [], animando = null, efectoActual = null;
+
+      function medirLienzo() {
+        var r = window.devicePixelRatio || 1;
+        lienzo.width  = Math.floor(window.innerWidth  * r);
+        lienzo.height = Math.floor(window.innerHeight * r);
+        pincel.setTransform(r, 0, 0, r, 0, 0);
+      }
+
+      function nuevaParticula(ef, alto) {
+        return {
+          x: Math.random() * window.innerWidth,
+          y: alto === undefined ? Math.random() * window.innerHeight : alto,
+          r: 3 + Math.random() * 5,
+          giro: Math.random() * Math.PI * 2,
+          dgiro: (Math.random() - .5) * .06,
+          vy: ef.vel * (.6 + Math.random() * .9),
+          vx: (Math.random() - .5) * .4,
+          fase: Math.random() * Math.PI * 2,
+          color: ef.colores[(Math.random() * ef.colores.length) | 0]
+        };
+      }
+
+      function dibujarParticula(p, forma) {
+        pincel.fillStyle = p.color;
+        pincel.strokeStyle = p.color;
+
+        if (forma === "gota") {
+          pincel.lineWidth = 1.4;
+          pincel.beginPath();
+          pincel.moveTo(p.x, p.y);
+          pincel.lineTo(p.x, p.y + p.r * 3);
+          pincel.stroke();
+          return;
+        }
+        if (forma === "cinta") {
+          pincel.save();
+          pincel.translate(p.x, p.y);
+          pincel.rotate(p.giro);
+          pincel.fillRect(-p.r, -p.r / 2.5, p.r * 2, p.r / 1.2);
+          pincel.restore();
+          return;
+        }
+        if (forma === "copo") {
+          pincel.beginPath();
+          pincel.arc(p.x, p.y, p.r * .6, 0, Math.PI * 2);
+          pincel.fill();
+          return;
+        }
+        if (forma === "petalo") {
+          pincel.save();
+          pincel.translate(p.x, p.y);
+          pincel.rotate(p.giro);
+          pincel.beginPath();
+          pincel.ellipse(0, 0, p.r, p.r / 2.2, 0, 0, Math.PI * 2);
+          pincel.fill();
+          pincel.restore();
+          return;
+        }
+        // chispa: late en su sitio en vez de caer
+        pincel.globalAlpha = .35 + .65 * Math.abs(Math.sin(p.fase));
+        pincel.beginPath();
+        pincel.arc(p.x, p.y, p.r * .5, 0, Math.PI * 2);
+        pincel.fill();
+        pincel.globalAlpha = 1;
+      }
+
+      function cuadro() {
+        pincel.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+        if (efectoActual) {
+          var ef = efectoActual;
+          for (var i = 0; i < particulas.length; i++) {
+            var p = particulas[i];
+            if (ef.tipo === "brilla") {
+              p.fase += .05;
+            } else {
+              p.y += p.vy;
+              p.x += p.vx + Math.sin((p.y + p.fase) / 40) * .3;
+              if (p.y > window.innerHeight + 20) { particulas[i] = nuevaParticula(ef, -20); continue; }
+              if (p.x < -30) p.x = window.innerWidth + 20;
+              if (p.x > window.innerWidth + 30) p.x = -20;
+              p.giro += p.dgiro;
+            }
+            dibujarParticula(p, ef.forma);
+          }
+        }
+        animando = requestAnimationFrame(cuadro);
+      }
+
+      function arrancarAmbiente(ef) {
+        efectoActual = (quieto.matches || !ef) ? null : ef;
+        particulas = [];
+        if (efectoActual) {
+          for (var i = 0; i < efectoActual.n; i++) particulas.push(nuevaParticula(efectoActual));
+        }
+        medirLienzo();
+        if (!animando) animando = requestAnimationFrame(cuadro);
+      }
+
+      window.addEventListener("resize", medirLienzo);
+
+      document.addEventListener("visibilitychange", function () {
+        if (document.hidden) {
+          if (animando) { cancelAnimationFrame(animando); animando = null; }
+        } else if (!animando) {
+          animando = requestAnimationFrame(cuadro);
+        }
+      });
+
+      var temaActual = null;
+
+      function aplicarTema() {
+        var ahora = new Date();
+        var id = temaDe(hoy);
+
+        // En la primera pasada los tokens ya están puestos desde el <head>
+        // y volver a escribirlos no cambia nada; lo que sí hace falta es
+        // arrancar el ambiente, que necesita un lienzo que allá arriba
+        // todavía no existía. De medianoche en adelante sí repinta de verdad.
+        if (id !== temaActual) {
+          temaActual = id;
+          pintarTokens(id);
+          arrancarAmbiente(TEMAS[id].efecto);
+        }
+
+        document.getElementById("fecha").textContent =
+          DIAS_LARGOS[indiceDia(hoy)] + " " + hoy.getDate() + " de " + MESES[hoy.getMonth()] +
+          (simulada ? " · vista adelantada" : "");
+
+        // Si la página quedó abierta y cruzó la medianoche, se repinta el día.
+        // No aplica cuando se está mirando una fecha pedida a mano.
+        if (!simulada && ahora.getDate() !== hoy.getDate()) { hoy = ahora; pintarTodo(); }
+      }
+
+      function pintarTodo() {
+        pintarSemana(hoy);
+        pintarCompras(hoy, semanasCompra);
+        pintarTanda(hoy, diasTanda);
+      }
+
+      var semanasCompra = 1;
+      var diasTanda = 4;
+
+      document.getElementById("dias-botones").addEventListener("click", function (ev) {
+        var btn = ev.target.closest("button[data-dias]");
+        if (!btn) return;
+        diasTanda = +btn.dataset.dias;
+        Array.prototype.forEach.call(this.querySelectorAll("button"), function (b) {
+          b.setAttribute("aria-pressed", b === btn ? "true" : "false");
+        });
+        pintarTanda(hoy, diasTanda);
+      });
+
+      document.getElementById("compra-botones").addEventListener("click", function (ev) {
+        var btn = ev.target.closest("button[data-semanas]");
+        if (!btn) return;
+        semanasCompra = +btn.dataset.semanas;
+        Array.prototype.forEach.call(this.querySelectorAll("button"), function (b) {
+          b.setAttribute("aria-pressed", b === btn ? "true" : "false");
+        });
+        pintarCompras(hoy, semanasCompra);
+      });
+
+      // Diálogo nativo: Esc cierra y el foco queda atrapado dentro sin que haya
+      // que programar nada de eso. Solo falta cerrar al tocar el fondo, que en
+      // un teléfono es el gesto que la gente intenta primero.
+      var dlgCompras = document.getElementById("dlg-compras");
+
+      document.getElementById("btn-compras").addEventListener("click", function () {
+        dlgCompras.showModal();
+      });
+
+      document.getElementById("btn-cerrar-compras").addEventListener("click", function () {
+        dlgCompras.close();
+      });
+
+      dlgCompras.addEventListener("click", function (ev) {
+        if (ev.target === dlgCompras) dlgCompras.close();
+      });
+
+      pintarEstaticos();
+      aplicarTema();
+      pintarTodo();
+      setInterval(aplicarTema, 60000);
+
+      // comida.html#compras abre directo en la lista. Ya no hay ancla a la que
+      // saltar, pero el marcador que alguien guardó tiene que seguir sirviendo.
+      if (location.hash === "#compras") dlgCompras.showModal();
+    })();
+    </script>
+  </body>
 </html>
