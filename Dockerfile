@@ -9,5 +9,5 @@ RUN bundle install
 
 COPY . /srv/jekyll
 
-EXPOSE 4000
-CMD ["bundle", "exec", "jekyll", "serve", "--host", "0.0.0.0", "--livereload", "--force_polling"]
+EXPOSE 5000
+CMD ["bundle", "exec", "jekyll", "serve", "--host", "0.0.0.0", "--port", "5000", "--livereload", "--force_polling"]

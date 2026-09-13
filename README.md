@@ -19,7 +19,7 @@ From the project root:
 docker compose up --build
 ```
 
-Then open [http://localhost:4000](http://localhost:4000) in your browser.
+Then open [http://localhost:5000](http://localhost:5000) in your browser.
 
 The repo is mounted at `/srv/jekyll` inside the container, so local edits to content, layouts, or assets are reflected automatically. Jekyll runs with `--livereload` and `--force_polling`, so the browser can refresh when files change. The project avoids root-level symlinks so bind mounts work with Colima and other VM-based Docker hosts. Jekyll excludes `deploy` and `setup` (see `exclude` in `_config.yml`); they are scripts, not pages.
 

@@ -2,7 +2,7 @@ services:
   jekyll:
     build: .
     ports:
-      - "4000:4000"
+      - "5000:5000"
       - "35729:35729"   # livereload (browser refresh on file change)
     volumes:
       - .:/srv/jekyll
