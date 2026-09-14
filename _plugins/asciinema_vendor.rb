@@ -36,11 +36,36 @@ module AsciinemaVendor
   # Matches the include tag in raw post source, whatever order the
   # arguments appear in.
   ID_RE     = /\{%-?\s*include\s+asciinema\.html\b[^%]*?\bid\s*=\s*["']([A-Za-z0-9_-]+)["']/.freeze
+  # ANY direct mention of asciinema.org in post source. Not just embeds:
+  # the include is the only form this site knows how to act on, so a bare
+  # URL is a recording the plugin cannot fetch, cannot vendor and cannot
+  # protect — it is a dependency written in a language the build does not
+  # speak. Failing on it is what makes the include the only way in.
+  #
+  # Post source is scanned before rendering, so the data-fallback URL the
+  # include emits is invisible here and never trips this.
+  URL_RE    = %r{asciinema\.org/a/([A-Za-z0-9_-]+)}i.freeze
+  # An author who deliberately wants a bare link says so, once, in the
+  # post. Explicit, greppable, and a decision rather than an oversight.
+  ESCAPE    = 'asciinema:allow'.freeze
   MAX_BYTES = 25 * 1024 * 1024
 
   class << self
     def ci?
       ENV['CI'] == 'true' || ENV['GITHUB_ACTIONS'] == 'true'
+    end
+
+    # Jekyll's error summary collapses a multi-line message into a single
+    # paragraph, which is fine for "file not found" and useless for a
+    # message whose point is a snippet to copy. Print the guidance through
+    # the logger first, where line breaks survive, then abort with a short
+    # one-liner.
+    def abort_with(headline, lines)
+      Jekyll.logger.error ''
+      Jekyll.logger.error "asciinema: #{headline}"
+      lines.each { |l| Jekyll.logger.error(l.empty? ? '' : "  #{l}") }
+      Jekyll.logger.error ''
+      raise Jekyll::Errors::FatalException, "asciinema: #{headline}"
     end
 
     # id => first post that asks for it, for a useful error message
@@ -55,7 +80,46 @@ module AsciinemaVendor
       found
     end
 
+    # The include is the site's own markup for a recording, and the only
+    # thing the fetching below can act on. A direct URL is refused so the
+    # author writes it in the terms the plugin understands.
+    def reject_direct_urls(site)
+      offenders = []
+      (site.posts.docs + site.pages).each do |doc|
+        next unless doc.respond_to?(:content) && doc.content
+        next if doc.content.include?(ESCAPE)
+
+        doc.content.scan(URL_RE) { |(id)| offenders << [doc.relative_path, id] }
+      end
+      return if offenders.empty?
+
+      example = offenders.first.last
+      abort_with(
+        "#{offenders.size} direct asciinema.org reference(s) in post source",
+        offenders.map { |where, id| "#{where}  (id #{id})" } + [
+          '',
+          'A direct URL is a recording this build cannot fetch, vendor or',
+          'protect. showterm.io took fourteen recordings out of this blog',
+          'that way, and the Wayback Machine has a copy of none of them.',
+          '',
+          'Write it in the form the plugin understands:',
+          '',
+          %({% include asciinema.html id="#{example}" %}),
+          '',
+          'Optional: start="10" skips a slow opening,',
+          '          poster="npt:1:23" picks the still frame.',
+          '',
+          "Then build once. The .cast lands in #{CAST_DIR}/, gzipped;",
+          'commit it with the post.',
+          '',
+          "If a bare link really is what you want, put #{ESCAPE} in the post",
+          'to opt it out — deliberately, and visible to the next grep.'
+        ]
+      )
+    end
+
     def vendor(site)
+      reject_direct_urls(site)
       wanted = referenced(site)
       return if wanted.empty?
 
@@ -63,15 +127,18 @@ module AsciinemaVendor
       return if missing.empty?
 
       if ci?
-        list = missing.map { |id, where| "  #{id}  (#{where})" }.join("\n")
-        raise Jekyll::Errors::FatalException, <<~MSG
-          asciinema: #{missing.size} recording(s) referenced but not vendored:
-          #{list}
-          These were never committed. Run a local build (or `jekyll serve`) to
-          fetch them into #{CAST_DIR}/, then commit the files. CI will not
-          download them: a recording that is not in this repository is one more
-          service outage away from being gone, which is the failure this guards.
-        MSG
+        abort_with(
+          "#{missing.size} recording(s) referenced but not vendored",
+          missing.map { |id, where| "#{id}  (#{where})" } + [
+            '',
+            'These were never committed. Run a local build (or jekyll serve)',
+            "to fetch them into #{CAST_DIR}/, then commit the files.",
+            '',
+            'CI will not download them: a recording that is not in this',
+            'repository is one service outage away from being gone, which is',
+            'the failure this guards.'
+          ]
+        )
       end
 
       missing.each { |id, where| fetch(site, id, where) }
