@@ -725,6 +725,44 @@ body.blog-page::before {
      too. `.blog-header` / `body.blog-page` take these to (0,2,x), which
      wins wherever the block sits — so it can stay next to its mobile
      siblings instead of being pinned to the bottom of the file. */
+  /* Brand and search share the top row, the way the desktop grid already
+     has them — a 36px name and a 44px input stacked were 44px of height
+     spent on two things that fit beside each other.
+     
+     The brand has to give up width to make room, and a fixed size is the
+     wrong tool: at 36px the pair does not fit at all, and the largest
+     fixed size that does (32px) leaves 7.5px of slack against the
+     placeholder's measured width — a margin that evaporates the moment
+     'Exo 2' or 'PT Sans' falls back to a wider face. Scaling with the
+     viewport instead keeps the name proportional to the screen it is on
+     and the input above its legible minimum at every width.
+     
+     If the two ever cannot fit, `flex-wrap` drops the search to its own
+     line rather than crushing it, which is the old layout — the failure
+     mode is the thing this replaces, not a broken one. */
+  body.blog-page .blog-header {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;     /* baseline reads wrong between a 28px name
+                                and a 44px box; desktop keeps baseline */
+    column-gap: 0.75rem;
+    row-gap: 0.5rem;
+  }
+  .blog-header .blog-brand {
+    font-size: clamp(1.5rem, 7vw, 2rem);
+    white-space: nowrap;     /* the name wraps as a name, or not at all */
+    flex: 0 0 auto;
+  }
+  .blog-header .blog-search-wrap {
+    flex: 1 1 9.5rem;        /* takes the rest of the row, wraps below it */
+    width: auto;
+    min-width: 0;            /* without this the input's intrinsic width
+                                keeps the flex item from ever shrinking */
+  }
+  /* Both belong on their own full-width row under the pair. */
+  .blog-header .blog-filter-status,
+  .blog-header .blog-langs { flex-basis: 100%; }
+
   /* 0.25rem rather than 0.4rem: the drawn brackets already separate one
      entry from the next, so the gap is not carrying that job on a screen
      where 12px decides whether "rss" shares the row. */
