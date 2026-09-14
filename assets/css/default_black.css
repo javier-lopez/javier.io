@@ -700,11 +700,51 @@ body.blog-page::before {
 /* Mobile companion to the header grid above — below 720px the header
    stacks in flow order and content spans the full viewport width. */
 @media (max-width: 719px) {
-  /* Six nav entries must survive a 390px phone: trim the tap-target
-     minimum and side padding so they fit one row, and wrap as a safety
-     net for even narrower screens instead of clipping "rss" offscreen. */
-  .blog-langs { flex-wrap: wrap; }
-  .blog-langs a { min-width: 40px; padding: 0.55em 0.3em; }
+  /* Six nav entries must survive a 390px phone, and the header must not
+     eat half the screen doing it.
+     
+     Two things were fighting this. First, box-sizing: the links compute
+     content-box (body is border-box, but there is no universal reset),
+     so `min-width/min-height: 44px` sized the CONTENT at 44 and then
+     added padding and border on top — a 58x65 box for a 44px tap target
+     the padding already provided on its own. Six of those overflow 321px
+     of usable width, wrap to two rows, and leave "rss" stranded on a
+     line of its own: .blog-langs measured 137px tall, more than the
+     brand and the search field combined.
+     
+     Second, this block used to lose. `.blog-langs a` under a media query
+     scores the same (0,1,1) as `.blog-langs a` without one — a media
+     query conditions a rule, it does not raise its specificity — so the
+     two later unconditional declarations (the tap-target rule and the
+     bracket rule below) simply won on source order, and everything here
+     was dead CSS.
+     
+     Hence the qualifier on every selector in this block: the base rules
+     for the status line and the histogram live hundreds of lines below
+     at the same (0,1,0), so an unqualified override here loses to them
+     too. `.blog-header` / `body.blog-page` take these to (0,2,x), which
+     wins wherever the block sits — so it can stay next to its mobile
+     siblings instead of being pinned to the bottom of the file. */
+  /* 0.25rem rather than 0.4rem: the drawn brackets already separate one
+     entry from the next, so the gap is not carrying that job on a screen
+     where 12px decides whether "rss" shares the row. */
+  .blog-langs { flex-wrap: wrap; gap: 0.25rem; }
+  .blog-header .blog-langs a {
+    box-sizing: border-box;   /* now 44px means a 44px box */
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0.5em 0.35em;
+  }
+  /* The status line reserves an empty row at rest so the count appearing
+     does not shift the list. On a phone that row plus its margin is 18px
+     of nothing above the fold, which costs more than the shift it
+     prevents — and the one time it does shift, the list underneath is
+     re-rendering anyway. */
+  body.blog-page .blog-filter-status { min-height: 0; margin: 0; }
+  /* The chart reads as a silhouette, so it survives losing a third of
+     its height; the 2.5rem below it was tuned for a desktop page that
+     is not fighting for vertical space. */
+  body.blog-page .year-histogram { margin-bottom: 1.25rem; }
   /* The fixed corner icons float over full-width content on phones —
      let them flow after the page instead. Scoped to blog pages so the
      homepage keeps its floating corner. */
@@ -1626,7 +1666,7 @@ body.blog-page.is-post { background: transparent; }
 /* Below ~560px nineteen bars plus labels stop being legible; drop every
    other label rather than shrinking the type into illegibility. */
 @media (max-width: 560px) {
-  .year-histogram-bars { height: 56px; gap: 2px; }
+  .year-histogram-bars { height: 40px; gap: 2px; }
   .year-histogram-bar:nth-child(even) .year-histogram-year { visibility: hidden; }
 }
 @media (prefers-reduced-motion: reduce) {
