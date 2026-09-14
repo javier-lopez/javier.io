@@ -6,19 +6,21 @@
     {% seo title=false %}
 
     <link rel="shortcut icon" href="/favicon.ico">
-    {%- comment -%} Self-hosted fonts (Exo 2 200, PT Sans, Vollkorn 400/700)
-        — vendored from Google Fonts so the site has no third-party
-        dependencies. Regenerate assets/css/fonts.css + assets/font/ if the
-        family set ever changes. {%- endcomment -%}
-    <link rel="stylesheet" type="text/css" href="/assets/css/fonts.css">
+    {%- comment -%} Self-hosted fonts (Exo 2 200, PT Sans, Vollkorn 400/700,
+        JetBrains Mono 400-700 variable) — vendored from Google Fonts so the
+        site has no third-party dependencies. Regenerate assets/css/fonts.css
+        + assets/font/ if the family set ever changes. {%- endcomment -%}
+    {%- comment -%} ?v= for the same reason as the sheets below: this file was
+        the only stylesheet left bare, so when JetBrains Mono was added on
+        2026-09-13 returning visitors kept the cached copy and never saw it.
+        Nothing preloads this URL, so busting it is free. {%- endcomment -%}
+    <link rel="stylesheet" type="text/css" href="/assets/css/fonts.css?v={{ site.time | date: '%s' }}">
     <link rel="alternate" type="application/atom+xml" href="/atom.xml">
     {%- comment -%} ?v= busts browser caches on deploy — stale CSS kept
         shipping old styles to returning visitors (site HTML regenerates,
-        stylesheets linger in cache). Vendored fontawesome stays bare so
-        the preload in blog.html keeps matching its URL. {%- endcomment -%}
+        stylesheets linger in cache). {%- endcomment -%}
     <link rel="stylesheet" type="text/css" href="/assets/css/default_black.css?v={{ site.time | date: '%s' }}">
     <link rel="stylesheet" type="text/css" href="/assets/css/responsive.css?v={{ site.time | date: '%s' }}">
-    <link rel="stylesheet" type="text/css" href="/assets/css/fontawesome.min.css">
 
     <!-- syntax highlighting — vendored highlight.js 11.11.1, Tokyo Night Dark theme -->
     <link rel="stylesheet" href="/assets/css/tokyo-night-dark.min.css">

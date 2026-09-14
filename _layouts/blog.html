@@ -5,9 +5,6 @@
     {%- comment -%} Posts carry the site name; list pages (index, langs, tags,
         featured) state their full title in front matter. {%- endcomment -%}
     <title>{% if page.layout == "post" %}{{ page.title | smartify }} | {{ site.title }}{% else %}{{ page.title | smartify }}{% endif %}</title>
-    <link rel="preload" as="style" href="/assets/css/fontawesome.min.css">
-    <link rel="preload" as="font" type="font/woff"
-          href="/assets/font/fontawesome-webfont.woff?v=3.2.1" crossorigin>
     <style>
       /* Critical blog styles — inlined to avoid first-paint flash while the
          external stylesheet chain resolves. */
@@ -59,7 +56,8 @@
           </svg>
           <input type="search" id="blog-filter" class="blog-search"
                  placeholder="Filter by title…" autocomplete="off"
-                 aria-label="Filter posts by title">
+                 aria-label="Filter posts by title"
+                 aria-keyshortcuts="/">
         </label>
 
         <nav class="blog-langs" aria-label="Posts by language">
@@ -136,6 +134,42 @@
           applyFilter();
           input.focus();
         }
+      })();
+
+      // Keyboard: "/" focuses the filter from anywhere on the page, Escape
+      // clears and releases it. Kept in its own IIFE so it binds on post
+      // pages too, where the filter IIFE above returns early.
+      //
+      // Escape dispatches a synthetic 'input' event rather than calling the
+      // filter directly: applyFilter lives in the other closure, and on post
+      // pages it does not exist at all. Re-using the event the filter already
+      // listens for keeps one wiring path for both page kinds.
+      (function () {
+        var input = document.getElementById('blog-filter');
+        if (!input) return;
+
+        document.addEventListener('keydown', function (e) {
+          // Never steal the key from someone mid-word in another field, and
+          // leave browser/OS chords (Ctrl+/, Cmd+/) alone.
+          var t = e.target;
+          var typing = t && (t.isContentEditable ||
+            /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName));
+
+          if (e.key === '/' && !typing && !e.ctrlKey && !e.metaKey && !e.altKey) {
+            e.preventDefault();   // otherwise "/" lands in the field we just focused
+            input.focus();
+            input.select();
+            return;
+          }
+
+          if (e.key === 'Escape' && t === input) {
+            if (input.value) {
+              input.value = '';
+              input.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+            input.blur();
+          }
+        });
       })();
 
       // Reading time — inject as prefix on the date h6 so they render as

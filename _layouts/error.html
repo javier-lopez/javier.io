@@ -3,12 +3,6 @@
   <head>
     {% include meta.html %}
     <title>{{ page.title }} | javier.io</title>
-    <!-- Preload fontawesome font + stylesheet in parallel so the footer icons
-         render the moment the DOM hits them. Without this the first paint shows
-         the raw anchors in the site's default red before FA resolves. -->
-    <link rel="preload" as="style" href="/assets/css/fontawesome.min.css">
-    <link rel="preload" as="font" type="font/woff"
-          href="/assets/font/fontawesome-webfont.woff?v=3.2.1" crossorigin>
     <style>
       /* Critical layout — inlined so it applies before the external
          stylesheet chain resolves and stops the first-frame red-icon flash. */

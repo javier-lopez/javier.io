@@ -8,7 +8,14 @@
 body {
   /* background: none repeat scroll 0% 0% #010101; */
   background: #000;
-  color: #CCC0C;
+  /* Was `#CCC0C` from 2013 until 2026-09-13 — a five-digit hex, which is
+     not a valid CSS color, so the browser dropped the declaration and
+     `body` fell back to the UA default (black) on a black background.
+     It went unnoticed for thirteen years because every text element
+     downstream sets its own color; only an element that inherited would
+     have rendered invisible. #ccc is the grey this sheet already uses
+     for body-adjacent text (h3, .posts span) and the evident intent. */
+  color: #ccc;
   margin: 0px auto;
   width: 75%;
   max-width: 70%;
@@ -98,6 +105,30 @@ h2.page {
 /*based on links*/
 .page i {font-size:55pt; color:gray; text-decoration: none;}
 .page i:hover {color: #FFF;}
+
+/* remote.html icons, inline SVG since the FontAwesome retirement on
+   2026-09-13. An icon font is text and inherited its size from the
+   `.page i` font-size above; an <svg> is not text and expands to fill its
+   container without an explicit box, so the sizes that used to come from
+   font-size (55pt for the OS pickers, an inline 10pt for the close ✕) are
+   restated here in px. The close icon also carries the padding-left that
+   used to live in an inline style attribute on the <i>. */
+.page .os-icon {
+  width: 73px;   /* was font-size: 55pt */
+  height: 73px;
+  color: gray;
+  fill: currentColor;
+}
+.page .os-icon:hover { color: #FFF; }
+.page .close-icon {
+  width: 13px;   /* was inline font-size: 10pt */
+  height: 13px;
+  margin-left: 35%;
+  color: gray;
+  fill: currentColor;
+  vertical-align: middle;
+}
+.page .close-icon:hover { color: #FFF; }
 
 /************************************************************************/
 /******************************* blog **********************************/
@@ -419,8 +450,21 @@ h2 + img + p:first-letter {
 /****************************** footer **********************************/
 /************************************************************************/
 
-.link a i { font-size:21pt; color:gray; text-decoration: none; }
-.link a i:hover { color: #FFF; }
+/* Footer icons. Were an icon font sized with font-size:21pt; since the
+   FontAwesome retirement on 2026-09-13 they are inline SVG, so the box is
+   set with width/height instead. 28px matches the old 21pt rendering.
+   The <i> selectors are kept for any page still carrying one. */
+.link a i,
+.link a svg { color: gray; text-decoration: none; }
+.link a i { font-size: 21pt; }
+.link a svg {
+  width: 28px;
+  height: 28px;
+  vertical-align: middle;
+  fill: currentColor;
+}
+.link a i:hover,
+.link a:hover svg { color: #FFF; }
 
 #footer {
   font-family: 'PT Sans', sans-serif;
@@ -680,6 +724,9 @@ body.blog-page::before {
   color: rgba(255,255,255,0.4);
   pointer-events: none;
 }
+/* No visual affordance for the "/" focus hotkey (wired in blog.html) — the
+   shortcut is deliberately undecorated, so the field looks exactly as it
+   did before the hotkey existed. */
 .blog-search {
   width: 100%;
   padding: 0.55em 0.75em 0.55em 2.2rem;
