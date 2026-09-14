@@ -48,6 +48,25 @@ module AsciinemaVendor
   # An author who deliberately wants a bare link says so, once, in the
   # post. Explicit, greppable, and a decision rather than an oversight.
   ESCAPE    = 'asciinema:allow'.freeze
+  # The markdown form, following the named-fence convention that mermaid
+  # and friends established:
+  #
+  #     ```asciinema
+  #     132191
+  #     ```
+  #
+  #     ```asciinema
+  #     https://asciinema.org/a/132191 start=10
+  #     ```
+  #
+  # A full URL is accepted so the id can be pasted straight from the
+  # browser. Rewritten to the include below before anything else looks at
+  # the post, so the rest of this file — and the direct-URL guard — only
+  # ever deals with one form.
+  #
+  # Unprocessed it degrades to a visible code block rather than to
+  # nothing, which is the argument for a fence over a bare marker line.
+  FENCE_RE  = /^[ \t]*```[ \t]*asciinema[ \t]*\n(.*?)\n[ \t]*```[ \t]*$/m.freeze
   MAX_BYTES = 25 * 1024 * 1024
 
   class << self
@@ -78,6 +97,39 @@ module AsciinemaVendor
         end
       end
       found
+    end
+
+    # ```asciinema fences -> {% include %}, in place, before the guards
+    # and the fetching run. One rewrite here means one code path after it.
+    def normalise_fences(site)
+      (site.posts.docs + site.pages).each do |doc|
+        next unless doc.respond_to?(:content) && doc.content
+        next unless doc.content.include?('```asciinema')
+
+        rewritten = doc.content.gsub(FENCE_RE) do
+          spec = Regexp.last_match(1).strip.split(/\s+/)
+          raw  = spec.shift.to_s
+          id   = raw[%r{asciinema\.org/a/([A-Za-z0-9_-]+)}, 1] || raw
+
+          unless id.match?(/\A[A-Za-z0-9_-]+\z/)
+            abort_with(
+              "unreadable ```asciinema block in #{doc.relative_path}",
+              ["got: #{raw.inspect}", '',
+               'Expected a recording id, or the URL it appears in:', '',
+               '```asciinema', '132191 start=10', '```']
+            )
+          end
+
+          args = spec.filter_map do |kv|
+            k, v = kv.split('=', 2)
+            %( #{k}="#{v}") if v && %w[start poster].include?(k)
+          end.join
+
+          %({% include asciinema.html id="#{id}"#{args} %})
+        end
+
+        doc.content = rewritten
+      end
     end
 
     # The include is the site's own markup for a recording, and the only
@@ -119,6 +171,7 @@ module AsciinemaVendor
     end
 
     def vendor(site)
+      normalise_fences(site)
       reject_direct_urls(site)
       wanted = referenced(site)
       return if wanted.empty?

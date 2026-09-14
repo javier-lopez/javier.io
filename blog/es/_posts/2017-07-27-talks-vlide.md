@@ -24,7 +24,9 @@ presentada con un plugin, dentro del editor — no se puede ser más meta.
 
 Aquí está la grabación completa:
 
-{% include asciinema.html id="132191" start="10" %}
+```asciinema
+132191 start=10
+```
 
 ### Lo más poderoso: los slides ejecutan
 
