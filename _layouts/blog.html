@@ -1,5 +1,21 @@
 <!DOCTYPE html>
-<html>
+{%- comment -%}
+  Language comes from the folder a post lives in: Jekyll turns
+  blog/es/_posts/ into the categories ['blog','es'], which is already how
+  blog/es.html filters via site.categories.es. List pages are mixed, so
+  they fall back to the site default.
+
+  Declaring it matters twice over on a trilingual site: screen readers
+  were reading all 47 Spanish posts in an English voice, and `hyphens:
+  auto` is inert without a language for the browser to pick a dictionary
+  from.
+{%- endcomment -%}
+{%- assign page_lang = site.lang | default: 'es' -%}
+{%- if page.categories contains 'en' -%}{%- assign page_lang = 'en' -%}
+{%- elsif page.categories contains 'pt' -%}{%- assign page_lang = 'pt' -%}
+{%- elsif page.categories contains 'es' -%}{%- assign page_lang = 'es' -%}
+{%- endif -%}
+<html lang="{{ page_lang }}">
   <head>
     {% include meta.html %}
     {%- comment -%} Posts carry the site name; list pages (index, langs, tags,
@@ -59,6 +75,13 @@
                  aria-label="Filter posts by title"
                  aria-keyshortcuts="/">
         </label>
+        {%- comment -%}
+          Result count / index state. aria-live so screen readers hear the
+          count change as the query narrows, polite so it waits for a pause
+          instead of interrupting every keystroke.
+        {%- endcomment -%}
+        <p id="blog-filter-status" class="blog-filter-status"
+           role="status" aria-live="polite"></p>
 
         <nav class="blog-langs" aria-label="Posts by language">
           <a href="/blog/" data-lang="all">all</a>
@@ -108,23 +131,230 @@
           return Array.prototype.slice.call(
             document.querySelectorAll('.year-group'));
         };
+
+        // --- ranked results --------------------------------------------
+        // Unfiltered, the archive is grouped by year and ordered by date,
+        // which is what an archive is for. A query wants the opposite: the
+        // post named after the term first, whatever year it is from. A
+        // search for "awk" was surfacing "the most portable language in the
+        // world, awk" sixth, under five posts that merely mention it.
+        //
+        // Rows live in a different <ul> per year, and flexbox `order` only
+        // sorts siblings, so ranking means moving nodes into one list. Each
+        // row therefore remembers where it came from.
+        //
+        // Only on pages where a post appears exactly once. /blog/tags/
+        // lists each post once per tag, so a global ordering there would
+        // collapse into duplicate rows.
+        var homeItems = getItems();
+        var yearGroups = getYearGroups();
+        var results = null;
+
+        if (yearGroups.length) {
+          homeItems.forEach(function (li, i) {
+            li._homeParent = li.parentNode;
+            li._homeNext = li.nextSibling;
+            li._homeIndex = i;
+            var t = li.querySelector('time');
+            if (t) li._homeDate = t.textContent;
+          });
+          results = document.createElement('ul');
+          results.className = 'post-list post-results';
+          results.hidden = true;
+          yearGroups[0].parentNode.insertBefore(results, yearGroups[0]);
+        }
+
+        // Ranking bands. Date order survives inside each one because the
+        // sort falls through to _homeIndex.
+        //
+        // The top band is the post whose SLUG is the query: /…/awk.html is
+        // the post about awk, as opposed to the several that mention it in
+        // passing. Two posts here carry "awk" in the title and neither
+        // carries it as a tag, so a plain title test cannot separate them —
+        // it ranked the 2015 imagemagick post above the one actually named
+        // awk, purely because it is newer. The filename is the author's own
+        // statement of what a post is about, which is the signal the title
+        // only approximates.
+        //
+        //   0  slug is the query        3  featured
+        //   1  title hit, featured      4  matched on body or tags only
+        //   2  title hit
+        var rankOf = function (li, inTitle) {
+          var a = li.querySelector('a');
+          var href = (a && a.getAttribute('href')) || '';
+          var slug = href.split('/').pop().replace(/\.html$/, '');
+          if (slug === currentQuery) return 0;
+          var featured = !!li.querySelector('.post-star');
+          if (inTitle) return featured ? 1 : 2;
+          return featured ? 3 : 4;
+        };
+
+        // The year came from the section heading this row no longer sits
+        // under, and the row itself only prints "Sep 30".
+        var showYear = function (li, on) {
+          var t = li.querySelector('time');
+          if (!t || li._homeDate === undefined) return;
+          if (!on) { t.textContent = li._homeDate; return; }
+          var d = (t.getAttribute('datetime') || '').slice(0, 4);
+          t.textContent = d ? li._homeDate + ', ' + d : li._homeDate;
+        };
+
+        var restoreHome = function () {
+          // Backwards: a row's recorded neighbour must already be back in
+          // place before insertBefore can aim at it.
+          for (var i = homeItems.length - 1; i >= 0; i--) {
+            var li = homeItems[i];
+            showYear(li, false);
+            li._homeParent.insertBefore(li, li._homeNext);
+          }
+        };
+
+        // --- full-text index -------------------------------------------
+        // /search.json carries title, tags and body for every post. It is
+        // ~200KB over the wire, so it is fetched lazily on the first
+        // keystroke and never on page load. Until it lands, matching falls
+        // back to titles, which is what this filter did before and needs no
+        // network at all — so typing is responsive from the first character
+        // and silently gets better a moment later.
+        var index = null;        // url -> {g: tags, b: body}
+        var indexState = 'idle'; // idle | loading | ready | failed
+
+        var loadIndex = function () {
+          if (indexState !== 'idle') return;
+          indexState = 'loading';
+          setStatus();
+          fetch('/search.json')
+            .then(function (r) {
+              if (!r.ok) throw new Error('HTTP ' + r.status);
+              return r.json();
+            })
+            .then(function (rows) {
+              index = Object.create(null);
+              rows.forEach(function (row) { index[row.u] = row; });
+              indexState = 'ready';
+              applyFilter();
+            })
+            .catch(function () {
+              // Titles still work; say so rather than failing silently.
+              indexState = 'failed';
+              setStatus();
+            });
+        };
+
+        var status = document.getElementById('blog-filter-status');
+        var shown = 0, total = 0;
+        var setStatus = function () {
+          if (!status) return;
+          var q = input.value.trim();
+          if (!q) { status.textContent = ''; return; }
+          var msg = shown + ' de ' + total;
+          if (indexState === 'loading') msg += ' · buscando en los títulos, cargando el texto completo…';
+          else if (indexState === 'failed') msg += ' · solo títulos (no se pudo cargar el índice)';
+          status.textContent = msg;
+        };
+
+        // A body match needs to show WHY it matched, or the reader is left
+        // staring at a title with no visible relation to the query.
+        //
+        // Built as DOM nodes rather than an HTML string: the query comes
+        // straight from the input, so innerHTML here would let anything
+        // typed into the field execute. createTextNode cannot.
+        //
+        // The window is wide (240 chars) because the line is one line and
+        // CSS clips the overflow — a short window would leave the row half
+        // empty, which is what it did before.
+        var fillSnippet = function (el, body, q) {
+          var at = body.indexOf(q);
+          if (at === -1) return;
+          var from = Math.max(0, at - 60);
+          var to = Math.min(body.length, at + q.length + 240);
+          var text = body.slice(from, to);
+          var offset = at - from;   // where the hit sits inside the slice
+
+          if (from > 0) el.appendChild(document.createTextNode('…'));
+          el.appendChild(document.createTextNode(text.slice(0, offset)));
+          var hit = document.createElement('mark');
+          hit.textContent = text.slice(offset, offset + q.length);
+          el.appendChild(hit);
+          el.appendChild(document.createTextNode(text.slice(offset + q.length)));
+          if (to < body.length) el.appendChild(document.createTextNode('…'));
+        };
+
+        var currentQuery = '';
         var applyFilter = function () {
           var q = input.value.trim().toLowerCase();
           var hasQuery = q.length > 0;
-          getItems().forEach(function (li) {
+          currentQuery = q;
+          var items = results ? homeItems : getItems();
+          total = items.length;
+          shown = 0;
+          var matched = [];
+
+          items.forEach(function (li) {
             var a = li.querySelector('a');
-            var match = !hasQuery || (a && a.textContent.toLowerCase().indexOf(q) !== -1);
+            if (!a) return;
+            var inTitle = a.textContent.toLowerCase().indexOf(q) !== -1;
+            var row = index ? index[a.getAttribute('href')] : null;
+            var inTags = !!(row && row.g && row.g.indexOf(q) !== -1);
+            var inBody = !!(row && row.b && row.b.indexOf(q) !== -1);
+            var match = !hasQuery || inTitle || inTags || inBody;
+
             li.style.display = match ? '' : 'none';
+            if (match) {
+              shown++;
+              if (hasQuery) matched.push({ li: li, rank: rankOf(li, inTitle) });
+            }
+
+            var old = li.querySelector('.post-snippet');
+            if (old) old.remove();
+            // Only when the title itself gives no clue.
+            if (hasQuery && match && !inTitle && inBody) {
+              var s = document.createElement('span');
+              s.className = 'post-snippet';
+              fillSnippet(s, row.b, q);
+              li.appendChild(s);
+            }
           });
-          getYearGroups().forEach(function (section) {
-            var visible = Array.prototype.slice.call(
-              section.querySelectorAll('.post-item')).some(function (li) {
-              return li.style.display !== 'none';
+
+          if (results) {
+            if (hasQuery) {
+              matched.sort(function (a, b) {
+                return a.rank - b.rank || a.li._homeIndex - b.li._homeIndex;
+              });
+              matched.forEach(function (m) {
+                showYear(m.li, true);
+                results.appendChild(m.li);
+              });
+              results.hidden = false;
+              // Every row that still matches now lives in `results`; the
+              // year sections are empty shells, headings included.
+              yearGroups.forEach(function (s) { s.style.display = 'none'; });
+            } else {
+              restoreHome();
+              results.hidden = true;
+              yearGroups.forEach(function (s) { s.style.display = ''; });
+            }
+          } else {
+            getYearGroups().forEach(function (section) {
+              var visible = Array.prototype.slice.call(
+                section.querySelectorAll('.post-item')).some(function (li) {
+                return li.style.display !== 'none';
+              });
+              section.style.display = hasQuery && !visible ? 'none' : '';
             });
-            section.style.display = hasQuery && !visible ? 'none' : '';
-          });
+          }
+
+          // The year chart describes the whole archive, not the result set.
+          var hist = document.querySelector('.year-histogram');
+          if (hist) hist.style.display = hasQuery ? 'none' : '';
+
+          setStatus();
         };
-        input.addEventListener('input', applyFilter);
+
+        input.addEventListener('input', function () {
+          if (input.value.trim()) loadIndex();
+          applyFilter();
+        });
 
         // Honor ?q=<term> from URL (post page sent us here via Enter).
         var params = new URLSearchParams(window.location.search);

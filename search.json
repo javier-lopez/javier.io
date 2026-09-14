@@ -1,0 +1,28 @@
+---
+layout: null
+permalink: /search.json
+sitemap: false
+---
+{%- comment -%}
+  Full-text index for the archive filter, built at deploy time.
+
+  The header filter used to match `post.title` only, which on a 188-entry
+  archive meant "docker" found nothing unless a title happened to contain
+  the word. This ships title, tags and body so the field searches what the
+  posts actually say.
+
+  Keys are one letter because the array repeats them 188 times: `body`
+  instead of `b` alone would add several KB of nothing but key names.
+  Bodies are lowercased here rather than in the browser so the client does
+  no per-keystroke case folding, and `strip_html` + `normalize_whitespace`
+  drop the markup and the indentation runs that Jekyll leaves behind.
+
+  Fetched once, lazily, on the first keystroke — never on page load.
+{%- endcomment -%}
+[
+{%- for post in site.posts -%}
+{%- assign body = post.content | strip_html | normalize_whitespace | downcase -%}
+{"t":{{ post.title | jsonify }},"u":{{ post.url | jsonify }},"g":{{ post.tags | join: " " | jsonify }},"b":{{ body | jsonify }}}
+{%- unless forloop.last -%},{%- endunless -%}
+{%- endfor -%}
+]

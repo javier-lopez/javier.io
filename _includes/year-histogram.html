@@ -1,0 +1,39 @@
+{%- comment -%}
+  Posts-per-year bar chart, rendered above the archive list.
+
+  Why it exists: the archive is 188 entries over 18 years presented as one
+  flat reverse-chronological list, so 2010 — the most prolific year, 36
+  posts — sits ~170 rows below the fold and is effectively unreachable.
+  The bars give that shape a surface and every year a direct link.
+
+  Pure Liquid + CSS, no script: each bar's height is its share of the
+  busiest year, written as an inline percentage at build time. Bars are
+  <a> so they work without JavaScript and are keyboard reachable; the
+  anchors are the #y-<year> ids the archive sections already need.
+
+  Usage: {% include year-histogram.html posts=site.posts %}
+{%- endcomment -%}
+{%- assign hist = include.posts | group_by_exp: "post", "post.date | date: '%Y'" -%}
+{%- assign by_size = hist | sort: "size" -%}
+{%- assign busiest = by_size | last -%}
+{%- assign peak = busiest.size -%}
+{%- assign chron = hist | sort: "name" -%}
+<nav class="year-histogram" aria-label="Entradas por año">
+  <ol class="year-histogram-bars">
+    {%- for g in chron -%}
+      {%- assign pct = g.size | times: 100 | divided_by: peak -%}
+      <li class="year-histogram-bar">
+        <a href="#y-{{ g.name }}"
+           style="--h: {{ pct }}%"
+           aria-label="{{ g.name }}: {{ g.size }} entradas">
+          <span class="year-histogram-fill" aria-hidden="true"></span>
+          <span class="year-histogram-count" aria-hidden="true">{{ g.size }}</span>
+          <span class="year-histogram-year" aria-hidden="true">{{ g.name | slice: 2, 2 }}</span>
+        </a>
+      </li>
+    {%- endfor -%}
+  </ol>
+  <p class="year-histogram-total">
+    {{ include.posts | size }} entradas · {{ chron.first.name }}–{{ chron.last.name }}
+  </p>
+</nav>

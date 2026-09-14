@@ -9,10 +9,26 @@
   Reading time = words / 250 wpm + 1 min floor. Shared with the per-post
   date line inside post.html so the value stays consistent.
 {%- endcomment -%}
+{%- comment -%}
+  vt=true opts a list into named view transitions: the row gets a
+  view-transition-name matching the <h2> of the post it links to, so the
+  browser tweens the title across documents instead of cross-fading the
+  whole page.
+
+  OPT-IN, not automatic, because the name must be unique WITHIN a
+  document. /blog/tags/ lists every post once per tag, so turning this on
+  everywhere produced 324 names for 188 posts — duplicates, which are
+  invalid and make the browser skip the transition. Only pass vt=true from
+  pages that list each post exactly once: the archive and the language
+  filters.
+
+  Prefixed with t- because a CSS ident cannot start with a digit and some
+  slugs do. Browsers without view transitions ignore the property.
+{%- endcomment -%}
 {%- assign rt = include.post.content | number_of_words | divided_by: 250 | plus: 1 -%}
 {%- assign date_fmt = include.date_format | default: "%b %-d" -%}
 <li class="post-item">
-  <a href="{{ include.post.url }}">{{ include.post.title }}{% if include.post.featured %} <span class="post-star" aria-hidden="true">★</span>{% endif %}</a>
+  <a href="{{ include.post.url }}"{% if include.vt %} style="view-transition-name: t-{{ include.post.slug }}"{% endif %}>{{ include.post.title }}{% if include.post.featured %} <span class="post-star" aria-hidden="true">★</span>{% endif %}</a>
   <span class="post-readtime-badge" aria-label="Reading time">~{{ rt }} min</span>
   <time datetime="{{ include.post.date | date: '%Y-%m-%d' }}">{{ include.post.date | date: date_fmt }}</time>
 </li>

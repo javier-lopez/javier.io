@@ -2,6 +2,12 @@
 layout: blog
 ---
 {% assign read_time = content | number_of_words | divided_by: 250 | plus: 1 %}
+{%- comment -%}
+  The post heading is authored in markdown, so its transition name is
+  applied from here. One rule per page: the name only has to be unique
+  WITHIN a document, and this document has exactly one such heading.
+{%- endcomment -%}
+<style>#post h2:first-of-type { view-transition-name: t-{{ page.slug }}; }</style>
 <div id="post" data-readtime="{{ read_time }}"{% if page.featured %} data-featured{% endif %}>
   {{ content }}
 </div>

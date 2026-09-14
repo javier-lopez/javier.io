@@ -673,6 +673,7 @@ body.blog-page::before {
     grid-template-columns: 1fr auto;
     grid-template-areas:
       "brand search"
+      ".     status"
       ".     langs";
     align-items: baseline;
     column-gap: 1.5rem;
@@ -680,7 +681,19 @@ body.blog-page::before {
   }
   .blog-brand        { grid-area: brand; }
   .blog-search-wrap  { grid-area: search; }
+  .blog-filter-status{ grid-area: status; justify-self: end; margin: 0; }
   .blog-langs        { grid-area: langs; justify-self: end; }
+  /* A post page has no .post-list to filter, so the status line has
+     nothing it could ever report there. Left in, its row (plus the
+     row-gap on either side) pushed the article 26px further down than on
+     the deployed site. Drop the row rather than the element, or the gaps
+     survive the hidden child. */
+  body.blog-page.is-post .blog-header {
+    grid-template-areas:
+      "brand search"
+      ".     langs";
+  }
+  body.blog-page.is-post .blog-filter-status { display: none; }
 
 }
 
@@ -829,6 +842,12 @@ body.blog-page::before {
 /* Tighter gap above the first year so it sits closer to the langs nav. */
 .year-group:first-of-type .year-heading { margin-top: 0; }
 
+/* Search results, ranked. Replaces the year sections while a query is
+   active — those are grouped by date and a ranking is not, so the two
+   cannot both be on screen. Takes the year sections' own bottom margin
+   so the page does not shift as results appear. */
+.post-results { margin: 0 0 2rem; }
+
 .post-list {
   list-style: none;
   padding: 0;
@@ -836,6 +855,7 @@ body.blog-page::before {
 }
 .post-list .post-item {
   display: flex;
+  flex-wrap: wrap;   /* lets .post-snippet claim its own line when present */
   justify-content: space-between;
   align-items: baseline;
   gap: 1rem;
@@ -1079,6 +1099,7 @@ body.blog-page.is-post { background: transparent; }
   margin: 0 0 1.2em;
   color: #c8c8cc;
 }
+
 .is-post #post a { color: #B03A44; }
 .is-post #post a:hover { color: #CD0D1D; text-decoration: underline; }
 
@@ -1491,4 +1512,167 @@ body.blog-page.is-post { background: transparent; }
   width: 100%;
   max-width: 650px;
   box-sizing: border-box;
+}
+
+/************************************************************************/
+/************************ cross-document transitions ********************/
+/************************************************************************/
+
+/* Native multi-page view transitions. Cross-browser since Chrome 126 and
+   Safari 18.2; browsers without it ignore the at-rule and navigate the way
+   they always did, so there is no fallback to write and no JavaScript.
+   Replaces the white flash between archive and post with a cross-fade. */
+@view-transition {
+  navigation: auto;
+}
+
+/* Named pairs: the browser matches elements sharing a view-transition-name
+   across the two documents and tweens between them, so a post title flies
+   from its row in the archive to its place as the heading. The names are
+   emitted per post by post-list-item.html and post.html.
+
+   The `contain` the spec applies to a named element would collapse a
+   floated/absolutely-positioned child, so only the title text carries a
+   name — never a layout container. */
+::view-transition-group(*) {
+  animation-duration: 0.25s;
+}
+
+/* Anyone who has asked the OS for less motion gets the plain navigation
+   back. `navigation: none` disables the whole feature rather than merely
+   shortening it, which is the honest reading of the preference. */
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+}
+
+/************************************************************************/
+/*********************** archive year histogram *************************/
+/************************************************************************/
+
+/* Bars sit between the language nav and the first year section. Heights
+   come from an inline --h custom property written by Liquid, so the chart
+   is static HTML with no measuring step and no script. */
+.year-histogram { margin: 0 0 2.5rem; }
+.year-histogram-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 74px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.year-histogram-bar {
+  flex: 1 1 0;
+  min-width: 0;      /* let 19 bars share any width instead of overflowing */
+  height: 100%;
+  padding: 0;
+  display: flex;
+  align-items: flex-end;
+}
+.year-histogram-bar::before { content: none !important; }
+.year-histogram-bar a {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  color: #7a7a80;
+}
+.year-histogram-fill {
+  display: block;
+  width: 100%;
+  height: var(--h);
+  min-height: 2px;   /* a year with one post still gets a visible mark */
+  background: #3a3a42;
+  border-radius: 2px 2px 0 0;
+  transition: background-color 0.15s ease;
+}
+.year-histogram-bar a:hover .year-histogram-fill,
+.year-histogram-bar a:focus-visible .year-histogram-fill {
+  background: #B03A44;   /* the site's link red, so the chart reads as navigation */
+}
+.year-histogram-year {
+  font: 0.7rem/1.6 'PT Sans', sans-serif;
+  text-align: center;
+  letter-spacing: 0.04em;
+}
+/* The count rides above its bar and only on hover/focus, so the resting
+   state stays a clean silhouette. */
+.year-histogram-count {
+  position: absolute;
+  bottom: calc(var(--h) + 1.4rem);
+  left: 50%;
+  transform: translateX(-50%);
+  font: 0.72rem/1 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  color: #c8c8cc;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+.year-histogram-bar a:hover .year-histogram-count,
+.year-histogram-bar a:focus-visible .year-histogram-count { opacity: 1; }
+.year-histogram-total {
+  margin: 0.5rem 0 0;
+  text-align: right;
+  font: 0.8rem 'PT Sans', sans-serif;
+  color: #6a6a70;
+  letter-spacing: 0.04em;
+}
+/* Below ~560px nineteen bars plus labels stop being legible; drop every
+   other label rather than shrinking the type into illegibility. */
+@media (max-width: 560px) {
+  .year-histogram-bars { height: 56px; gap: 2px; }
+  .year-histogram-bar:nth-child(even) .year-histogram-year { visibility: hidden; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .year-histogram-fill,
+  .year-histogram-count { transition: none; }
+}
+
+/************************************************************************/
+/**************************** search results ****************************/
+/************************************************************************/
+
+/* Result count / index state, in its own header grid row under the input. */
+.blog-filter-status {
+  margin: 0.35rem 0 0;
+  text-align: right;
+  font: 0.78rem 'PT Sans', sans-serif;
+  color: #7a7a80;
+  letter-spacing: 0.03em;
+  min-height: 1em;            /* reserve the line so nothing jumps */
+  pointer-events: none;
+}
+
+/* Context line for a post matched on its body rather than its title —
+   without it the row looks unrelated to what was typed.
+
+   Exactly one line, clipped at the far edge: the JS hands over a window
+   far wider than fits and the ellipsis lands wherever the column ends, so
+   every snippet spans the full list width instead of stopping halfway
+   across at whatever length the slice happened to be. */
+.post-snippet {
+  flex: 0 0 100%;
+  min-width: 0;
+  margin: 0.15rem 0 0.4rem;
+  font: 0.78rem/1.5 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  color: #6f6f76;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* The matched term. <mark>'s UA default is black on yellow, which on this
+   background reads as a highlighter pen; the site's own link red over a
+   faint wash of itself says "this is what you searched for" in a palette
+   the page already uses. */
+.post-snippet mark {
+  background: rgba(176, 58, 68, 0.25);
+  color: #f2ccd0;
+  border-radius: 2px;
+  padding: 0 0.15em;
 }
