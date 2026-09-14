@@ -161,6 +161,11 @@ module AsciinemaVendor
       FileUtils.mkdir_p(File.dirname(dest))
       buffer = StringIO.new
       gz = Zlib::GzipWriter.new(buffer, Zlib::BEST_COMPRESSION)
+      # gzip stores an mtime in its header, so the default would give the
+      # same recording different bytes on every fetch and show up as a
+      # modified binary file for no reason. Pin it: the same cast always
+      # compresses to the same file.
+      gz.mtime = 0
       gz.write(body)
       gz.close
       File.binwrite(dest, buffer.string)
