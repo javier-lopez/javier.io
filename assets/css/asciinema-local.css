@@ -1,0 +1,85 @@
+/* Terminal font for self-hosted asciinema playback.
+ *
+ * The player's own default is
+ *   "Cascadia Code", "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono", monospace
+ * — every entry a font the visitor either has installed or does not. On a
+ * machine with none of them the canvas renderer drew zero ink: measured at
+ * 0 non-background pixels across a 900x200 sample, solid .notdef boxes
+ * where the glyphs should be. Pointing it at a face this site already
+ * ships took the same sample to 192.
+ *
+ * JetBrains Mono is already self-hosted here (assets/css/fonts.css) and
+ * already used for code, so the recording gets the site's own monospace
+ * rather than a lottery over what the reader's OS happens to have — the
+ * same reasoning that put the recording itself in this repo.
+ *
+ * Kept out of the vendored asciinema-player.css so that file stays a
+ * verbatim copy and can be replaced wholesale on upgrade.
+ */
+.ap-player.ap-default-term-ff {
+  --term-font-family: 'JetBrains Mono', 'SF Mono', Consolas, 'DejaVu Sans Mono', monospace;
+}
+
+/* The player lays the terminal out in em against its own font-size, so it
+ * must not inherit the prose measure or colour rules the post applies to
+ * block elements around it. */
+.asciinema-cast {
+  margin: 2rem 0;
+}
+.asciinema-cast .ap-player {
+  max-width: 100%;
+}
+.asciinema-fallback {
+  margin: 0;
+  font: 0.9rem 'PT Sans', sans-serif;
+}
+
+/* Neutralise the site's own <pre> styling inside the player.
+ *
+ * The terminal's text layer is a <pre class="ap-term-text">, and
+ * `.is-post #post pre` sets `font-size: 0.9rem` — 14.4px — on every <pre>
+ * in a post, for code blocks. The player sizes the terminal at 24px and
+ * positions each line absolutely with
+ * `top: calc(var(--term-line-height) * var(--row))`, metrics derived from
+ * that 24px. Overriding the font-size left the lines laid out for one size
+ * and drawn at another: measured 14.4px on .ap-line against 23.99px on its
+ * .ap-term parent, and the visible result was the canvas's background
+ * blocks with no glyphs on top of them.
+ *
+ * Everything here is a reset to the player's own expectations, not a
+ * design choice — which is why it names each property the site sets
+ * rather than reaching for a blanket `all: revert`.
+ *
+ * The selector carries #post because the rule it has to outrank does:
+ * `.is-post #post pre` scores one id and one class, which beats any
+ * number of classes. Two classes under the same id wins. */
+#post .asciinema-cast pre.ap-term-text {
+  /* The one that is not cosmetic. Lines are absolutely positioned with
+     `top: calc(100% * var(--row) / var(--term-rows))`, and that 100%
+     resolves against the nearest positioned ancestor. The player intends
+     that to be div.ap-term, which carries `position: relative` and an
+     explicit height; the text layer is deliberately left static. The
+     site's `.is-post #post pre` sets `position: relative` for code-block
+     copy buttons, which made the text layer the containing block instead
+     — and since every one of its children is absolute, its height is 0,
+     so 100% of it is 0 and all 59 rows piled onto row 0. */
+  position: static;
+  font-size: inherit;
+  line-height: inherit;
+  font-family: inherit;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  color: inherit;
+  overflow: visible;
+  max-width: none;
+  clear: none;
+  text-align: left;
+  white-space: pre;
+  letter-spacing: normal;
+  hyphens: none;
+}
+#post .asciinema-cast pre.ap-term-text::before,
+#post .asciinema-cast pre.ap-term-text::after { content: none; }

@@ -24,7 +24,14 @@ presentada con un plugin, dentro del editor — no se puede ser más meta.
 
 Aquí está la grabación completa:
 
-<script id="asciicast-132191" src="https://asciinema.org/a/132191.js" data-start-at="10" async></script>
+<link rel="stylesheet" href="/assets/css/asciinema-player.css">
+<link rel="stylesheet" href="/assets/css/asciinema-local.css">
+<div class="asciinema-cast"
+     data-cast="/assets/asciinema.org/casts/132191.json.gz"
+     data-start-at="10"
+     data-fallback="https://asciinema.org/a/132191"></div>
+<script src="/assets/js/asciinema-player.min.js"></script>
+<script src="/assets/js/asciinema-local.js"></script>
 
 ### Lo más poderoso: los slides ejecutan
 
