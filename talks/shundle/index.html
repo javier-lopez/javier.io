@@ -18,6 +18,11 @@ URL: https://code.google.com/p/io-2012-slides
   <!--<meta name="viewport" content="initial-scale=0.4">-->
   <meta name="apple-mobile-web-app-capable" content="yes">
 
+  <!-- Open Sans + Source Code Pro, self-hosted. Replaces the runtime
+       fonts.googleapis.com <link> that js/slide-deck.js#addFonts_ used to
+       inject from the `fonts:` array in slide_config.js (now commented out
+       there). Same faces, no third-party request. -->
+  <link rel="stylesheet" media="all" href="theme/css/fonts.css">
   <link rel="stylesheet" media="all" href="theme/css/default.css">
   <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="theme/css/phone.css">
   <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
@@ -615,21 +620,19 @@ _shundle_expose aliazator=". ${plugin}/aliazator/bin/aliazator"
 
 </slides>
 
-<script>
-var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-XXXXXXXX-1']);
-_gaq.push(['_trackPageview']);
+<!-- Removed 2026-09-13, both inherited unchanged from the Google I/O 2012
+     slide template:
 
-(function() {
-  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-})();
-</script>
+     1. Google Analytics (classic ga.js). Its account was never set — it
+        still carried the template's literal placeholder 'UA-XXXXXXXX-1' —
+        so every visit fired a beacon and set __utma/__utmz cookies for a
+        property that does not exist. No metrics were lost by deleting it,
+        because none were ever collected.
 
-<!--[if IE]>
-  <script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
-  <script>CFInstall.check({mode: 'overlay'});</script>
-<![endif]-->
+     2. A Chrome Frame installer inside an <!--[if IE]> conditional. Dead
+        three times over: no browser since IE9 evaluates the conditional,
+        Chrome Frame was retired in 2014, and the script Google still
+        serves at that URL is a stub whose check() only logs a warning.
+-->
 </body>
 </html>

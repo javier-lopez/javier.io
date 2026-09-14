@@ -1,0 +1,43 @@
+/*
+ * Open Sans + Source Code Pro, self-hosted for this archived deck.
+ *
+ * Until 2026-09-13 js/slide-deck.js#addFonts_ built a fonts.googleapis.com
+ * URL at runtime from the `fonts:` array in slide_config.js. That array is
+ * now commented out and index.html links this file instead, so the deck
+ * renders in its original faces with no third-party request.
+ *
+ * Latin subset only: the talk is in Spanish, and Spanish lives entirely in
+ * U+0000-00FF (ñ U+00F1, á U+00E1, ¿ U+00BF). Google also serves latin-ext,
+ * cyrillic, greek and vietnamese cuts; none would ever be fetched here.
+ *
+ * Open Sans is a variable font: Google returns the SAME .woff2 URL for the
+ * regular and semibold the deck asks for, so each style is declared once
+ * with a `font-weight` range instead of duplicating the block per weight.
+ */
+/* latin */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url(../fonts/opensans-memvYaGs126MiZpBA-UvWbX2vVnXBbObj2OVTS-muw.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url(../fonts/opensans-memtYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWqWuU6F.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin */
+@font-face {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../fonts/sourcecodepro-HI_diYsKILxRpg3hIP6sJ7fM7PqPMcMnZFqUwX28DMyQtMlrTA.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
