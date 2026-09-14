@@ -1,0 +1,25 @@
+{%- comment -%}
+  A self-hosted asciinema recording.
+
+      {% include asciinema.html id="132191" %}
+      {% include asciinema.html id="132191" start="10" %}
+
+  `id` is the asciinema.org recording id. The .cast itself is vendored
+  into assets/asciinema.org/casts/<id>.json.gz — _plugins/asciinema_vendor.rb
+  fetches it on the first local build and fails CI if it was never
+  committed, so writing this line is the whole job.
+
+  Only the container is emitted here. The stylesheet and scripts are
+  emitted once per page by _layouts/post.html, which can see the finished
+  document and therefore knows whether any cast is present — an include
+  cannot, and would load them again for a second recording on the same
+  page.
+
+  start: seconds to begin playback at, for recordings with a slow opening.
+  poster: an asciinema poster spec, e.g. "npt:1:23".
+{%- endcomment -%}
+<div class="asciinema-cast"
+     data-cast="/assets/asciinema.org/casts/{{ include.id }}.json.gz"
+     {%- if include.start %} data-start-at="{{ include.start }}"{% endif %}
+     {%- if include.poster %} data-poster="{{ include.poster }}"{% endif %}
+     data-fallback="https://asciinema.org/a/{{ include.id }}"></div>

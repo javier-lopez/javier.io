@@ -12,6 +12,20 @@ layout: blog
   {{ content }}
 </div>
 
+{%- comment -%}
+  Player assets, emitted only for posts that actually hold a recording,
+  and exactly once however many they hold. This lives in the layout
+  rather than in _includes/asciinema.html because the layout can see the
+  rendered document; an include cannot know whether it is the first or
+  the third on the page, and would load the player again for each.
+{%- endcomment -%}
+{% if content contains 'asciinema-cast' %}
+<link rel="stylesheet" href="/assets/css/asciinema-player.css">
+<link rel="stylesheet" href="/assets/css/asciinema-local.css">
+<script src="/assets/js/asciinema-player.min.js"></script>
+<script src="/assets/js/asciinema-local.js"></script>
+{% endif %}
+
 {% if page.next or page.previous or page.tags.size > 0 %}
   {%- comment -%}
     Post footer — combines chronological navigation (older ← / → newer)
