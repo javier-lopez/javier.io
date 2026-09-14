@@ -50,8 +50,20 @@ jobs:
           ARCHIVE_ORG_SECRET_KEY: ${{ secrets.ARCHIVE_ORG_SECRET_KEY }}
         run: |
           # Authenticated Save Page Now (SPN2). The anonymous GET endpoint
-          # 429s shared runner IPs; an authenticated account gets 12
-          # concurrent captures and 100k/day.
+          # 429s shared runner IPs; an authenticated account gets its own
+          # quota. Measured on this account, not taken from the widely
+          # repeated "12 concurrent captures and 100k/day":
+          #
+          #   $ curl -H "Authorization: LOW $KEY:$SECRET" \
+          #       https://web.archive.org/save/status/user
+          #   {"processing":0,"available":3,"daily_captures":10,
+          #    "daily_captures_limit":30000,"daily_status":0}
+          #
+          # Three concurrent sessions, thirty thousand a day. This job
+          # submits two index pages plus the posts one commit touched, so
+          # it only brushes the concurrency cap on a commit that changes
+          # more than one post -- hence the retry below. A bulk run needs
+          # to wait on `available` instead.
           #
           # Key setup (one-time): log in at archive.org, generate the
           # S3-style key pair at https://archive.org/account/s3.php, and
