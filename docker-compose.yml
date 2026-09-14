@@ -4,5 +4,30 @@ services:
     ports:
       - "5000:5000"
       - "35729:35729"   # livereload (browser refresh on file change)
+    # Without this the container runs as root, and anything it creates in
+    # the mounted tree lands on the host as root:root. That was harmless
+    # while Jekyll only wrote _site — but _plugins/asciinema_vendor.rb now
+    # downloads .cast files INTO the repo, and those came out unwritable
+    # by the person who has to commit them.
+    #
+    # UID is a bash variable that is not exported, and GID is not a shell
+    # variable at all, so compose almost always falls through to the
+    # defaults. They are the right defaults (the first user on a Linux or
+    # WSL box is 1000:1000) and the substitution is the escape hatch for a
+    # machine where they are not: set them in the environment or in a .env
+    # file next to this one.
+    #
+    # Adopting this on a tree that already has root-owned build artifacts
+    # fails immediately and confusingly: Jekyll dies on the first boot
+    # with EACCES on .jekyll-cache, because the unprivileged process
+    # cannot write a cache root left behind by the privileged one. Clear
+    # them once, from inside the container so no sudo is needed:
+    #
+    #   docker compose down
+    #   docker compose run --rm --user root --no-deps --entrypoint sh jekyll \
+    #     -c 'rm -rf /srv/jekyll/_site /srv/jekyll/.jekyll-cache'
+    #
+    # Both are gitignored and regenerated on the next build.
+    user: "${UID:-1000}:${GID:-1000}"
     volumes:
       - .:/srv/jekyll
