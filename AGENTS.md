@@ -4,6 +4,19 @@ A Jekyll blog, built and served entirely through Docker. What follows is only
 the handful of things that are expensive to get wrong and invisible from the
 code itself.
 
+## Keep README.md as small as it can be
+
+The README exists to get somebody running, and it is finished when it does.
+It holds the commands and nothing else: no rationale, no gotchas, no notes on
+why something is written the way it is, no section announcing a file that is
+already discoverable on its own.
+
+So when a change here adds a capability or a trap, the reflex to reach for the
+README is the wrong one. Explanations belong where the thing they explain
+lives: a comment beside the code, or a section in this file. Correcting a
+command in the README that is actually wrong is always in scope; growing the
+README around it is not.
+
 ## The dev server port is a variable, not a constant
 
 `docker compose up` fails like this when 5000 is taken:
@@ -18,8 +31,9 @@ The error names no remedy. This is it:
 JEKYLL_PORT=5100 docker compose up -d
 ```
 
-`JEKYLL_LIVERELOAD_PORT` (default `35729`) works the same way. Either can also
-go in a `.env` file next to `docker-compose.yml`, which is gitignored.
+`JEKYLL_LIVERELOAD_PORT` (default `35729`) works the same way. Pass them on the
+command line; a port belongs to one machine, so it is not written to a file the
+repo carries.
 
 Two wrong ways out of that error:
 
