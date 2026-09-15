@@ -21,7 +21,7 @@ plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
 
-exclude:      [deploy, setup, TODO.md]
+exclude:      [deploy, setup, TODO.md, AGENTS.md, CLAUDE.md]
 safe:        false
 future:      true
 # Off since related entries moved to tag-overlap (_includes/related.html);
