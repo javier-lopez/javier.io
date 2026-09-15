@@ -5,3 +5,7 @@ _site
 *.png
 !assets/img/**/*.png
 !assets/**/*.png
+
+# Per-machine compose overrides (JEKYLL_PORT and friends). Machine-specific
+# by definition: committing one would force everybody onto one port.
+.env

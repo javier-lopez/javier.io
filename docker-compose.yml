@@ -2,8 +2,11 @@ services:
   jekyll:
     build: .
     ports:
-      - "5000:5000"
-      - "35729:35729"   # livereload (browser refresh on file change)
+      - "${JEKYLL_PORT:-5000}:${JEKYLL_PORT:-5000}"
+      - "${JEKYLL_LIVERELOAD_PORT:-35729}:${JEKYLL_LIVERELOAD_PORT:-35729}"
+    environment:
+      JEKYLL_PORT: "${JEKYLL_PORT:-5000}"
+      JEKYLL_LIVERELOAD_PORT: "${JEKYLL_LIVERELOAD_PORT:-35729}"
     # Without this the container runs as root, and anything it creates in
     # the mounted tree lands on the host as root:root. That was harmless
     # while Jekyll only wrote _site — but _plugins/asciinema_vendor.rb now
