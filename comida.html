@@ -925,7 +925,6 @@
            despensa. Todo lo demás se fue al sartén y a la olla, donde la
            cantidad sale gratis. */
         "freidora|Yuca":          "Hervida 15 min y bien escurrida, cortada en palitos gruesos. Spray de aguacate y freidora 200 °C 15 min — a esa temperatura el spray de oliva humea, el de aguacate no.",
-        "freidora|Ocumo":         "Pelado y en trozos, hervido 10 min, escurrido y con un toque de spray de aguacate. Freidora 200 °C 15 min para que dore.",
         "freidora|Batata":        "En cubos con un toque de spray de aguacate, freidora 190 °C 20 min, sacudiendo la cesta a la mitad.",
         "freidora|Plátano verde": "Hervido 10 min, aplastado, spray de aguacate por ambas caras. Freidora 200 °C 12 min. Quedan como tostones con una fracción de la grasa de un sartén.",
 
@@ -1013,9 +1012,8 @@
         "estufa|Sardinas frescas":         8,
         "estufa|Huevos":                   8,
         "estufa|Berenjena":               18,
-        "estufa|Ñame":                    20,
         "estufa|Batata":                  15,
-        "estufa|Ocumo":                   15
+        "estufa|Yuca":                    20
       };
       var MIN_ESTUFA = 12;   // verdura al sartén o al vapor, si no está en la tabla
       var MIN_HUEVERA = 12;
@@ -1247,11 +1245,11 @@
           ],
           platillos: [
             {
-              n: "Muslo de pollo guisado con ocumo",
+              n: "Muslo de pollo guisado con yuca",
               reglas: ["sin piel", "guisado"],
               comp: [
                 c("estufa", "Muslo de pollo sin piel", 180, "g", "proteina"),
-                c("estufa", "Ocumo", 180, "g", "verdura", "Pelado y en trozos, hervido 15 min hasta que ceda al tenedor."),
+                c("estufa", "Yuca", 180, "g", "verdura", "Pelada y en trozos, sin el hilo duro del centro, hervida 20 min hasta que ceda al tenedor."),
                 c("crudo", "Repollo", 80, "g", "verdura")
               ],
               calentar: "Microondas 3 min tapado.",
@@ -1293,11 +1291,11 @@
               servir: "Ensalada rallada al lado, con limón."
             },
             {
-              n: "Sopa de arvejas con ñame y pollo",
+              n: "Sopa de arvejas con auyama y pollo",
               reglas: ["sopa", "sin hueso de cochino"],
               comp: [
                 c("olla", "Arvejas secas", 80, "g", "grano"),
-                c("estufa", "Ñame", 150, "g", "verdura", "En trozos, hervido con las arvejas los últimos 15 min."),
+                c("estufa", "Auyama", 150, "g", "verdura", "En trozos, hervida con las arvejas los últimos 12 min. Al deshacerse un poco espesa el caldo sola, sin harina."),
                 c("estufa", "Muslo de pollo sin piel", 120, "g", "proteina")
               ],
               calentar: "Fuego bajo 5 min.",
@@ -1315,10 +1313,10 @@
               servir: "Limón."
             },
             {
-              n: "Ocumo dorado con huevo y ensalada de remolacha",
+              n: "Yuca dorada con huevo y ensalada de remolacha",
               reglas: ["a la freidora", "huevo duro"],
               comp: [
-                c("freidora", "Ocumo", 180, "g", "verdura"),
+                c("freidora", "Yuca", 180, "g", "verdura"),
                 c("huevera", "Huevos", 2, "u", "proteina"),
                 c("crudo", "Remolacha", 100, "g", "verdura"),
                 c("fresco", "Aguacate", 0.5, "u", "verdura")
@@ -1615,11 +1613,10 @@
           sufijo: "de aguacero",
           nota: "Mayo y el agua: todo un punto más caliente y más aromático. Las cremas y las sopas de la despensa mandan esta semana.",
           sazon: {
-            "Auyama":          "Con jengibre fresco rallado al licuar. Levanta la crema sin una gota de grasa.",
+            "Auyama":          "Con jengibre fresco rallado: en la crema al licuar, y en la sopa dentro del caldo.",
             "Lentejas":        "Más caldosas de lo normal y con un punto de jengibre: se comen con cuchara.",
             "Arvejas secas":   "Más caldosas, con cilantro y jengibre.",
             "Garbanzos":       "Con caldo abundante, que quede de sopa y no de guiso.",
-            "Ñame":            "En trozos grandes, que espese el caldo al deshacerse un poco.",
             "Caraotas negras":    "Bien caldosas y con un punto de jengibre. Se comen con cuchara.",
             "Yuca":               "En trozos grandes dentro del caldo en vez de a la freidora, si el día pide sopa.",
             "Pechuga de pollo":   "Con jengibre y ajo en el adobo: calienta por dentro."
@@ -1692,8 +1689,7 @@
             "Batata":     "Con canela y paprika: dulce y ahumada a la vez.",
             "Garbanzos":  "Tostados aparte en el sartén con comino y paprika, para picar. Crujen.",
             "Zanahoria":  "Asada con canela, más dulce de lo normal.",
-            "Ocumo":           "Con paprika ahumada: sabe a fogata.",
-            "Ñame":            "Con clavo y pimienta dentro del caldo.",
+            "Yuca":            "Con paprika ahumada al salir de la freidora: sabe a fogata.",
             "Arvejas secas":   "Con comino tostado en el sartén antes de echarlo. Cambia todo el plato.",
             "Remolacha":       "Rallada y con clavo molido, que le va mejor de lo que parece."
           },
@@ -1710,7 +1706,7 @@
           sazon: {
             "Auyama":    "Con jugo y ralladura de naranja, y canela. Es el sabor de la calabaza en tacha, sin el papelón.",
             "Batata":    "Con ralladura de naranja encima al salir de la freidora.",
-            "Ocumo":     "Con canela y un toque de naranja: raro y bueno.",
+            "Yuca":      "Con mojo de naranja por encima: jugo, ajo machacado y cilantro.",
             "Lentejas":  "Con naranja: el jugo de media naranja al final le levanta todo el plato.",
             "Caraotas negras":   "Con una tira de cáscara de naranja dentro de la olla. Se saca al final.",
             "Garbanzos":         "Con naranja y canela: dulces sin llevar una pizca de azúcar.",
@@ -1856,8 +1852,6 @@
         // Verdura en cubos: la taza.
         "Auyama":  [150, "taza", "tazas"],
         "Batata":  [150, "taza", "tazas"],
-        "Ocumo":   [150, "taza", "tazas"],
-        "Ñame":    [150, "taza", "tazas"],
         "Yuca":    [150, "taza", "tazas"],
         "Chayota": [150, "taza", "tazas"],
 
