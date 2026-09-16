@@ -2559,20 +2559,28 @@
       function pintarTodo() {
         pintarSemana(hoy);
         pintarCompras(hoy, semanasCompra);
-        pintarTanda(hoy, diasTanda);
+        elegirDias(diasPorDefecto(hoy));
       }
 
       var semanasCompra = 1;
-      var diasTanda = 4;
+      var diasTanda;
+
+      // Jessi viene lunes y jueves: el lunes cocina hasta el miércoles y el
+      // jueves hasta el domingo, así una tanda no repite platos de la otra.
+      function diasPorDefecto(fecha) { return indiceDia(fecha) === 0 ? 3 : 4; }
+
+      function elegirDias(n) {
+        diasTanda = n;
+        Array.prototype.forEach.call(document.querySelectorAll("#dias-botones button"), function (b) {
+          b.setAttribute("aria-pressed", +b.dataset.dias === n ? "true" : "false");
+        });
+        pintarTanda(hoy, diasTanda);
+      }
 
       document.getElementById("dias-botones").addEventListener("click", function (ev) {
         var btn = ev.target.closest("button[data-dias]");
         if (!btn) return;
-        diasTanda = +btn.dataset.dias;
-        Array.prototype.forEach.call(this.querySelectorAll("button"), function (b) {
-          b.setAttribute("aria-pressed", b === btn ? "true" : "false");
-        });
-        pintarTanda(hoy, diasTanda);
+        elegirDias(+btn.dataset.dias);
       });
 
       document.getElementById("compra-botones").addEventListener("click", function (ev) {
