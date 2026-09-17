@@ -746,8 +746,19 @@
           return isNaN(d) ? null : d;
         }
 
+        // El día es el de la cocina, en Caracas, no el de la zona horaria del
+        // equipo que abre la página.
+        function ahoraEnCaracas() {
+          var p = {};
+          new Intl.DateTimeFormat("en-US", {
+            timeZone: "America/Caracas", hourCycle: "h23",
+            year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric"
+          }).formatToParts(new Date()).forEach(function (x) { p[x.type] = +x.value; });
+          return new Date(p.year, p.month - 1, p.day, p.hour, p.minute);
+        }
+
         var simulada = fechaPedida();
-        var hoy = simulada || new Date();
+        var hoy = simulada || ahoraEnCaracas();
 
         /* Escribe la paleta del tema como variables CSS en <html>. Es lo único
            que hace falta antes de tiempo: el resto de la página lee de estas
@@ -767,7 +778,8 @@
         return {
           TEMAS: TEMAS, temaDe: temaDe, semanaISO: semanaISO,
           pascua: pascua, enSemanaSanta: enSemanaSanta,
-          pintarTokens: pintarTokens, hoy: hoy, simulada: simulada
+          pintarTokens: pintarTokens, hoy: hoy, simulada: simulada,
+          ahoraEnCaracas: ahoraEnCaracas
         };
       })();
     </script>
@@ -2526,15 +2538,22 @@
       document.addEventListener("visibilitychange", function () {
         if (document.hidden) {
           if (animando) { cancelAnimationFrame(animando); animando = null; }
-        } else if (!animando) {
-          animando = requestAnimationFrame(cuadro);
+        } else {
+          // El teléfono congela los temporizadores en segundo plano: al volver
+          // a la pestaña se revisa el día sin esperar al próximo minuto.
+          aplicarTema();
+          if (!animando) animando = requestAnimationFrame(cuadro);
         }
       });
 
       var temaActual = null;
 
       function aplicarTema() {
-        var ahora = new Date();
+        // Si la página quedó abierta y cruzó la medianoche, se repinta el día
+        // antes de escribir la fecha y el tema. No aplica a una fecha pedida.
+        var ahora = CALENDARIO.ahoraEnCaracas();
+        if (!simulada && ahora.getDate() !== hoy.getDate()) { hoy = ahora; pintarTodo(); }
+
         var id = temaDe(hoy);
 
         // En la primera pasada los tokens ya están puestos desde el <head>
@@ -2550,10 +2569,6 @@
         document.getElementById("fecha").textContent =
           DIAS_LARGOS[indiceDia(hoy)] + " " + hoy.getDate() + " de " + MESES[hoy.getMonth()] +
           (simulada ? " · vista adelantada" : "");
-
-        // Si la página quedó abierta y cruzó la medianoche, se repinta el día.
-        // No aplica cuando se está mirando una fecha pedida a mano.
-        if (!simulada && ahora.getDate() !== hoy.getDate()) { hoy = ahora; pintarTodo(); }
       }
 
       function pintarTodo() {
