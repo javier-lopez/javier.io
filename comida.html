@@ -962,9 +962,7 @@
         "estufa|Auyama":     "En cubos, salteada con un toque de spray y tapada 12 min, hasta que ceda al tenedor sin deshacerse.",
         "estufa|Calabacín":  "En rodajas gruesas, al sartén sin spray: el calabacín suelta agua de sobra. 8 min tapado.",
         "estufa|Chayota":    "En cubos, al vapor o salteada tapada 12 min.",
-        "estufa|Vainitas":   "Enteras, al vapor 8 min. Que queden verdes y firmes, no mustias.",
         "estufa|Zanahoria":  "En cubos o en palitos, al vapor 10 min, o hervida junto con el grano cuando va en sopa.",
-        "estufa|Berenjena":  "Partida a lo largo, sal encima y 10 min de reposo para que suelte el amargo. A la plancha tapada, 8 min por cara. Luego se saca la pulpa.",
         "estufa|Espinaca":   "Se agrega al final, 3 min y ya. Más tiempo y se deshace.",
         "estufa|Pimentón":   "En juliana con cebolla y tomate y un toque de spray de oliva, 10 min tapado. Esto es la salsa: el pollo ya cocido se le suma al recalentar, no se vuelve a cocinar.",
         "estufa|Brócoli":    "Floretes en agua hirviendo 50 segundos, ni uno más, y de una vez a un bol con agua y hielo. Así queda crujiente y verde brillante; sin el choque de frío sigue cocinándose solo y a los tres minutos está mustio y gris.",
@@ -1023,7 +1021,6 @@
         "estufa|Carite en ruedas":        10,
         "estufa|Sardinas frescas":         8,
         "estufa|Huevos":                   8,
-        "estufa|Berenjena":               18,
         "estufa|Batata":                  15,
         "estufa|Yuca":                    20
       };
@@ -1199,15 +1196,16 @@
               servir: "Limón sobre la ensalada."
             },
             {
-              n: "Berenjena rellena de lentejas",
-              reglas: ["a la plancha", "sin queso gratinado"],
+              n: "Ensalada tibia de lentejas con tomate, pepino y huevo duro",
+              reglas: ["olla express", "huevo duro", "sin aceite"],
               comp: [
-                c("estufa", "Berenjena", 1, "u", "verdura"),
                 c("olla", "Lentejas", 70, "g", "grano"),
-                c("crudo", "Tomate", 80, "g", "verdura")
+                c("huevera", "Huevos", 1, "u", "proteina"),
+                c("crudo", "Tomate", 80, "g", "verdura"),
+                c("crudo", "Pepino", 80, "g", "verdura")
               ],
-              calentar: "Sartén tapado 6 min, o microondas 2 min.",
-              servir: "Perejil picado. Sin queso gratinado encima."
+              calentar: "Las lentejas, microondas 1 min. El tomate, el pepino y el huevo van fríos.",
+              servir: "Perejil, cebollín y limón. El tomate y el pepino se agregan al servir."
             },
             {
               n: "Sopa de lentejas con batata",
@@ -1384,13 +1382,12 @@
               servir: "Ensalada al lado, sin pan. Solo limón."
             },
             {
-              n: "Pollo a la plancha con vainitas y zanahoria",
+              n: "Pollo a la plancha con brócoli y zanahoria",
               reglas: ["a la plancha", "verdura al vapor"],
               comp: [
                 c("estufa", "Pechuga de pollo", 150, "g", "proteina"),
-                c("estufa", "Vainitas", 120, "g", "verdura"),
-                c("estufa", "Zanahoria", 80, "g", "verdura"),
-                c("estufa", "Brócoli", 120, "g", "verdura")
+                c("estufa", "Zanahoria", 140, "g", "verdura"),
+                c("estufa", "Brócoli", 180, "g", "verdura")
               ],
               calentar: "Microondas 2 min tapado.",
               servir: "Limón."
@@ -1872,7 +1869,6 @@
         "Espinaca": [40,  "puño", "puños"],
         "Lechuga":  [40,  "puño", "puños"],
         "Brócoli":  [90,  "taza", "tazas"],
-        "Vainitas": [110, "taza", "tazas"],
         "Apio España": [60, "tallo", "tallos"]
       };
 
