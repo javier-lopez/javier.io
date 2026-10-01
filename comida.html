@@ -937,7 +937,6 @@
            despensa. Todo lo demás se fue al sartén y a la olla, donde la
            cantidad sale gratis. */
         "freidora|Yuca":          "Hervida 15 min y bien escurrida, cortada en palitos gruesos. Spray de aguacate y freidora 200 °C 15 min — a esa temperatura el spray de oliva humea, el de aguacate no.",
-        "freidora|Batata":        "En cubos con un toque de spray de aguacate, freidora 190 °C 20 min, sacudiendo la cesta a la mitad.",
         "freidora|Plátano verde": "Hervido 10 min, aplastado, spray de aguacate por ambas caras. Freidora 200 °C 12 min. Quedan como tostones con una fracción de la grasa de un sartén.",
 
         /* ---- ESTUFA ---------------------------------------------------
@@ -959,7 +958,6 @@
 
         // Verduras al sartén o al vapor. Ninguna necesita costra, así que
         // ninguna tiene por qué ocupar la cesta.
-        "estufa|Auyama":     "En cubos, salteada con un toque de spray y tapada 12 min, hasta que ceda al tenedor sin deshacerse.",
         "estufa|Calabacín":  "En rodajas gruesas, al sartén sin spray: el calabacín suelta agua de sobra. 8 min tapado.",
         "estufa|Chayota":    "En cubos, al vapor o salteada tapada 12 min.",
         "estufa|Zanahoria":  "En cubos o en palitos, al vapor 10 min, o hervida junto con el grano cuando va en sopa.",
@@ -1021,7 +1019,6 @@
         "estufa|Carite en ruedas":        10,
         "estufa|Sardinas frescas":         8,
         "estufa|Huevos":                   8,
-        "estufa|Batata":                  15,
         "estufa|Yuca":                    20
       };
       var MIN_ESTUFA = 12;   // verdura al sartén o al vapor, si no está en la tabla
@@ -1033,7 +1030,7 @@
           eq: eq, item: item, qty: qty, unit: unit, zona: zona,
           // La tabla es el valor por defecto y el texto del platillo manda
           // cuando existe: hay componentes con dos versiones legítimas —la
-          // auyama salteada y la auyama de crema— que una sola clave no puede
+          // yuca a la freidora y la yuca del caldo— que una sola clave no puede
           // expresar. La contrapartida es que dos textos distintos para el
           // mismo item parten la bandeja en dos, así que se escribe a mano
           // solo cuando la variante es de verdad.
@@ -1066,12 +1063,12 @@
           ],
           platillos: [
             {
-              n: "Pollo a la plancha con auyama y calabacín",
+              n: "Pollo a la plancha con calabacín y zanahoria",
               reglas: ["a la plancha", "sin freír", "spray, no chorro"],
               comp: [
                 c("estufa", "Pechuga de pollo", 150, "g", "proteina"),
-                c("estufa", "Auyama", 150, "g", "verdura"),
-                c("estufa", "Calabacín", 100, "g", "verdura")
+                c("estufa", "Calabacín", 120, "g", "verdura"),
+                c("estufa", "Zanahoria", 120, "g", "verdura")
               ],
               calentar: "Microondas 2 min tapado, o sartén tapado 5 min con un chorrito de agua.",
               servir: "Limón exprimido encima y cilantro picado."
@@ -1124,11 +1121,11 @@
               servir: "Limón."
             },
             {
-              n: "Crema de auyama con pollo desmenuzado",
+              n: "Crema de zanahoria con pollo desmenuzado",
               reglas: ["licuada", "sin crema", "sin leche"],
               comp: [
-                c("estufa", "Auyama", 200, "g", "verdura", "Hervida con cebolla y zanahoria y luego licuada. El punto cremoso lo da la auyama: nada de crema ni leche."),
-                c("estufa", "Zanahoria", 60, "g", "verdura", "Hervida junto con la auyama."),
+                c("estufa", "Zanahoria", 200, "g", "verdura", "Hervida con cebolla y luego licuada. El punto cremoso lo da la zanahoria: nada de crema ni leche."),
+                c("estufa", "Calabacín", 60, "g", "verdura", "Hervido junto con la zanahoria."),
                 c("estufa", "Pechuga de pollo", 120, "g", "proteina")
               ],
               calentar: "Olla a fuego bajo 5 min. Si espesó, agua caliente — nunca leche.",
@@ -1160,11 +1157,11 @@
           ],
           platillos: [
             {
-              n: "Carite a la plancha con batata dorada",
+              n: "Carite a la plancha con yuca dorada",
               reglas: ["a la plancha", "omega-3", "sin empanizar"],
               comp: [
                 c("estufa", "Carite en ruedas", 160, "g", "proteina"),
-                c("freidora", "Batata", 150, "g", "verdura"),
+                c("freidora", "Yuca", 150, "g", "verdura"),
                 c("crudo", "Pepino", 80, "g", "verdura")
               ],
               calentar: "Sartén tapado 4 min a fuego bajo. El microondas reseca el pescado.",
@@ -1208,11 +1205,11 @@
               servir: "Perejil, cebollín y limón. El tomate y el pepino se agregan al servir."
             },
             {
-              n: "Sopa de caraotas con batata",
+              n: "Sopa de caraotas con yuca",
               reglas: ["sopa", "sin cochino"],
               comp: [
                 c("olla", "Caraotas negras", 80, "g", "grano"),
-                c("estufa", "Batata", 120, "g", "verdura", "En cubos, hervida con las caraotas ya cocidas, 10 min."),
+                c("estufa", "Yuca", 120, "g", "verdura", "En trozos, hervida con las caraotas ya cocidas, 15 min, hasta que ceda al tenedor."),
                 c("estufa", "Zanahoria", 60, "g", "verdura")
               ],
               calentar: "Fuego bajo 5 min. Si espesó, agua caliente.",
@@ -1301,11 +1298,11 @@
               servir: "Ensalada rallada al lado, con limón."
             },
             {
-              n: "Sopa de lentejas con auyama y pollo",
+              n: "Sopa de lentejas con yuca y pollo",
               reglas: ["sopa", "sin hueso de cochino"],
               comp: [
                 c("olla", "Lentejas", 80, "g", "grano"),
-                c("estufa", "Auyama", 150, "g", "verdura", "En trozos, hervida con las lentejas ya cocidas, 12 min. Al deshacerse un poco espesa el caldo sola, sin harina."),
+                c("estufa", "Yuca", 150, "g", "verdura", "En trozos, hervida con las lentejas ya cocidas, 15 min. Suelta almidón y espesa el caldo sola, sin harina."),
                 c("estufa", "Muslo de pollo sin piel", 120, "g", "proteina")
               ],
               calentar: "Fuego bajo 5 min.",
@@ -1347,11 +1344,11 @@
           ],
           platillos: [
             {
-              n: "Sardinas a la plancha con auyama",
+              n: "Sardinas a la plancha con calabacín",
               reglas: ["a la plancha", "omega-3 alto", "sin freír"],
               comp: [
                 c("estufa", "Sardinas frescas", 200, "g", "proteina"),
-                c("estufa", "Auyama", 150, "g", "verdura"),
+                c("estufa", "Calabacín", 150, "g", "verdura"),
                 c("crudo", "Repollo", 80, "g", "verdura")
               ],
               calentar: "Sartén tapado 4 min a fuego bajo.",
@@ -1393,11 +1390,11 @@
               servir: "Limón."
             },
             {
-              n: "Crema de auyama y zanahoria con arvejas",
+              n: "Crema de zanahoria y chayota con arvejas",
               reglas: ["licuada", "sin crema", "sin leche"],
               comp: [
-                c("estufa", "Auyama", 180, "g", "verdura", "Hervida y licuada. La cremosidad sale de la auyama, no de un lácteo."),
-                c("estufa", "Zanahoria", 80, "g", "verdura", "Hervida junto con la auyama."),
+                c("estufa", "Zanahoria", 180, "g", "verdura", "Hervida y licuada. La cremosidad sale de la zanahoria, no de un lácteo."),
+                c("estufa", "Chayota", 80, "g", "verdura", "Hervida junto con la zanahoria."),
                 c("olla", "Arvejas secas", 60, "g", "grano")
               ],
               calentar: "Fuego bajo 5 min. Si espesó, agua caliente.",
@@ -1622,7 +1619,6 @@
           sufijo: "de aguacero",
           nota: "Mayo y el agua: todo un punto más caliente y más aromático. Las cremas y las sopas de la despensa mandan esta semana.",
           sazon: {
-            "Auyama":          "Con jengibre fresco rallado: en la crema al licuar, y en la sopa dentro del caldo.",
             "Lentejas":        "Más caldosas de lo normal y con un punto de jengibre: se comen con cuchara.",
             "Arvejas secas":   "Más caldosas, con cilantro y jengibre.",
             "Garbanzos":       "Con caldo abundante, que quede de sopa y no de guiso.",
@@ -1692,10 +1688,8 @@
         brujas: {
           nombre: "víspera de brujas",
           sufijo: "de brujas",
-          nota: "Última semana de octubre: la auyama es la protagonista y las especias se tuestan. Semana de olor a cocina.",
+          nota: "Última semana de octubre: las especias se tuestan y el víver manda. Semana de olor a cocina.",
           sazon: {
-            "Auyama":     "Con canela, clavo y un punto de pimienta al licuar. Sabe a postre sin llevar azúcar.",
-            "Batata":     "Con canela y paprika: dulce y ahumada a la vez.",
             "Garbanzos":  "Tostados aparte en el sartén con comino y paprika, para picar. Crujen.",
             "Zanahoria":  "Asada con canela, más dulce de lo normal.",
             "Yuca":            "Con paprika ahumada al salir de la freidora: sabe a fogata.",
@@ -1703,7 +1697,7 @@
             "Remolacha":       "Rallada y con clavo molido, que le va mejor de lo que parece."
           },
           compra: [
-            ["Canela en rama", "1 paquete", "Va en la crema de auyama y en la batata."],
+            ["Canela en rama", "1 paquete", "Va en la crema de zanahoria y en la yuca."],
             ["Clavo de olor", "1 paquete", "Dos o tres clavos bastan para toda la olla."]
           ]
         },
@@ -1711,10 +1705,8 @@
         muertos: {
           nombre: "día de muertos",
           sufijo: "de muertos",
-          nota: "Primeros de noviembre: naranja y canela en todo lo dulce por naturaleza, que son la auyama y el víver.",
+          nota: "Primeros de noviembre: naranja y canela en todo lo dulce por naturaleza, que son el víver y la zanahoria.",
           sazon: {
-            "Auyama":    "Con jugo y ralladura de naranja, y canela. Es el sabor de la calabaza en tacha, sin el papelón.",
-            "Batata":    "Con ralladura de naranja encima al salir de la freidora.",
             "Yuca":      "Con mojo de naranja por encima: jugo, ajo machacado y cilantro.",
             "Lentejas":  "Con naranja: el jugo de media naranja al final le levanta todo el plato.",
             "Caraotas negras":   "Con una tira de cáscara de naranja dentro de la olla. Se saca al final.",
@@ -1724,7 +1716,7 @@
             "Repollo":           "Ensalada con gajos de naranja. El jugo hace de aliño, así que ni limón hace falta."
           },
           compra: [["Naranja", "6 unidades", "Jugo y ralladura. La ralladura va antes de exprimir, no después."],
-            ["Canela en rama", "1 paquete", "Va en la auyama, el víver y la zanahoria de esta semana."]
+            ["Canela en rama", "1 paquete", "Va en el víver y la zanahoria de esta semana."]
           ]
         },
 
@@ -1804,9 +1796,9 @@
          ================================================================ */
 
       // Las cantidades de cada platillo están escritas POR PERSONA POR DÍA y se
-      // multiplican al mostrarlas. Cambiar de 2 a 3 comensales es tocar este
-      // número, no los 99 componentes.
-      var PERSONAS = 2;
+      // multiplican al mostrarlas. Cambiar de comensales es tocar este número,
+      // no los 99 componentes.
+      var PERSONAS = 1;
 
       function porcion(q) { return q * PERSONAS; }
 
@@ -1859,8 +1851,6 @@
         "Zanahoria":  [80,  "zanahoria", "zanahorias"],
 
         // Verdura en cubos: la taza.
-        "Auyama":  [150, "taza", "tazas"],
-        "Batata":  [150, "taza", "tazas"],
         "Yuca":    [150, "taza", "tazas"],
         "Chayota": [150, "taza", "tazas"],
 
