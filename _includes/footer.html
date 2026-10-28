@@ -20,6 +20,11 @@
         <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
       </svg>
     </a>
+    <a href="/stats" aria-label="Stats" title="Stats">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+        <path d="M11 2v20c-5.07-.5-9-4.79-9-10s3.93-9.5 9-10zm2.03 0v8.99H22c-.47-4.74-4.24-8.52-8.97-8.99zm0 11.01V22c4.74-.47 8.5-4.25 8.97-8.99h-8.97z"/>
+      </svg>
+    </a>
     <a href="/twitter" aria-label="Twitter" title="Twitter">
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
         <path d="M23 4.94a8.6 8.6 0 0 1-2.36.65 4.12 4.12 0 0 0 1.8-2.27 8.22 8.22 0 0 1-2.6 1A4.1 4.1 0 0 0 11.8 8.1a11.64 11.64 0 0 1-8.45-4.29 4.1 4.1 0 0 0 1.27 5.48A4.07 4.07 0 0 1 2.8 8.78v.05a4.1 4.1 0 0 0 3.29 4.02 4.1 4.1 0 0 1-1.85.07 4.11 4.11 0 0 0 3.83 2.85A8.24 8.24 0 0 1 2 17.5a11.61 11.61 0 0 0 6.29 1.84c7.55 0 11.68-6.25 11.68-11.67 0-.18 0-.36-.01-.53A8.34 8.34 0 0 0 23 4.94z"/>
@@ -32,3 +37,9 @@
     </a>
   </div>
 </div>
+{%- comment -%}
+  Pageviews, counted by GoatCounter: no cookies, and count.js skips localhost,
+  so the dev server is not counted. The dashboard is the footer's Stats link.
+{%- endcomment %}
+<script data-goatcounter="https://javierio.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
