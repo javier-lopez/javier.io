@@ -66,6 +66,17 @@
         var url = URL.createObjectURL(
           new Blob([text], { type: 'application/json' }));
         var opts = { fit: 'width' };
+        // Until play is pressed the player has read nothing of the cast and
+        // draws an 80x24 terminal, then shrinks to the recording's own size
+        // once it loads: an 18-row cast jumped from 928px to 568px on the
+        // first click. The header is the first line and already in hand, so
+        // the size is given from the start. v2 says width/height, v3 term.
+        try {
+          var head = JSON.parse(text.slice(0, text.indexOf('\n')));
+          var cols = head.width || (head.term && head.term.cols);
+          var rows = head.height || (head.term && head.term.rows);
+          if (cols && rows) { opts.cols = cols; opts.rows = rows; }
+        } catch (e) { /* no size: the player falls back to its 80x24 */ }
         var at = el.getAttribute('data-start-at');
         if (at) opts.startAt = Number(at);
         var poster = el.getAttribute('data-poster');
