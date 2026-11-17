@@ -99,7 +99,7 @@ at the bottom; `1`-`5` change workspace, `f` maximizes, `Esc` comes back.
 
 The best of minos, in one short film:
 
-<video controls muted playsinline preload="none" poster="https://minos.io/videos/resumen-cinco-respuestas-h.jpg" style="width: 100%"><source src="https://minos.io/videos/resumen-cinco-respuestas-h.mp4" type="video/mp4"></video>
+<video controls playsinline preload="none" poster="https://minos.io/videos/resumen-cinco-respuestas-h.jpg" style="width: 100%"><source src="https://minos.io/videos/resumen-cinco-respuestas-h.mp4" type="video/mp4"></video>
 
 The rest play on their own desk of [minos.io](http://minos.io/#tv), one film per
 window, like everything else there.
