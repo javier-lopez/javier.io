@@ -24,8 +24,8 @@ same vi-everywhere habits as before.
 
 On an existing Ubuntu LTS:
 
-    $ sh <(wget -qO- minos.io/s) core       # no X: shell, tmux, vim
-    $ sh <(wget -qO- minos.io/s) desktop    # i3 desktop, includes core
+    $ sh <(wget -qO- https://minos.io/s) core       # no X: shell, tmux, vim
+    $ sh <(wget -qO- https://minos.io/s) desktop    # i3 desktop, includes core
 
 Or by hand:
 
@@ -35,7 +35,7 @@ Or by hand:
 
 Onto a blank disk from any live USB, as before:
 
-    $ sh <(wget -qO- minos.io/s) live desktop /dev/sdX username passwd
+    $ sh <(wget -qO- https://minos.io/s) live desktop /dev/sdX username passwd
 
 ### What stayed
 
