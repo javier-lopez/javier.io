@@ -109,12 +109,12 @@ window, like everything else there.
 Boxes for VirtualBox: minos-core on 22.04, 24.04 and 26.04, minos-desktop on
 24.04. The core ones weigh about 240 MB, like the 2018 boxes did:
 
-    $ vagrant box add https://minos.io/vagrant/core-24.04.json
-    $ vagrant init minos/core-24.04 && vagrant up
+    $ vagrant box add https://minos.io/vagrant/core-26.04.json
+    $ vagrant init minos/core-26.04 && vagrant up
 
 The same machine without Vagrant, as an appliance:
 
-    $ VBoxManage import minos-core-24.04.ova
+    $ VBoxManage import minos-core-26.04.ova
 
 Both come from one [Packer recipe](https://github.com/minos-org/packers):
 Ubuntu's live-server ISO, installed by Ubuntu's own installer with minos'
